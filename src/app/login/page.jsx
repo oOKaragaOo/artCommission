@@ -40,24 +40,21 @@ function LoginPage() {
 
     return (
         <div>
-            <Navbar />
             <div className="container mx-auto">
-                <h3>Register Page</h3>
-                <hr className="my-3" />
-                <form onSubmit={handleSubmit}>
+                <form className="space-y-4" onSubmit={handleSubmit}>
                     {error && (
                         <div className=" bg-red-500 w-fit text-sm px-2 py-1 text-white   rounded-md mt-2">
                             {error}
                         </div>
                     )}
-                    <input onChange={(e)=>setEmail(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="email" name="email" placeholder="Email" />
-                    <input onChange={(e)=>setPassword(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="password" name="password" placeholder="Password" />
-                    <button className='block bg-green-500 p-2 rounded-md text-white'  type="submit">Sign In</button>
+                    <input onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="Email Address" required className="w-full p-2 border rounded-md" />
+                    <input onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="Password" required className="w-full p-2 border rounded-md" />
+                    <button className="w-full p-2 bg-blue-500 text-white rounded-md" type="submit" >Login</button>
+
+                    {/*<input onChange={(e)=>setEmail(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="email" name="email" placeholder="Email" />*/}
+                    {/*<input onChange={(e)=>setPassword(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="password" name="password" placeholder="Password" />*/}
+                    {/*<button className='block bg-green-500 p-2 rounded-md text-white'  type="submit">Sign In</button>*/}
                 </form>
-                <hr className="my-3" />
-                <p>Already have an account? go to
-                    <Link className='text-blue-500' href="/register">  Register  </Link> Page
-                </p>
             </div>
         </div>
     )

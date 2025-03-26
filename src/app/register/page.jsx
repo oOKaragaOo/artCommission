@@ -71,12 +71,7 @@ function Register() {
     }};
 
     return (
-        <div>
-            <Navbar />
             <div className="container mx-auto">
-                <h3>Register Page</h3>
-                <hr className="my-3" />
-
 
                     {error && (
                         <div className=" bg-red-600 w-fit text-sm px-2 py-1 text-white   rounded-md mt-2">
@@ -89,19 +84,17 @@ function Register() {
                             {success}
                         </div>
                     )}
-                <form onSubmit={handleSubmit}>
-                    <input onChange={(e) => setName(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="text" name="username" placeholder="Username" />
-                    <input onChange={(e) => setEmail(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="email" name="email" placeholder="Email" />
-                    <input onChange={(e) => setPassword(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="password" name="password" placeholder="Password" />
-                    <input onChange={(e) => setconfPassword(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="password" name="confirm_password" placeholder="Confirm Password" />
-                    <button className='block bg-green-500 p-2 rounded-md text-white'  type="submit">Sign Up</button>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <input onChange={(e) => setName(e.target.value)} type="name" placeholder="Name" required className="w-full p-2 border rounded-md" />
+                    <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email Address" required className="w-full p-2 border rounded-md" />
+                    <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required className="w-full p-2 border rounded-md" />
+                    <input onChange={(e) => setconfPassword(e.target.value)} type="password" placeholder="Confirm Password" required className="w-full p-2 border rounded-md" />
+
+                    <button className="w-full p-2 bg-green-500 text-white rounded-md">Signup</button>
                 </form>
-                <hr className="my-3" />
-                <p>Already have an account? go to
-                    <Link className='text-blue-500' href="/login">  Log In  </Link> Page
-                </p>
+
             </div>
-        </div>
+
     )
 }
 export default Register;

@@ -9,6 +9,7 @@ export default function Home() {
   return (
       <main>
         <Navbar session={session} />
+
       </main>
   );
 }
