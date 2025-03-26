@@ -1,10 +1,10 @@
 "use client"
 
 import React, {use, useState} from "react";
-import Navbar from "../components/Navbar";
-import Link from "next/link";
-import {useSession} from "next-auth/react";
+
+import {signIn, useSession} from "next-auth/react";
 import {redirect} from "next/navigation";
+import {router} from "next/client";
 
 
 
@@ -44,10 +44,9 @@ function Register() {
 
         const {user} = await resCheckUser.json();
         if(user){
-            setError("Username already exists");
+            setError("Email already exists");
             return;
         }
-
         const res = await fetch("http://localhost:3000/api/register", {
             method: "POST",
             headers: {
@@ -62,6 +61,20 @@ function Register() {
             setError(" ");
             setSuccess(" User registered successfully. ");
             form.reset();
+
+            e.preventDefault();
+            try{
+                const res = await signIn("credentials", {
+                    email, password, redirect:false});
+                if(res.error) {
+                    setError("Invalid Credentials");
+                    return;
+                }
+                await router.replace("/welcome");
+            }catch(error){
+                console.log(error);
+            }
+
         }else {
             console.log(" User registration failed ");
         }

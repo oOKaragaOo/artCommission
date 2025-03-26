@@ -1,13 +1,11 @@
 "use client"
 
 import React, {useEffect, useState} from "react";
-import Link from "next/link";
-import Navbar from "../components/Navbar";
 import { signIn } from "next-auth/react";
 import {useRouter} from "next/navigation";
 import {useSession} from "next-auth/react";
 
-function LoginPage() {
+function LoginPage( ) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
