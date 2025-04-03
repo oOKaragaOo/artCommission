@@ -13,6 +13,7 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confPassword, setconfPassword] = useState("");
+    const [role, setRole] = useState("");
     const [error, setError] = useState("");
 
     const [success, setSuccess] = useState(" ");
@@ -28,7 +29,7 @@ function Register() {
             return;
         }
 
-        if(!name || !email || !password || !confPassword){
+        if(!name || !email || !password || !confPassword || !role){
             setError("Please complete all fields");
         }
 
@@ -53,7 +54,7 @@ function Register() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                name,email,password
+                name,email,password,role
             })
         })
         if (res.ok){
@@ -102,6 +103,7 @@ function Register() {
                     <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email Address" required className="w-full p-2 border rounded-md" />
                     <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required className="w-full p-2 border rounded-md" />
                     <input onChange={(e) => setconfPassword(e.target.value)} type="password" placeholder="Confirm Password" required className="w-full p-2 border rounded-md" />
+                    <input onChange={(e) => setRole(e.target.value)} type="text" placeholder="who your are ?" required className="w-full p-2 border rounded-md" />
 
                     <button className="w-full p-2 bg-green-500 text-white rounded-md">Signup</button>
                 </form>
