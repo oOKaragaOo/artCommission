@@ -13,25 +13,39 @@ function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+
         try {
-            const res = await fetch("http://localhost:8080/auth/login", {
+            const response = await fetch('http://localhost:8080/auth/login', {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include", // ✅ ตรงนี้แหละ!
                 body: JSON.stringify({ email, password }),
             });
 
-            const data = await res.json();
-            if (!res.ok) {
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                const errorText = await response.text();
+                console.error("❌ ไม่ใช่ JSON:", errorText);
+                setError("เกิดข้อผิดพลาดจากฝั่งเซิร์ฟเวอร์");
+                return;
+            }
+
+            const data = await response.json();
+
+            if (!response.ok) {
                 setError(data.message || "Invalid Credentials");
                 return;
             }
 
-            // เก็บ Token หรือ Session ตามที่ต้องการ
-            localStorage.setItem("userId", data.userId);
+            localStorage.setItem("userId", data.userId || "guest");
             router.replace("/welcome");
-        } catch (error) {
-            console.error(error);
-            setError("Something went wrong!");
+
+        } catch (err) {
+            console.error("⚠️ Error:", err);
+            setError("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
         }
     };
 

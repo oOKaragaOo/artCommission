@@ -1,115 +1,95 @@
 "use client"
 
-import React, {use, useState} from "react";
-
-import {signIn, useSession} from "next-auth/react";
-import {redirect} from "next/navigation";
-import {router} from "next/client";
-
-
+import React, { useState } from "react";
+import { useRouter } from "next/navigation"; // ✅ แทน import ผิดจาก next/client
 
 function Register() {
+    const router = useRouter(); // ✅ ใช้ router ได้หลังเปลี่ยน import
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confPassword, setconfPassword] = useState("");
     const [role, setRole] = useState("");
     const [error, setError] = useState("");
-
-    const [success, setSuccess] = useState(" ");
-
-    const {data: session} = useSession();
-    if (session) redirect("/welcome");
+    const [success, setSuccess] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(password !== confPassword){
+        if (password !== confPassword) {
             setError("Passwords don't match");
             return;
         }
 
-        if(!name || !email || !password || !confPassword || !role){
+        if (!name || !email || !password || !confPassword || !role) {
             setError("Please complete all fields");
-        }
-
-    try {
-
-        const resCheckUser = await fetch("http://localhost:3000/api/checkUser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email })
-        })
-
-        const {user} = await resCheckUser.json();
-        if(user){
-            setError("Email already exists");
             return;
         }
-        const res = await fetch("http://localhost:3000/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name,email,password,role
-            })
-        })
-        if (res.ok){
-            const form = e.target;
-            setError(" ");
-            setSuccess(" User registered successfully. ");
-            form.reset();
 
-            e.preventDefault();
-            try{
-                const res = await signIn("credentials", {
-                    email, password, redirect:false});
-                if(res.error) {
-                    setError("Invalid Credentials");
-                    return;
-                }
-                await router.replace("/welcome");
-            }catch(error){
-                console.log(error);
+        try {
+            const res = await fetch("http://localhost:8080/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include", // เผื่อมี cookie session ฝั่ง spring
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    role,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (res.status === 409) {
+                setError("Email already exists");
+                return;
             }
 
-        }else {
-            console.log(" User registration failed ");
-        }
+            if (!res.ok) {
+                setError(data.message || "User registration failed");
+                return;
+            }
 
-    }catch(err){
-        console.log("Error during register",err);
-    }};
+            setError("");
+            setSuccess("User registered successfully.");
+            e.target.reset();
+
+            // ✅ ไปหน้า welcome หลังสมัคร
+            setTimeout(() => {
+                router.replace("/welcome");
+            }, 1000);
+
+        } catch (err) {
+            console.log("Error during register", err);
+            setError("Something went wrong.");
+        }
+    };
 
     return (
-            <div className="container mx-auto">
-
-                    {error && (
-                        <div className=" bg-red-600 w-fit text-sm px-2 py-1 text-white   rounded-md mt-2">
-                            {error}
-                        </div>
-                    )}
-
-                    {success && (
-                        <div className=" bg-green-400 w-fit text-sm text-white   rounded-md mt-2">
-                            {success}
-                        </div>
-                    )}
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <input onChange={(e) => setName(e.target.value)} type="name" placeholder="Name" required className="w-full p-2 border rounded-md" />
-                    <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email Address" required className="w-full p-2 border rounded-md" />
-                    <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required className="w-full p-2 border rounded-md" />
-                    <input onChange={(e) => setconfPassword(e.target.value)} type="password" placeholder="Confirm Password" required className="w-full p-2 border rounded-md" />
-                    <input onChange={(e) => setRole(e.target.value)} type="text" placeholder="who your are ?" required className="w-full p-2 border rounded-md" />
-
-                    <button className="w-full p-2 bg-green-500 text-white rounded-md">Signup</button>
-                </form>
-
-            </div>
-
-    )
+        <div className="container mx-auto">
+            {error && (
+                <div className="bg-red-600 w-fit text-sm px-2 py-1 text-white rounded-md mt-2">
+                    {error}
+                </div>
+            )}
+            {success && (
+                <div className="bg-green-400 w-fit text-sm text-white rounded-md mt-2">
+                    {success}
+                </div>
+            )}
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <input onChange={(e) => setName(e.target.value)} type="text" placeholder="Name" required className="w-full p-2 border rounded-md" />
+                <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email Address" required className="w-full p-2 border rounded-md" />
+                <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required className="w-full p-2 border rounded-md" />
+                <input onChange={(e) => setconfPassword(e.target.value)} type="password" placeholder="Confirm Password" required className="w-full p-2 border rounded-md" />
+                <input onChange={(e) => setRole(e.target.value)} type="text" placeholder="Who you are?" required className="w-full p-2 border rounded-md" />
+                <button className="w-full p-2 bg-green-500 text-white rounded-md">Signup</button>
+            </form>
+        </div>
+    );
 }
+
 export default Register;
