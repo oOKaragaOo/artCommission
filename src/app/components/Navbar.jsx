@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import SignForm from "./SignForm";
+import { checkSession } from '../api/route';
 
 const Logout = async () => {
     try {
@@ -26,30 +27,14 @@ const Logout = async () => {
 
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [isLogin, setIsLogin] = useState(false); //
+    const [isLogin, setIsLogin] = useState(false);
     const [sessionUser, setSessionUser] = useState(null); // ✅ session
 
     useEffect(() => {
-        const checkSession = async () => {
-            try {
-                const res = await fetch("http://localhost:8080/auth/session", {
-                    method: "GET",
-                    credentials: "include",
-                });
-
-                if (res.ok) {
-                    const data = await res.json();
-                    setSessionUser(data.user);
-                } else {
-                    setSessionUser(null);
-                }
-            } catch (err) {
-                console.error("Session check failed:", err);
-                setSessionUser(null);
-            }
+        const fetchSession = async () => {
+            await checkSession(setSessionUser);
         };
-
-        checkSession();
+        fetchSession();
     }, []);
 
     return (

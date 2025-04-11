@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {loginUser} from "@/app/api/route";
 
 function LoginPage() {
     const [email, setEmail] = useState("");
@@ -14,39 +15,13 @@ function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-
-        try {
-            const response = await fetch('http://localhost:8080/auth/login', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include", // ✅ ตรงนี้แหละ!
-                body: JSON.stringify({ email, password }),
-            });
-
-            const contentType = response.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-                const errorText = await response.text();
-                console.error("❌ ไม่ใช่ JSON:", errorText);
-                setError("เกิดข้อผิดพลาดจากฝั่งเซิร์ฟเวอร์");
-                return;
-            }
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                setError(data.message || "Invalid Credentials");
-                return;
-            }
-
-            localStorage.setItem("userId", data.userId || "guest");
-            router.replace("/welcome");
-
-        } catch (err) {
-            console.error("⚠️ Error:", err);
-            setError("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
+        const result = await loginUser(email, password); // ✅ Login
+        if (result.error) {
+            setError(result.error);
+            return;
         }
+        localStorage.setItem("userId", result.userId || "guest");
+        router.replace("/welcome");
     };
 
     return (

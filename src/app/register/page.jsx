@@ -1,71 +1,36 @@
 "use client"
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // ✅ แทน import ผิดจาก next/client
+import { useRouter } from "next/navigation";
+import { registerNewUser } from '../api/route';
 
 function Register() {
-    const router = useRouter(); // ✅ ใช้ router ได้หลังเปลี่ยน import
+    const router = useRouter();
+
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confPassword, setconfPassword] = useState("");
     const [role, setRole] = useState("");
+
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (password !== confPassword) {
-            setError("Passwords don't match");
+        setError("");
+        const result = await registerNewUser(name, email, password, confPassword, role); // ✅ Register
+        if (result.error) {
+            setError(result.error);
             return;
         }
+        setSuccess("User registered successfully.");
+        e.target.reset();
 
-        if (!name || !email || !password || !confPassword || !role) {
-            setError("Please complete all fields");
-            return;
-        }
-
-        try {
-            const res = await fetch("http://localhost:8080/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include", // เผื่อมี cookie session ฝั่ง spring
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password,
-                    role,
-                }),
-            });
-
-            const data = await res.json();
-
-            if (res.status === 409) {
-                setError("Email already exists");
-                return;
-            }
-
-            if (!res.ok) {
-                setError(data.message || "User registration failed");
-                return;
-            }
-
-            setError("");
-            setSuccess("User registered successfully.");
-            e.target.reset();
-
-            // ✅ ไปหน้า welcome หลังสมัคร
-            setTimeout(() => {
-                router.replace("/welcome");
-            }, 1000);
-
-        } catch (err) {
-            console.log("Error during register", err);
-            setError("Something went wrong.");
-        }
+        setTimeout(() => {
+            router.replace("/welcome");
+        }, 1000);
     };
 
     return (
