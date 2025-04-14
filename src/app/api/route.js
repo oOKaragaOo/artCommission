@@ -8,7 +8,22 @@ export const checkSession = async (setSessionUser) => {
 
         if (res.ok) {
             const data = await res.json();
-            setSessionUser(data.user); // user session
+
+            if (data.user) {
+                // ดึงข้อมูลจาก database โดยใช้ user.id หรือ email
+                const userRes = await fetch(`http://localhost:8080/auth/user/${data.user.id}`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if (userRes.ok) {
+                    const userData = await userRes.json();
+                    setSessionUser(userData); // ✅ map ข้อมูลจาก database
+                    console.log("Session User:", userData);
+                } else {
+                    setSessionUser(null);
+                }
+            }
         } else {
             setSessionUser(null);
         }
