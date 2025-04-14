@@ -39,15 +39,31 @@ function Navbar() {
 
     return (
         <>
-            <nav className="bg-[#333] text-white p-5">
-                <div className="container mx-auto">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <Link href="/">Art Commission</Link>
-                        </div>
-                        <ul className="flex list-none">
+            <nav className='bg-white text-black p-5'>
+      <div className="container mx-auto flex justify-between items-center">
+        <div>
+          <Link href="/">
+            <span className="font-bold text-xl">LOGO</span>
+          </Link>
+        </div>
+        <ul className="flex list-none">
+          <li className='mx-3'>
+            <Link href="/home">หน้าแรก</Link>
+          </li>
+          <li className='mx-3'>
+            <Link href="/explore">สำรวจ</Link>
+          </li>
+          <li className='mx-3'>
+            <Link href="/artists">นักวาด</Link>
+          </li>
+          <li className='mx-3'>
+            <Link href="/jobs">กระดานจ้างงาน</Link>
+          </li>
+        </ul>
+        <div>
                             {sessionUser ? (
                                 <>
+                                <ul classname ="flex list-none" >  
                                     <li className="mx-3">
                                         <Link
                                             href="/profile"
@@ -64,8 +80,9 @@ function Navbar() {
                                             Log-Out
                                         </button>
                                     </li>
+                                </ul>  
                                 </>
-                            ) : (
+                            ) : ( <>
                                 <li className="mx-3">
                                     <button
                                         onClick={() => {
@@ -77,15 +94,17 @@ function Navbar() {
                                         Sign In
                                     </button>
                                 </li>
+                                </>
                             )}
-                        </ul>
+                            
                     </div>
                 </div>
             </nav>
 
             {/* Popup Modal */}
             <SignForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
-        </>
+
+            </>          
     );
 }
 
