@@ -83,7 +83,6 @@ const Sidebar = () => {
             </>
         ) : ( 
           <>
-            <li className="mx-3">
               <button
                 onClick={() => {
                     setIsLogin(true);
@@ -93,7 +92,6 @@ const Sidebar = () => {
               >
                 Sign In
               </button>
-            </li>
           </>
         )}
         </div>

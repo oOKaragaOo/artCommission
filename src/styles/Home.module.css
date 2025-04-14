@@ -12,9 +12,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  background-color: #ffffff;
   border-bottom: 1px solid #eee;
   padding-left: 30px; /* Added padding to the left */
   padding-right: 30px; /*Added padding to the right */
+  position: sticky;
+  top: 0;
 }
 
 .logo {
@@ -58,6 +61,9 @@
   background-color: #f9f9f9; /* เพิ่มสีพื้นหลัง */
   padding-left: 10px; /*added padding left*/
   padding-right: 10px; /*added padding right*/
+  position: sticky;
+  bottom: 1rem;
+  align-self: flex-end;
 }
 
 .sidebar ul {

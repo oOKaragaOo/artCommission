@@ -16,9 +16,7 @@ function HomePage() {
           <p className={styles.description}>
             สถานที่สำหรับศิลปินและผู้จ้างงานมาใช้คุยสำหรับรายละเอียดต่าง ๆ และยังเป็นคอมมูนิตี้สำหรับการโชว์ผลงาน
           </p>
-          <Link href="/register" className={styles.signupButton}> {/* เปลี่ยน button เป็น Link */}
-            Sign Up
-          </Link>
+
         </div>
         <div className={styles.imageContainer}>
           <img src="/images/art-bg.png" alt="Art" className={styles.artImage} />
