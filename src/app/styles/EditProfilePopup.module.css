@@ -1,0 +1,83 @@
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* พื้นหลังกึ่งโปร่งใส */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* ให้ popup อยู่บนสุด */
+}
+
+.popupContent {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px; /* ปรับขนาดตามต้องการ */
+}
+
+.popupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.popupBody {
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.formGroup input,
+.formGroup textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.popupFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.confirmButton,
+.cancelButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.confirmButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.cancelButton {
+  background-color: #ccc;
+}

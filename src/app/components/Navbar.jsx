@@ -63,7 +63,7 @@ function Navbar() {
         <div>
                             {sessionUser ? (
                                 <>
-                                <ul classname ="flex list-none" >  
+                                <ul className ="flex list-none" >  
                                     <li className="mx-3">
                                         <Link
                                             href="/profile"

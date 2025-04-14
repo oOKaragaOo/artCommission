@@ -1,0 +1,97 @@
+/* Artseek */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.content {
+  width: fit-content;
+  display: flex;
+  flex: 1;
+}
+
+.artseek {
+  flex: 1;
+  padding: 20px;
+}
+
+.artseekHeader {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #999;
+}
+
+.artseekGrid {
+  display: flex;
+  gap: 20px;
+}
+
+.artworkItem {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+}
+
+.artworkInfo {
+  margin-bottom: 20px;
+}
+
+.artworkTopic {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.commission {
+  background-color: #ccc;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+.artworkDetails {
+  margin-bottom: 10px;
+}
+
+.time, .price {
+  margin-right: 10px;
+  font-size: 0.9rem;
+  display: flex; /* เพิ่ม display: flex; */
+  align-items: center; /* เพิ่ม align-items: center; */
+}
+
+.artistInfo {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+.artistAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.artistName {
+  flex: 1;
+  text-align: center;
+}
+
+.accept {
+  color: green;
+}
+
+.reject {
+  color: red;
+}
+
+.pending {
+  color: orange;
+}
