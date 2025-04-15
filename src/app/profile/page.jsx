@@ -6,11 +6,13 @@ import ProfileFeed from "@/app/components/ProfileFeed";
 import Navbar from "@/app/components/Navbar";
 import React, {useEffect, useState} from "react";
 import {checkSession} from "@/app/api/route";
-
-
+import SignForm from "../components/SignForm";
+import ProfileForm from "../components/ProfileForm";
 
 export default function ProfilePage() {
     const [sessionUser, setSessionUser] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
         const fetchSession = async () => {
             await checkSession(setSessionUser);
@@ -48,11 +50,17 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex gap-2">
                         <button className="bg-gray-200 text-sm px-3 py-1 rounded">Add Cover</button>
-                        <button className="bg-blue-500 text-white text-sm px-3 py-1 rounded">Edit Profile</button>
+                        <button
+                            onClick={() => {
+                                 setIsLogin(true);
+                                 setIsOpen(true);}}
+                            className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2 text-center me-2 mb-2 cursor-pointer">
+                                Edit Profile</button>
                     </div>
                 </div>
                 <PostUpload onPost={handleNewPost} />
                 <ProfileFeed posts={posts} />
+                <ProfileForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
                 {/*<div></div>*/}
             </div>
         </div>
