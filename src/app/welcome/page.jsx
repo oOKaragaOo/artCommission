@@ -1,37 +1,27 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
-import { checkSession } from "@/app/api/route";
+import { SessionContext } from "@/app/api/checkUser/route";
 
 const WelcomePage = () => {
-    const [sessionUser, setSessionUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { sessionUser } = useContext(SessionContext);
     const router = useRouter();
 
     useEffect(() => {
-        const verifySession = async () => {
-            await checkSession(setSessionUser); //
-            setLoading(false); //
-        };
-
-        verifySession(); //
-    }, []);
-
-    useEffect(() => {
-        if (!loading) {
-            if (!sessionUser) {
-                router.replace("/login");
-            }
+        // ถ้าโหลดเสร็จแล้วแต่ไม่มี session -> redirect
+        if (sessionUser === null) {
+            router.replace("/");
         }
-    }, [loading, sessionUser, router]);
+    }, [sessionUser, router]);
 
-    if (loading) return <p>Loading...</p>;
+    // ยังโหลด session อยู่
+    if (sessionUser === undefined) return <p>Loading...</p>;
 
     return (
         <div>
-            <Navbar session={sessionUser} />
+            <Navbar />
             <div className="container mx-auto my-3">
                 <h3>Welcome : {sessionUser ? sessionUser.name : 'Guest'} </h3>
                 <p className="lead">Email: {sessionUser ? sessionUser.email : 'Not available'}</p>

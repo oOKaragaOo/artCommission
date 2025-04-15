@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {useContext, useState} from "react";
 import Link from "next/link";
 import SignForm from "./SignForm";
-import { checkSession } from '../api/route';
+import {SessionContext} from "@/app/api/checkUser/route";
 
 const Logout = async () => {
     try {
@@ -28,14 +28,8 @@ const Logout = async () => {
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
-    const [sessionUser, setSessionUser] = useState(null); // ✅ session
 
-    useEffect(() => {
-        const fetchSession = async () => {
-            await checkSession(setSessionUser);
-        };
-        fetchSession();
-    }, []);
+    const { sessionUser } = useContext(SessionContext);
 
     return (
         <>
@@ -43,7 +37,7 @@ function Navbar() {
                 <div className="container mx-auto">
                     <div className="flex justify-between items-center">
                         <div>
-                            <Link href="/">Art Commission</Link>
+                            <Link href="/"> Art Commission</Link>
                         </div>
                         <ul className="flex list-none">
                             {sessionUser ? (

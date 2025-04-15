@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import { useRouter } from "next/navigation";
-import { registerNewUser } from "../api/route";
+import {checkSession, registerNewUser} from "../api/route";
+import {SessionContext} from "@/app/api/checkUser/route";
 
 function Register() {
   const router = useRouter();
+  const { setSessionUser } = useContext(SessionContext); // ✅
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,7 +34,7 @@ function Register() {
     }
     setSuccess("User registered successfully.");
     e.target.reset();
-
+    await checkSession(setSessionUser);// ✅ After login
     setTimeout(() => {
       router.replace("/welcome");
     }, 1000);

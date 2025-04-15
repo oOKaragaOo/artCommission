@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect,useState } from "react";
+import React, {useContext, useState} from "react";
 import { motion } from "framer-motion";
-import { PencilIcon } from "@heroicons/react/24/solid";
-import { checkSession } from "../api/route";
+// import { PencilIcon } from "@heroicons/react/24/solid";
+import {SessionContext} from "@/app/api/checkUser/route";
 
 export default function ProfileForm({ isOpen, setIsOpen }) {
   const [formData, setFormData] = useState({
@@ -12,8 +12,6 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
     description: "",
     commissionStatus: "open", // ✅ เพิ่ม default value
   });
-
-  const [sessionUser, setSessionUser] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,12 +29,7 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
     console.log("Form Submitted", formData);
     setIsOpen(false);
   };
-  useEffect(() => {
-    const fetchSession = async () => {
-      await checkSession(setSessionUser);
-    };
-    fetchSession();
-  }, []);
+  const { sessionUser } = useContext(SessionContext);
 
   if (!isOpen) return null;
 
@@ -55,7 +48,7 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
               😊
             </div>
             <div className="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-full cursor-pointer">
-              <PencilIcon className="h-4 w-4 text-white" />
+              {/*<PencilIcon className="h-4 w-4 text-white" />*/}
             </div>
           </div>
           <p className="text-sm mt-2 cursor-pointer text-blue-300 underline">
