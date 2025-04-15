@@ -1,65 +1,46 @@
-"use client"
+"use client";
 
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Navbar from "../components/Navbar";
-import { signIn } from "next-auth/react";
-import {useRouter} from "next/navigation";
-import {useSession} from "next-auth/react";
+import {loginUser} from "@/app/api/route";
 
 function LoginPage() {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const {data: session} = useSession();
     const router = useRouter();
-
-    useEffect(()=>{
-            if(session){
-                router.replace("/welcome");
-            }
-        },
-        [session])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const res = await signIn("credentials", {
-                email, password, redirect:false});
-            if(res.error) {
-                setError("Invalid Credentials");
-                return;
-            }
-            router.replace("/welcome");
-        }catch(error){
-            console.log(error);
+        setError("");
+        const result = await loginUser(email, password); // ✅ Login
+        if (result.error) {
+            setError(result.error);
+            return;
         }
-    }
+        localStorage.setItem("userId", result.userId || "guest");
+        router.replace("/welcome");
+    };
 
     return (
         <div>
-            <Navbar />
             <div className="container mx-auto">
-                <h3>Register Page</h3>
-                <hr className="my-3" />
-                <form onSubmit={handleSubmit}>
+                <form className="space-y-4" onSubmit={handleSubmit}>
                     {error && (
-                        <div className=" bg-red-500 w-fit text-sm px-2 py-1 text-white   rounded-md mt-2">
+                        <div className="bg-red-500 w-fit text-sm px-2 py-1 text-white rounded-md mt-2">
                             {error}
                         </div>
                     )}
-                    <input onChange={(e)=>setEmail(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="email" name="email" placeholder="Email" />
-                    <input onChange={(e)=>setPassword(e.target.value)} className='block bg-gray-300 my-2 rounded-md' type="password" name="password" placeholder="Password" />
-                    <button className='block bg-green-500 p-2 rounded-md text-white'  type="submit">Sign In</button>
+                    <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email Address" required className="w-full p-2 border rounded-md" />
+                    <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required className="w-full p-2 border rounded-md" />
+                    <button className="w-full p-2 bg-blue-500 text-white rounded-md my-4" type="submit">Login</button>
                 </form>
-                <hr className="my-3" />
-                <p>Already have an account? go to
-                    <Link className='text-blue-500' href="/register">  Register  </Link> Page
-                </p>
             </div>
+            <Link className="text-blue-500" href="/register">Forget password</Link>
         </div>
-    )
+    );
 }
+
 export default LoginPage;
