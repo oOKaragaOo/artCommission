@@ -1,14 +1,13 @@
 "use client"
 
-import Image from "next/image";
-import Navbar from "./components/Navbar";
-import { useSession } from "next-auth/react";
+import React, {useState} from "react";
+import HomePage from "./components/Homepage";
 
 export default function Home() {
-    const {data:session}=useSession();
+    const [sessionUser] = useState(null);
   return (
       <main>
-        <Navbar session={session} />
+          <HomePage sessionUser={sessionUser} />
       </main>
   );
 }
