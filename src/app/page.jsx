@@ -1,13 +1,13 @@
 "use client"
 
-import Navbar from "./components/Navbar";
 import React, {useState} from "react";
+import HomePage from "./components/Homepage";
 
 export default function Home() {
     const [sessionUser] = useState(null);
   return (
       <main>
-          <Navbar session={sessionUser} />
+          <HomePage sessionUser={sessionUser} />
       </main>
   );
 }
