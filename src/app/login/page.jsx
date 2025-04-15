@@ -1,25 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import {loginUser} from "@/app/api/route";
+import { checkSession, loginUser } from "@/app/api/route";
+import { SessionContext } from "@/app/api/checkUser/route";
 
 function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
     const router = useRouter();
+    const { setSessionUser } = useContext(SessionContext); // ✅
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        const result = await loginUser(email, password); // ✅ Login
+
+        const result = await loginUser(email, password);
         if (result.error) {
             setError(result.error);
             return;
         }
+
+        await checkSession(setSessionUser);// ✅ After login
+
         localStorage.setItem("userId", result.userId || "guest");
         router.replace("/welcome");
     };

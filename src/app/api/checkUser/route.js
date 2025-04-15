@@ -1,18 +1,27 @@
-// import {NextResponse} from "next/server";
-// import {connectMongoDB} from "../../../../lib/mongodb";
-// import User from "../../../../models/User";
-//
-// export const POST = async (req) => {
-//     try {
-//         await connectMongoDB();
-//         const {email} = await req.json();
-//         const user = await User.findOne({ email }).select("_id");
-//
-//         console.log("User: ",user);
-//
-//         return NextResponse.json({ user })
-//
-//         } catch (error) {
-//         console.error(error);
-//     }
-// };
+// SessionContext.js
+"use client";
+import React, { createContext, useState, useEffect } from "react";
+import {checkSession} from "../route";
+
+export const SessionContext = createContext();
+
+export const SessionProvider = ({ children }) => {
+    const [sessionUser, setSessionUser] = useState(null);
+
+    useEffect(() => {
+        const fetchSession = async () => {
+            try {
+                await checkSession(setSessionUser);
+            } catch (error) {
+                console.error("Error fetching session:", error);
+            }
+        };
+        fetchSession();
+    }, []);
+
+    return (
+        <SessionContext.Provider value={{ sessionUser, setSessionUser }}>
+            {children}
+        </SessionContext.Provider>
+    );
+};

@@ -4,7 +4,7 @@ import React from 'react';
 import styles from '../../styles/artseek.module.css';
 import Navbarone from '../components/Navbarone';
 import Sidebar from '../components/Sidebar';
-/* import '@fortawesome/fontawesome-free/css/all.min.css'; // นำเข้า Font Awesome CSS */
+import '@fortawesome/fontawesome-free/css/all.min.css'; // นำเข้า Font Awesome CSS
 
 function ArtseekPage() {
   const artworks = [
