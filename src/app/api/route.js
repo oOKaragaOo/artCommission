@@ -1,4 +1,5 @@
-// from "@/app/api/route"
+
+
 export const checkSession = async (setSessionUser) => {
     try {
         const res = await fetch("http://localhost:8080/auth/session", {
@@ -32,6 +33,27 @@ export const checkSession = async (setSessionUser) => {
         setSessionUser(null);
     }
 };
+
+
+export const refreshProfile = async (setSessionUser) => {
+    try {
+        const res = await fetch("http://localhost:8080/user/profile", {
+            method: "GET",
+            credentials: "include",
+        });
+
+        if (!res.ok) {
+            console.error("Failed to refresh profile");
+            return;
+        }
+
+        const data = await res.json();
+        setSessionUser(data.user);
+    } catch (err) {
+        console.error("Error refreshing profile:", err);
+    }
+};
+
 
 export const loginUser = async (email, password) => {
     try {
@@ -85,6 +107,7 @@ export const registerUser = async (userData) => {
         return { error: "Unable to connect to the server." };
     }
 };
+
 export const registerNewUser = async (name, email, password, confPassword, role) => {
     if (password !== confPassword) {
         return { error: "Passwords don't match" };
