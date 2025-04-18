@@ -1,0 +1,110 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: sans-serif;
+  background-color: #ffffff;
+  position: sticky;
+}
+
+.content {
+  width: fit-content;
+  display: flex;
+}
+
+.feed {
+  /* width: 100%;
+  min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* จัดโพสต์ไว้ตรงกลางตามแนวนอน */
+  padding: 40px 40px; /* เพิ่ม padding รอบด้านให้มากขึ้น */
+  background-color: #f8f8f8;
+  gap: 40px; /* เพิ่มระยะห่างระหว่างโพสต์ให้มากขึ้น */
+}
+
+.feedContainer {
+  width: 100%;
+  max-width: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+
+.post {
+  background-color: #fff;
+  border-radius: 16px; /* เพิ่มความโค้งมน */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* เพิ่มเงาที่ชัดเจนขึ้น */
+  width: 171vh; /* ปรับความกว้างของโพสต์ให้ใหญ่ขึ้น */
+  max-width: 100%; /* กำหนดขนาดสูงสุดของโพสต์ */
+  overflow: hidden;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  padding: 20px 25px; /* เพิ่ม padding */
+  border-bottom: 1px solid #eee;
+  background-color: #ffffff;
+  position: sticky;
+}
+
+.avatar {
+  width: 50px; /* เพิ่มขนาด avatar */
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.artistInfo h3 {
+  font-size: 1.5rem; /* เพิ่มขนาดชื่อ */
+  margin-bottom: 5px;
+}
+
+.artistInfo p {
+  font-size: 1rem; /* เพิ่มขนาด account */
+  color: #777;
+}
+
+.postImage {
+  width: 100%;
+  display: flex; /* เพิ่ม display: flex เพื่อใช้คุณสมบัติการจัดวาง */
+  justify-content: center; /* จัดเนื้อหา (รูปภาพ) ให้อยู่ตรงกลางตามแนวนอน */
+  align-items: center; /* จัดเนื้อหา (ถ้าจำเป็น) ให้อยู่ตรงกลางตามแนวตั้ง */
+}
+
+.postImage img {
+  width: 500px;
+  height: auto;
+  object-fit: cover;
+  max-width: 100%; /* ป้องกันไม่ให้รูปภาพใหญ่เกิน Container */
+  max-height: 100%; /* ป้องกันไม่ให้รูปภาพสูงเกิน Container (ถ้ามีขนาดจำกัด) */
+}
+
+.postActions {
+  display: flex;
+  justify-content: space-around;
+  padding: 16px 25px; /* เพิ่ม padding */
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem; /* เพิ่มขนาด icon และตัวเลข */
+  color: #555;
+  margin-right: 30px; /* เพิ่มระยะห่าง */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.actionButton span {
+  margin-right: 8px; /* เพิ่มระยะห่างระหว่าง icon และตัวเลข */
+  font-size: 1.5rem; /* เพิ่มขนาด icon */
+}
+
+.liked {
+  color: red;
+}
