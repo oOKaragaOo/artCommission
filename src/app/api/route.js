@@ -1,5 +1,4 @@
 
-
 export const checkSession = async (setSessionUser) => {
     try {
         const res = await fetch("http://localhost:8080/auth/session", {
@@ -10,21 +9,21 @@ export const checkSession = async (setSessionUser) => {
         if (res.ok) {
             const data = await res.json();
 
-            if (data.user) {
-                // ดึงข้อมูลจาก database โดยใช้ user.id หรือ email
-                const userRes = await fetch(`http://localhost:8080/auth/user/${data.user.id}`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-
-                if (userRes.ok) {
-                    const userData = await userRes.json();
-                    setSessionUser(userData); // ✅ map ข้อมูลจาก database
-                    console.log("Session User:", userData);
-                } else {
-                    setSessionUser(null);
-                }
-            }
+            // if (data.user) {
+            //     // ดึงข้อมูลจาก database โดยใช้ user.id หรือ email
+            //     const userRes = await fetch(`http://localhost:8080/auth/user/${data.user.id}`, {
+            //         method: "GET",
+            //         credentials: "include",
+            //     });
+            //
+            //     if (userRes.ok) {
+            //         const userData = await userRes.json();
+                    setSessionUser(data); // ✅ map ข้อมูลจาก database
+                    console.log("Session User:", data);
+            //     } else {
+            //         setSessionUser(null);
+            //     }
+            // }
         } else {
             setSessionUser(null);
         }
@@ -33,7 +32,6 @@ export const checkSession = async (setSessionUser) => {
         setSessionUser(null);
     }
 };
-
 
 export const refreshProfile = async (setSessionUser) => {
     try {
@@ -53,7 +51,6 @@ export const refreshProfile = async (setSessionUser) => {
         console.error("Error refreshing profile:", err);
     }
 };
-
 
 export const loginUser = async (email, password) => {
     try {
@@ -118,4 +115,53 @@ export const registerNewUser = async (name, email, password, confPassword, role)
     }
 
     return await registerUser({ name, email, password, role });
+};
+
+export const getProfile = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/user/profile', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        });
+
+        const contentType = response.headers.get("content-type");
+        console.log("Content-Type:", contentType);
+
+        if (!contentType || !contentType.includes("application/json")) {
+            const errorText = await response.text();
+            console.error("❌JSON:", errorText);
+            return { error: "Server response is not JSON." };
+        }
+
+        const data = await response.json();
+        console.log("Response Data:", data);
+
+        if (!response.ok) {
+            return { error: data.error || "Unauthorized Access" };
+        }
+        return data;
+    } catch (err) {
+        console.error("⚠️ Error during fetching profile:", err);
+        return { error: "Unable to connect to the server." };
+    }
+};
+
+export const getFeedProfile = async (postId, setPost, setError) => {
+    try {
+        const response = await fetch(`http://localhost:8080/user/posts/${postId}`);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            setError(errorData.error);
+        } else {
+            const data = await response.json();
+            setPost(data);
+        }
+    } catch (err) {
+        console.error("Error in getFeedProfile: ", err);
+        setError("Something went wrong!");
+    }
 };

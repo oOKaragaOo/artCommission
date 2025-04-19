@@ -23,7 +23,7 @@ const WelcomePage = () => {
         <div>
             <Navbar />
             <div className="container mx-auto my-3">
-                <h3>Welcome : {sessionUser ? sessionUser.name : 'Guest'} </h3>
+                <h3>Welcome : {sessionUser ? sessionUser.id : 'Guest'} </h3>
                 <p className="lead">Email: {sessionUser ? sessionUser.email : 'Not available'}</p>
                 <hr className="my-2" />
                 <p>Lorem ipsum sit amen</p>
