@@ -55,24 +55,27 @@ export default function ProfileFeed({ posts }) {
           )}
 
           {/* คอมเมนต์ */}
-          {post["comments"] && post["comments"].length > 0 ? (
-            <div className="mt-4 space-y-2">
-              {post["comments"].map((comment, commentIdx) => (
-                <p
-                  key={commentIdx}
-                  className="text-sm text-gray-700 font-semibold"
-                >
-                  - {comment}
+        {post["comments"] && post["comments"].length > 0 ? (
+          <div className="mt-4 space-y-2">
+            {post["comments"].map((commentData, commentIdx) => (
+              <div key={commentIdx}>
+                <p className="text-sm">
+                  <span className="font-semibold">{commentData.username}</span>
+                  <span className="text-gray-500 text-xs ml-1">
+                    {commentData.timestamp}
+                  </span>
                 </p>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-gray-300 mt-4">
-              You are first comment on this post!
-            </p>
-          )}
-        </div>
-      ))}
+                <p className="text-sm text-gray-700">{commentData.text}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-300 mt-4">
+            You are first comment on this post!
+          </p>
+        )}
+      </div>
+    ))}
     </div>
   );
 }
