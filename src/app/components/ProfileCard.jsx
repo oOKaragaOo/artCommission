@@ -19,8 +19,12 @@ export default function ProfileCard({ userData, onEditClick }) {
         {/* ข้อมูล Avatar และ Text */}
         <div className="flex items-start">
           {/* Avatar */}
-          <div className="w-30 h-25 rounded-full bg-yellow-400 flex items-center justify-center text-3xl font-bold text-white border-4 border-white shadow ">
-            <span>😊</span>
+          <div className="w-30 h-25 rounded-full bg-black flex items-center justify-center border-4 border-white shadow overflow-hidden">
+            <img
+              src={userData?.profile_picture}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* ข้อมูล Text และปุ่ม Edit Profile */}
