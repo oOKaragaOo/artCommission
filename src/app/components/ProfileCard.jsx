@@ -1,40 +1,51 @@
 "use client";
 
 export default function ProfileCard({ userData, error }) {
+  return (
+    <div className="relative bg-gray-100 rounded-lg shadow mb-4 overflow-hidden">
+      {/* Cover Background Layer (อยู่ด้านหลัง) */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-teal-700 z-0" />
 
-    return (
-        <div className="bg-gray-100 rounded-lg p-4 shadow mb-4 flex justify-between items-start">
-            {error ? (
-                <p className="text-red-500">Error: {error}</p>
-            ) : userData ? (
-                <div>
-                    <div>
-                        {/* ใช้ข้อมูลจาก userData */}
-                        <div>
-                        </div>
-                        <h1 className="text-xl font-semibold">{userData["name"] || "Guest"}</h1>
-                        <p className="text-sm text-gray-600">Email: {userData["email"] || "Not available"}</p>
-                        <p className="text-sm text-gray-600">Role: {userData["role"] || "none"}</p>
-                        <p className="text-sm text-gray-600">
-                            Commission Status: { userData["commission_status"] || "none" }
-                        </p>
-                        <p className="text-sm text-gray-600">Status: {userData["status"] || "unknown"}</p>
-                        <p className="text-sm text-gray-600">
-                            Followers: {userData["followerCount"] || 0}
-                        </p>
-                        {userData.description && (
-                            <p className="text-sm text-gray-700">Description: {userData.description}</p>
-                        )}
-                    </div>
-                    <div className="flex gap-2">
-                        <button className="bg-gray-200 text-sm px-3 py-1 rounded">Add Cover</button>
-                        <button className="bg-blue-500 text-white text-sm px-3 py-1 rounded">Edit Profile</button>
-                    </div>
-                </div>
-            ) : (
-                <p>Loading...</p>
-            )}
+      {/* เนื้อหาหลัก */}
+      <div className="relative z-10 px-6 pt-20 pb-4">
+        {/* ปุ่ม Add Cover (ยังคงอยู่ด้านบนขวา) */}
+        <div className="absolute top-4 right-4 flex gap-2 z-20">
+          <button className="flex items-center text-white text-sm px-2 py-1 bg-transparent border border-white rounded hover:bg-white hover:text-teal-700 transition">
+            ✏️ Add Cover
+          </button>
         </div>
-    );
-}
 
+        {/* ข้อมูล Avatar และ Text */}
+        <div className="flex items-start">
+          {/* Avatar */}
+          <div className="w-30 h-25 rounded-full bg-yellow-400 flex items-center justify-center text-3xl font-bold text-white border-4 border-white shadow ">
+            <span>👨</span>
+          </div>
+
+          {/* ข้อมูล Text และปุ่ม Edit Profile */}
+          <div className="ml-4 mt-14 text-gray-800 w-full flex items-center justify-between">
+            <div>
+              <button className="absolute right-4 flex gap-2 z-20 text-gray-600 text-sm px-2 py-1 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 transition">
+                ✏️ Edit Profile
+              </button>
+              <h1 className="text-xl font-semibold">
+               {userData?.name || "Guest"}
+              </h1>
+              <p className="text-sm text-gray-600">
+                <span>Role: {userData?.role || "none"}</span>
+                <span className="ml-2">
+                  Followers: {userData?.followerCount || 0}
+                </span>
+              </p>
+              {userData?.description && (
+                <p className="text-sm text-gray-700 mt-1">
+                  {userData?.description}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
