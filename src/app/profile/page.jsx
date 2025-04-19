@@ -13,15 +13,20 @@ import { getFeedProfile } from "@/app/api/route"; // Import ฟังก์ช�
 export default function ProfilePage() {
     const [isOpen, setIsOpen] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
-
     const { sessionUser: localSessionUser } = useContext(SessionContext);
     const [apiUserData, setApiUserData] = useState(null);
     const [posts, setPosts] = useState([]); // State สำหรับ posts
     const [error, setError] = useState(null); // State สำหรับ error
 
-    const handleNewPost = () => {
-        console.log("Post clicked");
-    };
+    const handleNewPost = (newPost) => {
+        // ตัวอย่างการอัปเดตโพสต์ใหม่
+        console.log("New post:", newPost);
+      };
+
+    const handleEditProfile = () => {
+        setIsLogin(true);    // ถ้าต้องการเปิด modal แบบต้อง login
+        setIsOpen(true);     // เปิดฟอร์ม
+      };
 
     // Fetch ข้อมูล user profile
     useEffect(() => {
@@ -50,18 +55,21 @@ export default function ProfilePage() {
 
     return (
         <div>
-            <Navbar session={localSessionUser} />
-            <div className="max-w-3xl mx-auto p-4">
-                <ProfileCard userData={apiUserData} />
-                <PostUpload onPost={handleNewPost} />
-                {/* ส่งข้อมูล posts ไปยัง ProfileFeed */}
-                {error ? (
-                    <div>Error: {error}</div>
-                ) : (
-                    <ProfileFeed posts={posts} />
-                )}
-                <ProfileForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
-            </div>
+          <Navbar session={localSessionUser} />
+          <div className="max-w-3xl mx-auto p-4">
+            
+            {/* Card แสดงข้อมูลผู้ใช้ */}
+            <ProfileCard userData={apiUserData} onEditClick={handleEditProfile} />
+    
+            {/* Upload โพสต์ */}
+            <PostUpload onPost={handleNewPost} />
+    
+            {/* แสดง feed */}
+            {error ? <div>Error: {error}</div> : <ProfileFeed posts={posts} />}
+    
+            {/* Modal แบบ Pop-up */}
+            <ProfileForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
+          </div>
         </div>
-    );
+      );
 }
