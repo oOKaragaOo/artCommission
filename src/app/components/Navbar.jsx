@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {useContext, useState} from "react";
 import Link from "next/link";
 import SignForm from "./SignForm";
-import { checkSession } from '../api/route';
+import {SessionContext} from "@/app/api/checkUser/route";
 
 const Logout = async () => {
     try {
@@ -28,17 +28,12 @@ const Logout = async () => {
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
-    const [sessionUser, setSessionUser] = useState(null); // ✅ session
 
-    useEffect(() => {
-        const fetchSession = async () => {
-            await checkSession(setSessionUser);
-        };
-        fetchSession();
-    }, []);
+    const { sessionUser } = useContext(SessionContext);
 
     return (
         <>
+
             <nav className='bg-white text-black p-5'>
       <div className="container mx-auto flex justify-between items-center">
         <div>
@@ -57,10 +52,11 @@ function Navbar() {
             <Link href="/artists">นักวาด</Link>
           </li>
           <li className='mx-3'>
-            <Link href="/jobs">กระดานจ้างงาน</Link>
+            <Link href="/artseek">กระดานจ้างงาน</Link>
           </li>
         </ul>
         <div>
+
                             {sessionUser ? (
                                 <>
                                 <ul className ="flex list-none" >  
