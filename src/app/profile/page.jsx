@@ -11,65 +11,58 @@ import { getProfile } from "@/app/api/route";
 import { getFeedProfile } from "@/app/api/route"; // Import ฟังก์ชัน fetch posts
 
 export default function ProfilePage() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
-    const { sessionUser: localSessionUser } = useContext(SessionContext);
-    const [apiUserData, setApiUserData] = useState(null);
-    const [posts, setPosts] = useState([]); // State สำหรับ posts
-    const [error, setError] = useState(null); // State สำหรับ error
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const { sessionUser: localSessionUser } = useContext(SessionContext);
+  const [apiUserData, setApiUserData] = useState(null);
+  const [posts, setPosts] = useState([]); // State สำหรับ posts
+  const [error, setError] = useState(null); // State สำหรับ error
 
-    const handleNewPost = (newPost) => {
-        // ตัวอย่างการอัปเดตโพสต์ใหม่
-        console.log("New post:", newPost);
-      };
+  const handleNewPost = (newPost) => {
+    // ตัวอย่างการอัปเดตโพสต์ใหม่
+    console.log("New post:", newPost);
+  };
 
-    const handleEditProfile = () => {
-        setIsLogin(true);    // ถ้าต้องการเปิด modal แบบต้อง login
-        setIsOpen(true);     // เปิดฟอร์ม
-      };
+  const handleEditProfile = () => {
+    setIsLogin(true); // ถ้าต้องการเปิด modal แบบต้อง login
+    setIsOpen(true); // เปิดฟอร์ม
+  };
 
-    // Fetch ข้อมูล user profile
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await getProfile();
-            if (!result.error) {
-                setApiUserData(result.user);
-            }
-        };
-        fetchData();
-    }, []);
+  useEffect(() => {
+    const fetchAllData = async () => {
+      const profileResult = await getProfile();
+      if (!profileResult.error) {
+        setApiUserData(profileResult.user);
+      }
 
-    // Fetch posts ที่เกี่ยวข้อง
-    useEffect(() => {
-        const fetchPosts = async () => {
-            if (localSessionUser && localSessionUser.user && localSessionUser.user.id) {
-                await getFeedProfile(localSessionUser.user.id, setPosts, setError);
-            }
-        };
-        fetchPosts();
-    }, [localSessionUser]);
+      if (localSessionUser?.user?.id) {
+        await getFeedProfile(localSessionUser.user.id, setPosts, setError);
+      }
+    };
 
-    console.log("Local Session User:", localSessionUser);
-    console.log("API User Data:", apiUserData);
-    console.log("Posts:", posts);
+    fetchAllData();
+  }, [localSessionUser]);
 
-    return (
-        <div>
-          <Navbar session={localSessionUser} />
-          <div className="max-w-3xl mx-auto p-4">
-            
-            {/* Card แสดงข้อมูลผู้ใช้ */}
-            <ProfileCard userData={apiUserData} onEditClick={handleEditProfile} />
-    
-            {/* Upload โพสต์ */}
-            <PostUpload onPost={handleNewPost} />
-    
-            {/* แสดง feed */}
-            {error ? <div>Error: {error}</div> : <ProfileFeed posts={posts} />}
-    
-            {/* Modal แบบ Pop-up */}
-            <ProfileForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
-          </div>
-        </div>
-      );
+  console.log("Local Session User:", localSessionUser);
+  console.log("API User Data:", apiUserData);
+  console.log("Posts:", posts);
+
+  return (
+    <div>
+      <Navbar session={localSessionUser} />
+      <div className="max-w-3xl mx-auto p-4">
+        {/* Card แสดงข้อมูลผู้ใช้ */}
+        <ProfileCard userData={apiUserData} onEditClick={handleEditProfile} />
+
+        {/* Upload โพสต์ */}
+        <PostUpload onPost={handleNewPost} />
+
+        {/* แสดง feed */}
+        {error ? <div>Error: {error}</div> : <ProfileFeed posts={posts} />}
+
+        {/* Modal แบบ Pop-up */}
+        <ProfileForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
+      </div>
+    </div>
+  );
 }
