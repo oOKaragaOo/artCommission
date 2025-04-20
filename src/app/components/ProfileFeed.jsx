@@ -8,10 +8,19 @@ export default function ProfileFeed({ posts }) {
         <div key={idx} className="bg-gray-100 p-4 rounded shadow">
           {/* หัวโพสต์ */}
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 bg-black rounded-full" />
+            {/* รูปโปรไฟล์ผู้โพสต์ */}
+            <img
+              src={post["profile_picture"] || "/default-avatar.png"} // fallback ถ้าไม่มีรูป
+              alt="Author"
+              className="w-8 h-8 rounded-full object-cover"
+            />
+
+            {/* ชื่อและเวลา */}
             <div>
-              <p className="font-semibold">{post["authorName"]}</p>
-              <p className="text-sm text-gray-400">{post["createdAt"]}</p>
+              <p className="font-semibold text-gray-800">
+                {post.name || "Unknown"}
+              </p>
+              <p className="text-sm text-gray-400">{post.createdAt}</p>
             </div>
           </div>
 
@@ -54,28 +63,35 @@ export default function ProfileFeed({ posts }) {
             </div>
           )}
 
-          {/* คอมเมนต์ */}
-        {post["comments"] && post["comments"].length > 0 ? (
-          <div className="mt-4 space-y-2">
-            {post["comments"].map((commentData, commentIdx) => (
-              <div key={commentIdx}>
-                <p className="text-sm">
-                  <span className="font-semibold">{commentData.username}</span>
-                  <span className="text-gray-500 text-xs ml-1">
-                    {commentData.timestamp}
-                  </span>
-                </p>
-                <p className="text-sm text-gray-700">{commentData.text}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-sm text-gray-300 mt-4">
-            You are first comment on this post!
-          </p>
-        )}
-      </div>
-    ))}
+          {/* Comments */}
+          {post["comments"] && post["comments"].length > 0 ? (
+            <div className="mt-4 space-y-2">
+              {post["comments"].map((comment, commentIdx) => (
+                <div key={commentIdx} className="flex items-start gap-2">
+                  {/* รูปโปรไฟล์ */}
+                  <img
+                    src={comment.profilePicture || "/default-avatar.png"}
+                    alt="avatar"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+
+                  {/* ชื่อ + ข้อความ */}
+                  <div>
+                    <p className="text-sm text-gray-800 font-semibold">
+                      {comment.name || "Unknown"}
+                    </p>
+                    <p className="text-sm text-gray-700">{comment.content}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-300 mt-4">
+              You are first comment on this post!
+            </p>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

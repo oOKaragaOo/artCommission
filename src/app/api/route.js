@@ -165,3 +165,38 @@ export const getFeedProfile = async (postId, setPost, setError) => {
         setError("Something went wrong!");
     }
 };
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch("/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // สำคัญมาก ถ้าคุณใช้ session ใน Spring
+        body: JSON.stringify({
+          name: formData.name,
+          profile_picture: formData.profilePicture,
+          description: formData.description,
+          commission_status: formData.commissionStatus,
+        }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log("✅ Profile updated:", result);
+        alert("โปรไฟล์ได้รับการอัปเดตแล้ว");
+        setIsOpen(false); // ปิด popup
+      } else {
+        console.error("❌ Error:", result.error);
+        alert("เกิดข้อผิดพลาด: " + result.error);
+      }
+    } catch (error) {
+      console.error("❌ Network error:", error);
+      alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
+    }
+  };
+  
