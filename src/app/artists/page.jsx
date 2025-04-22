@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import styles from '../../styles/Home.module.css';
+import styles from '../../styles/artists.module.css';
 import Navbarone from '../components/Navbarone';
 import Sidebar from '../components/Sidebar';
 

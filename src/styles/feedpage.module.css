@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 100vh;
   font-family: sans-serif;
-  background-color: #ffffff;
+  background-color: #f8f8f8;
   position: sticky;
 }
 
@@ -38,7 +38,7 @@
   background-color: #fff;
   border-radius: 16px; /* เพิ่มความโค้งมน */
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* เพิ่มเงาที่ชัดเจนขึ้น */
-  width: 171vh; /* ปรับความกว้างของโพสต์ให้ใหญ่ขึ้น */
+  width: 162vh; /* ปรับความกว้างของโพสต์ให้ใหญ่ขึ้น */
   max-width: 100%; /* กำหนดขนาดสูงสุดของโพสต์ */
   overflow: hidden;
 }
