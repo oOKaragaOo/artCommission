@@ -107,43 +107,6 @@
   cursor: pointer;
 }
 
-.artworks {
-  flex: 1;
-  padding: 20px;
-    padding-left: 30px; /* Added padding to the left */
-    padding-right: 30px; /*Added padding to the right */
-}
-
-.artworkHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.artworkHeader span:nth-child(1) {
-  color: #999;
-}
-
-.artworkHeader span:nth-child(2) {
-  color: #76abae;
-}
-
-.artworkGrid {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr); /* เปลี่ยน grid-template-columns เป็น repeat(6, 1fr) */
-  gap: 10px;
-}
-
-.artworkItem {
-  background-color: #ccc;
-  height: 150px;
-  width: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 /* Artist Recommended */
 
 .container {

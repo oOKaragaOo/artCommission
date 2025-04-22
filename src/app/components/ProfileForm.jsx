@@ -1,17 +1,20 @@
 "use client";
 
-import React, {useContext, useState} from "react";
+import React, { useContext, useState, useRef } from "react";
 import { motion } from "framer-motion";
-// import { PencilIcon } from "@heroicons/react/24/solid";
-import {SessionContext} from "@/app/api/checkUser/route";
+import { SessionContext } from "@/app/api/checkUser/route";
 
 export default function ProfileForm({ isOpen, setIsOpen }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     description: "",
-    commissionStatus: "open", // ✅ เพิ่ม default value
+    commissionStatus: "open",
   });
+
+  const [imageSrc, setImageSrc] = useState(null);
+  const fileInputRef = useRef(null);
+  const { sessionUser } = useContext(SessionContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,7 +23,8 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
   const handleToggle = () => {
     setFormData({
       ...formData,
-      commissionStatus: formData.commissionStatus === "open" ? "close" : "open",
+      commissionStatus:
+        formData.commissionStatus === "open" ? "close" : "open",
     });
   };
 
@@ -29,7 +33,17 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
     console.log("Form Submitted", formData);
     setIsOpen(false);
   };
-  const { sessionUser } = useContext(SessionContext);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImageSrc(event.target.result); // base64 string
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -44,16 +58,46 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
         {/* Avatar */}
         <div className="flex flex-col items-center mb-4">
           <div className="relative">
-            <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center text-3xl font-bold text-black">
-              😊
+            <div className="w-20 h-20 bg-yellow-400 rounded-full overflow-hidden">
+              {imageSrc ? (
+                <img
+                  src={imageSrc}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div
+                  className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center text-3xl font-bold text-black"
+                  /* style={{ marginTop: "10px" }} */
+                >
+                  😊
+                </div>
+
+              )}
             </div>
-            <div className="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-full cursor-pointer">
-              {/*<PencilIcon className="h-4 w-4 text-white" />*/}
+            <div
+              onClick={() => fileInputRef.current.click()}
+              className="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-full cursor-pointer hover:bg-gray-600"
+              title="Upload Image"
+            >
+              📷
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              style={{ display: 'none' }}
+            />
+
           </div>
-          <p className="text-sm mt-2 cursor-pointer text-blue-300 underline">
-            Add Cover
-          </p>
+          {/* Text Under Pofile */}
+          {/* <p
+            className="text-sm mt-2 cursor-pointer text-blue-300 underline"
+            onClick={() => fileInputRef.current.click()}
+          >
+            Upload Avatar
+          </p> */}
         </div>
 
         {/* Form */}
