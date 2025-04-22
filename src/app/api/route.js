@@ -166,37 +166,32 @@ export const getFeedProfile = async (postId, setPost, setError) => {
     }
 };
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
-  
+  export const createPost = async ({ caption, imageUrl }) => {
     try {
-      const response = await fetch("/profile", {
-        method: "PUT",
+      const response = await fetch("http://localhost:8080/posts", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // สำคัญมาก ถ้าคุณใช้ session ใน Spring
+        credentials: "include", // สำคัญมากถ้าใช้ session login
         body: JSON.stringify({
-          name: formData.name,
-          profile_picture: formData.profilePicture,
-          description: formData.description,
-          commission_status: formData.commissionStatus,
+          caption,
+          imageUrl,
         }),
       });
   
       const result = await response.json();
   
       if (response.ok) {
-        console.log("✅ Profile updated:", result);
-        alert("โปรไฟล์ได้รับการอัปเดตแล้ว");
-        setIsOpen(false); // ปิด popup
+        console.log("✅ Post created:", result);
+        return { success: true, data: result };
       } else {
-        console.error("❌ Error:", result.error);
-        alert("เกิดข้อผิดพลาด: " + result.error);
+        console.error("❌ Failed to create post:", result.error);
+        return { success: false, error: result.error };
       }
     } catch (error) {
-      console.error("❌ Network error:", error);
-      alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
+      console.error("⚠️ Network error:", error);
+      return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
     }
   };
   

@@ -17,10 +17,10 @@ export default function ProfilePage() {
   const [apiUserData, setApiUserData] = useState(null);
   const [posts, setPosts] = useState([]); // State สำหรับ posts
   const [error, setError] = useState(null); // State สำหรับ error
-
+  const [isPostOpen, setIsPostOpen] = useState(false);
+  
   const handleNewPost = (newPost) => {
-    // ตัวอย่างการอัปเดตโพสต์ใหม่
-    console.log("New post:", newPost);
+    setPosts((prev) => [newPost, ...prev]);
   };
 
   const handleEditProfile = () => {
@@ -51,6 +51,7 @@ export default function ProfilePage() {
     <div>
       <Navbar session={localSessionUser} />
       <div className="max-w-3xl mx-auto p-4">
+
         {/* Card แสดงข้อมูลผู้ใช้ */}
         <ProfileCard userData={apiUserData} onEditClick={handleEditProfile} />
 
