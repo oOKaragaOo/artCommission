@@ -17,29 +17,29 @@ function ExplorePage() {
 
   // Sample artwork data (replace with your actual data including more details)
   const popularArtworks = [
-    { id: 1, imageUrl: '/images/explore_popular1.jpg', title: 'Popular 1', artist: 'Artist A', description: 'A beautiful artwork.', likes: 15, comments: 3 },
-    { id: 2, imageUrl: '/images/explore_popular2.jpg', title: 'Popular 2', artist: 'Artist B', description: 'An abstract piece.', likes: 22, comments: 8 },
-    { id: 3, imageUrl: '/images/explore_popular3.jpg', title: 'Popular 3', artist: 'Artist C', description: 'A digital painting.', likes: 10, comments: 1 },
-    { id: 4, imageUrl: '/images/explore_popular4.jpg', title: 'Popular 4', artist: 'Artist D', description: 'A surreal landscape.', likes: 30, comments: 5 },
-    { id: 5, imageUrl: '/images/explore_popular5.jpg', title: 'Popular 5', artist: 'Artist E', description: 'A character design.', likes: 18, comments: 2 },
-    { id: 6, imageUrl: '/images/explore_popular6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
-    { id: 7, imageUrl: '/images/explore_popular6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
-    { id: 8, imageUrl: '/images/explore_popular6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
-    { id: 9, imageUrl: '/images/explore_popular6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
+    { id: 1, imageUrl: '/images/explore/1.jpg', title: 'Popular 1', artist: 'Artist A', description: 'A beautiful artwork.', likes: 15, comments: 3 },
+    { id: 2, imageUrl: '/images/explore/2.jpg', title: 'Popular 2', artist: 'Artist B', description: 'An abstract piece.', likes: 22, comments: 8 },
+    { id: 3, imageUrl: '/images/explore/3.jpg', title: 'Popular 3', artist: 'Artist C', description: 'A digital painting.', likes: 10, comments: 1 },
+    { id: 4, imageUrl: '/images/explore/4.jpg', title: 'Popular 4', artist: 'Artist D', description: 'A surreal landscape.', likes: 30, comments: 5 },
+    { id: 5, imageUrl: '/images/explore/5.jpg', title: 'Popular 5', artist: 'Artist E', description: 'A character design.', likes: 18, comments: 2 },
+    { id: 6, imageUrl: '/images/explore/6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
+    { id: 7, imageUrl: '/images/explore/7.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
+    { id: 8, imageUrl: '/images/explore/8.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
+    { id: 9, imageUrl: '/images/explore/9.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
     
     // ... more popular artworks
   ];
 
   const recentArtworks = [
-    { id: 101, imageUrl: '/images/explore_recent1.jpg', title: 'Recent 1', artist: 'New Artist 1', description: 'Freshly created art.', likes: 5, comments: 0 },
-    { id: 102, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 103, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 104, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 105, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 106, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 107, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 108, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 109, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
+    { id: 101, imageUrl: '/images/explore/1.jpg', title: 'Recent 1', artist: 'New Artist 1', description: 'Freshly created art.', likes: 5, comments: 0 },
+    { id: 102, imageUrl: '/images/explore/2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
+    { id: 103, imageUrl: '/images/explore/3.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
+    { id: 104, imageUrl: '/images/explore/4.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
+    { id: 105, imageUrl: '/images/explore/5.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
+    { id: 106, imageUrl: '/images/explore/6.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
+    { id: 107, imageUrl: '/images/explore/7.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
+    { id: 108, imageUrl: '/images/explore/8.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
+    { id: 109, imageUrl: '/images/explore/9.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
     // ... more recent artworks
   ];
 
