@@ -1,4 +1,3 @@
-// components/PostItem.jsx (หรือ ProfileFeed.jsx ถ้ายังใช้ชื่อเดิม)
 "use client";
 import { useState } from "react";
 import { commentPost } from "@/app/api/route";
@@ -12,8 +11,8 @@ export default function PostItem({ post }) {
 
     const result = await commentPost(post.id, commentText.trim());
     if (result.success) {
-      alert("คอมเมนต์เรียบร้อยแล้ว!");
       setCommentText("");
+      window.location.reload();
       // หากต้องการ refresh comment ก็ใส่ callback มาเพิ่มได้
     } else {
       alert("เกิดข้อผิดพลาด: " + result.error);
@@ -25,12 +24,12 @@ export default function PostItem({ post }) {
       {/* หัวโพสต์ */}
       <div className="flex items-center gap-2 mb-2">
         <img
-          src={post.profile_picture || "/default-avatar.png"}
+          src={post.authorProfile || "/default-avatar.png"}
           className="w-8 h-8 rounded-full object-cover"
           alt="author"
         />
         <div>
-          <p className="font-semibold text-gray-800">{post.name}</p>
+          <p className="font-semibold text-gray-800">{post.authorName}</p>
           <p className="text-sm text-gray-400">{post.createdAt}</p>
         </div>
       </div>
