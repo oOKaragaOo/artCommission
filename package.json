@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@heroicons/react": "^2.2.0",
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
-    "framer-motion": "^12.6.2",
+    "framer-motion": "^12.7.3",
     "mongoose": "^8.12.1",
     "motion": "^12.7.2",
     "next": "15.2.3",
@@ -23,6 +27,6 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.2.3",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4.1.4"
   }
 }

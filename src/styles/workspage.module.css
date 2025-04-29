@@ -1,0 +1,143 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: sans-serif;
+  background-color: #f8f8f8;
+  position: sticky;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+}
+
+.works {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 40px; /* ปรับ padding ให้เหมาะสม */
+  background-color: #f8f8f8;
+  gap: 20px; /* ปรับระยะห่างระหว่าง item */
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  border-left: 5px solid #007bff;
+}
+
+.tabButtons {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.tabButton {
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.tabButton:hover {
+  background-color: #ccc;
+}
+
+.tabButton.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.artworkGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Adjust minmax value as needed */
+  gap: 10px; /* Adjust gap between artworks */
+}
+
+.artworkItem {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative; /* To position the overlay */
+}
+
+.artworkImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 1 / 1; /* To maintain a square aspect ratio for the images */
+  object-fit: cover;
+}
+
+.artworkOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 10px;
+}
+
+.artworkItem:hover .artworkOverlay {
+  opacity: 1;
+}
+
+.artworkDescription {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.artistInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.artistAvatarContainer {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 5px;
+}
+
+.artistAvatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artistUsername {
+  font-size: 0.8rem;
+}
+
+.likeButton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.likeButton:hover {
+  color: red;
+}

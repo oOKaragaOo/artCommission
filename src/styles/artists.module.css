@@ -1,0 +1,111 @@
+/* Artist Recommended */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: sans-serif;
+  }
+  
+  .content {
+    width: fit-content;
+    display: flex;
+    flex: 1;
+  }
+  
+  .artistList {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .artistHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    color: #999;
+  }
+  
+  .artistGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .artistCard {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    width: 725px;
+    margin: 10px;
+  }
+  
+  .artistAvatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .artistInfo {
+    flex: 1;
+  }
+  
+  .artistName {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  .artistRating {
+    margin-bottom: 10px;
+  }
+  
+  .artistButton {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 120px;
+    text-align: center;
+  }
+  
+  .artistButton--green {
+    background-color: #008170;
+    color: white;
+  }
+  
+  .artistButton--red {
+    background-color: #a0153e;
+    color: white;
+  }
+  
+  .artistButton--blue {
+    background-color: #3d3c86;
+    color: white;
+  }
+  
+  .artistButton--new {
+    background-color: #000000;
+    color: white;
+  }
+  
+  .artworkPreview {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .artworkItem {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .artistList h2:nth-of-type(2) { /* เพิ่ม margin-top ให้ส่วน "New Artist" */
+    margin-top: 40px; /* ปรับค่า margin-top ตามต้องการ */
+  }
