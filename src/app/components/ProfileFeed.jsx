@@ -84,11 +84,19 @@ export default function ProfileFeed({ posts }) {
                   </div>
                 </div>
               ))}
+              <form className="flex">
+                <input
+                  placeholder="Type Something!"
+                  className="text-sm text-gray-600 mt-4 bg-amber-200 w-full"
+                ></input>
+                  <button className="text-sm text-gray-600 mt-4 bg-black p-2 px-2">➤</button>
+              </form>
             </div>
           ) : (
-            <p className="text-sm text-gray-300 mt-4">
-              You are first comment on this post!
-            </p>
+            <input
+              placeholder="You are first comment!"
+              className="text-sm text-gray-600 mt-4 bg-amber-200 w-full"
+            />
           )}
         </div>
       ))}
