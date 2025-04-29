@@ -9,6 +9,7 @@ import ProfileCard from "@/app/components/ProfileCard";
 import { SessionContext } from "@/app/api/checkUser/route";
 import { getProfile } from "@/app/api/route";
 import { getFeedProfile } from "@/app/api/route"; // Import ฟังก์ชัน fetch posts
+import PostItem from "@/app/components/ProfileFeed";
 
 export default function ProfilePage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,7 @@ export default function ProfilePage() {
   const [posts, setPosts] = useState([]); // State สำหรับ posts
   const [error, setError] = useState(null); // State สำหรับ error
   const [isPostOpen, setIsPostOpen] = useState(false);
-  
+
   const handleNewPost = (newPost) => {
     setPosts((prev) => [newPost, ...prev]);
   };
@@ -51,7 +52,6 @@ export default function ProfilePage() {
     <div>
       <Navbar session={localSessionUser} />
       <div className="max-w-3xl mx-auto p-4">
-
         {/* Card แสดงข้อมูลผู้ใช้ */}
         <ProfileCard userData={apiUserData} onEditClick={handleEditProfile} />
 
@@ -59,7 +59,9 @@ export default function ProfilePage() {
         <PostUpload onPost={handleNewPost} />
 
         {/* แสดง feed */}
-        {error ? <div>Error: {error}</div> : <ProfileFeed posts={posts} />}
+        {posts.map((post) => (
+          <PostItem key={post.postId} post={{ ...post, id: post.postId }} />
+        ))}
 
         {/* Modal แบบ Pop-up */}
         <ProfileForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
