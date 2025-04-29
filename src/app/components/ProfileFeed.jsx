@@ -38,7 +38,7 @@ export default function ProfileFeed({ posts }) {
 
               {/* ปุ่ม Like / Comment / Share */}
               <div className="flex items-center gap-4 mt-4">
-                {/* ❤️ Like */}
+                {/* ❤️ ปุ่มกด Like */}
                 <button className="flex items-center bg-gray-800 text-white px-3 py-1 rounded-full shadow hover:bg-red-600 transition">
                   <span className="text-xl mr-2">❤️</span>
                   <span className="text-sm font-bold">
@@ -46,7 +46,7 @@ export default function ProfileFeed({ posts }) {
                   </span>
                 </button>
 
-                {/* 💬 Comment */}
+                {/* 💬 ปุ่มกด Comment */}
                 <button className="flex items-center bg-gray-800 text-white px-3 py-1 rounded-full shadow hover:bg-blue-600 transition">
                   <span className="text-xl mr-2">💬</span>
                   <span className="text-sm font-bold">
@@ -54,7 +54,7 @@ export default function ProfileFeed({ posts }) {
                   </span>
                 </button>
 
-                {/* ➤ Share */}
+                {/* ➤ ปุ่มกด Share */}
                 <button className="flex items-center bg-gray-800 text-yellow-400 px-3 py-1 rounded-full shadow hover:bg-yellow-500 hover:text-black transition">
                   <span className="text-xl mr-2">➤</span>
                   <span className="text-sm font-semibold">Share</span>
@@ -63,7 +63,7 @@ export default function ProfileFeed({ posts }) {
             </div>
           )}
 
-          {/* Comments */}
+          {/* ช่อง Comments */}
           {post["comments"] && post["comments"].length > 0 ? (
             <div className="mt-4 space-y-2">
               {post["comments"].map((comment, commentIdx) => (
