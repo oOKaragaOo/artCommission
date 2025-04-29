@@ -55,7 +55,7 @@ const Sidebar = () => {
             <Link href="/marketplace">ตลาดซื้อขาย/ประมูล</Link>
           </li>
           <li>
-            <Link href="/categories">Categories</Link>
+            Categories
           </li>
           <li>
             <Link href="/home">หน้าแรก</Link>

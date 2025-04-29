@@ -1,0 +1,130 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: sans-serif;
+    background-color: #ffffff;
+    position: sticky;
+  }
+  
+  .content {
+    display: flex;
+    flex: 1; /* ให้ content ขยายเต็มพื้นที่ */
+  }
+  
+  .followingContent {
+    width: 100%; 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 40px; /* ปรับ padding ให้เหมาะสม */
+    background-color: #f8f8f8;
+    gap: 20px; /* ปรับระยะห่างระหว่าง item */
+  }
+  
+  .pageTitle {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 5px solid #007bff;
+  }
+  
+  .followingList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%; /* ให้ list เต็มความกว้างของ followingContent */
+  }
+  
+  .followingItem {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px; /* ปรับ margin ให้เหมาะสม */
+    padding: 15px; /* ปรับ padding ให้เหมาะสม */
+    display: flex;
+    align-items: center;
+    gap: 15px; /* ปรับ gap ให้เหมาะสม */
+    width: 100%; /* ให้ item เต็มความกว้างของ list */
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  
+  .avatarContainer {
+    width: 50px; /* ปรับขนาด avatar */
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px; /* ปรับ margin */
+  }
+  
+  .avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .userDetails {
+    flex: 1;
+  }
+  
+  .username {
+    font-size: 1.1rem; /* ปรับขนาด font */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 3px; /* ปรับ margin */
+  }
+  
+  .bio {
+    font-size: 0.8rem; /* ปรับขนาด font */
+    color: #777;
+    margin-bottom: 3px; /* ปรับ margin */
+  }
+  
+  .website {
+    font-size: 0.7rem; /* ปรับขนาด font */
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .website:hover {
+    text-decoration: underline;
+  }
+  
+  /* .actions {
+  
+  } */
+  
+  .unfollowButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 10px; /* ปรับ padding */
+    cursor: pointer;
+    font-size: 0.8rem; /* ปรับขนาด font */
+  }
+  
+  .unfollowButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .previewImages {
+    display: flex;
+    gap: 3px; /* ปรับ gap */
+    margin-top: 5px; /* ปรับ margin */
+    max-width: 250px; /* ปรับขนาด max-width */
+    overflow-x: auto;
+  }
+  
+  .previewImage {
+    width: 60px; /* ปรับขนาด image */
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+  }

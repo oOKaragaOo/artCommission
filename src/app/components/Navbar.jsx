@@ -52,7 +52,7 @@ function Navbar() {
             <Link href="/artists">นักวาด</Link>
           </li>
           <li className='mx-3'>
-            <Link href="/jobs">กระดานจ้างงาน</Link>
+            <Link href="/artseek">กระดานจ้างงาน</Link>
           </li>
         </ul>
         <div>
