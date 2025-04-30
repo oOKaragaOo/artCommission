@@ -12,9 +12,9 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
     profilePicture: "",
   });
 
-  const [imageSrc, setImageSrc] = useState(null);
-  const fileInputRef = useRef(null);
-  const { sessionUser } = useContext(SessionContext);
+  // const [imageSrc, setImageSrc] = useState(null);
+  // const fileInputRef = useRef(null);
+  // const { sessionUser } = useContext(SessionContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
