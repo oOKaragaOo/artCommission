@@ -1,84 +1,156 @@
 /* explore.module.css */
 
 .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-family: sans-serif;
-    background-color: #f8f8f8; /* Match your theme */
-  }
-  
-  .content {
-    width: fit-content;
-    display: flex;
-    flex: 1;
-  }
-  
-  .artworks {
-    flex: 1;
-    padding: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-  
-  .artworkHeader {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .pageTitle {
-    font-size: 2rem; /* Adjust as needed */
-    color: #333; /* Match your theme */
-    padding-left: 10px;
-    border-left: 5px solid #007bff;
-  }
-  
-  .tabButtons {
-    display: flex;
-    margin-bottom: 15px;
-  }
-  
-  .tabButton {
-    background-color: #e0e0e0; /* Match your theme */
-    color: #333; /* Match your theme */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-right: 10px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .tabButton:hover {
-    background-color: #ccc; /* Match your theme */
-  }
-  
-  .tabButton.active {
-    background-color: #007bff; /* Match your theme */
-    color: white; /* Match your theme */
-  }
-  
-  .artworkGrid {
-    display: grid;
-    /* Explicitly set the grid to have 9 columns */
-    grid-template-columns: repeat(9, 1fr);
-    gap: 10px; /* Adjust gap as needed */
-  }
-  
-  .artworkItem {
-    background-color: #ccc;
-    height: 150px;
-    width: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .artworkImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: sans-serif;
+  background-color: #f8f8f8;
+}
+
+.content {
+  width: fit-content;
+  display: flex;
+  flex: 1;
+}
+
+.artworks {
+  padding: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.artworkHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  color: #333;
+  padding-left: 10px;
+  border-left: 5px solid #007bff;
+}
+
+.tabButtons {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.tabButton {
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.tabButton:hover {
+  background-color: #ccc;
+}
+
+.tabButton.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.artworkGrid {
+  display: grid;
+  /* Explicitly set the grid to have 9 columns */
+  grid-template-columns: repeat(9, 1fr);
+  gap: 10px; /* Adjust gap as needed */
+}
+
+.gridItem {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  display: flex; /* Use flex to arrange image and info */
+  flex-direction: column;
+}
+
+.gridItem:hover {
+  transform: scale(1.02);
+}
+
+.artworkContainer {
+  position: relative;
+  width: 100%;
+  height: 200px; /* Adjust height as needed */
+  overflow: hidden;
+}
+
+.artworkImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.artworkInfo {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.artworkTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.artistInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.profileImageContainer {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 8px;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.artistUsername {
+  font-size: 0.85rem;
+  color: #777;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.likeButton {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1rem;
+  cursor: pointer;
+  align-self: flex-end; /* Push to the right */
+  margin-top: auto; /* Push to the bottom */
+  padding: 5px;
+}
+
+.likeButton:hover {
+  color: #e53935; /* Example like color */
+}

@@ -1,110 +1,115 @@
+/* feedpage.module.css */
+
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   font-family: sans-serif;
-  background-color: #f8f8f8;
+  background-color: #f0f2f5; /* สีพื้นหลังแบบ Facebook */
   position: sticky;
 }
 
 .content {
-  width: fit-content;
+  width: fit-content; /* Adjust if you want a fixed width for the content area */
   display: flex;
   flex: 1;
+  justify-content: center; /* Center content horizontally */
 }
 
 .feed {
-  width: 100%;
+  width: 600px; /* กำหนดความกว้างของ feed */
+  max-width: 100%; /* ป้องกันไม่ให้ feed ใหญ่เกินหน้าจอ */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center; /* จัดโพสต์ไว้ตรงกลางตามแนวนอน */
-  padding: 40px 40px; /* เพิ่ม padding รอบด้านให้มากขึ้น */
-  background-color: #f8f8f8;
-  gap: 40px; /* เพิ่มระยะห่างระหว่างโพสต์ให้มากขึ้น */
-}
-
-/* .feedContainer {
-  width: 100%;
-  max-width: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: center; /* จัดโพสต์ไว้ตรงกลางตามแนวนอนภายใน feed */
   padding: 20px;
-  background-color: #f8f8f8;
-} */
+  margin-left: 500px;
+  background-color: transparent;
+  gap: 15px;
+}
 
 .post {
   background-color: #fff;
-  border-radius: 16px; /* เพิ่มความโค้งมน */
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* เพิ่มเงาที่ชัดเจนขึ้น */
-  width: 162vh; /* ปรับความกว้างของโพสต์ให้ใหญ่ขึ้น */
-  max-width: 100%; /* กำหนดขนาดสูงสุดของโพสต์ */
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%; /* ให้โพสต์เต็มความกว้างของ feed */
   overflow: hidden;
+  border: 1px solid #e0e0e0;
 }
 
 .postHeader {
   display: flex;
   align-items: center;
-  padding: 20px 25px; /* เพิ่ม padding */
+  padding: 12px 16px;
   border-bottom: 1px solid #eee;
   background-color: #ffffff;
 }
 
 .avatar {
-  width: 50px; /* เพิ่มขนาด avatar */
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 .artistInfo h3 {
-  font-size: 1.5rem; /* เพิ่มขนาดชื่อ */
-  margin-bottom: 5px;
+  font-size: 1rem;
+  margin-bottom: 2px;
+  color: #212121;
+  font-weight: bold;
 }
 
 .artistInfo p {
-  font-size: 1rem; /* เพิ่มขนาด account */
-  color: #777;
+  font-size: 0.85rem;
+  color: #757575;
 }
 
 .postImage {
   width: 100%;
-  display: flex; /* เพิ่ม display: flex เพื่อใช้คุณสมบัติการจัดวาง */
-  justify-content: center; /* จัดเนื้อหา (รูปภาพ) ให้อยู่ตรงกลางตามแนวนอน */
-  align-items: center; /* จัดเนื้อหา (ถ้าจำเป็น) ให้อยู่ตรงกลางตามแนวตั้ง */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .postImage img {
-  width: 450px;
+  width: 100%;
   height: auto;
   object-fit: cover;
-  max-width: 100%; /* ป้องกันไม่ให้รูปภาพใหญ่เกิน Container */
-  max-height: 100%; /* ป้องกันไม่ให้รูปภาพสูงเกิน Container (ถ้ามีขนาดจำกัด) */
+  border-radius: 0;
 }
 
 .postActions {
   display: flex;
-  justify-content: space-around;
-  padding: 16px 25px; /* เพิ่ม padding */
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-top: 1px solid #eee;
+  background-color: #ffffff;
 }
 
 .actionButton {
   background: none;
   border: none;
-  font-size: 1.2rem; /* เพิ่มขนาด icon และตัวเลข */
+  font-size: 0.9rem;
   color: #555;
-  margin-right: 30px; /* เพิ่มระยะห่าง */
+  margin-right: 15px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.actionButton:hover {
+  background-color: #f0f0f0;
 }
 
 .actionButton span {
-  margin-right: 8px; /* เพิ่มระยะห่างระหว่าง icon และตัวเลข */
-  font-size: 1.5rem; /* เพิ่มขนาด icon */
+  margin-right: 5px;
+  font-size: 1.1rem;
 }
 
 .liked {
-  color: red;
+  color: #e91e63;
 }
