@@ -18,7 +18,7 @@ export const SessionProvider = ({ children }) => {
         };
         fetchSession();
     }, []);
-
+//Somthing wrong
     return (
         <SessionContext.Provider value={{ sessionUser, setSessionUser }}>
             {children}

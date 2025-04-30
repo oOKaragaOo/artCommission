@@ -3,15 +3,15 @@
 import React, { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { checkSession, loginUser } from "@/app/api/route";
+import {checkSession, getProfile, loginUser} from "@/app/api/route";
 import { SessionContext } from "@/app/api/checkUser/route";
-
 function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
     const { setSessionUser } = useContext(SessionContext); // ✅
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
