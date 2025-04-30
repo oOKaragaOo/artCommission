@@ -2,96 +2,141 @@
 
 /* Styles for the popup overlay */
 .popupOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure it's on top of other content */
-  }
-  
-  /* Styles for the popup content */
-  .popupContent {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 80%; /* Adjust width as needed */
-    max-height: 90%; /* Adjust max height as needed */
-    overflow-y: auto; /* Allow scrolling if content overflows */
-    position: relative; /* To position the close button */
-  }
-  
-  .closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    color: #777;
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-  
-  .closeButton:hover {
-    color: #333;
-  }
-  
-  .detailHeader {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .detailInfo > div {
-    margin-bottom: 10px;
-    color: #555;
-  }
-  
-  .detailInfo strong {
-    font-weight: bold;
-    color: #333;
-    margin-right: 5px;
-  }
-  
-  .offerSection {
-    margin-top: 30px;
-    padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-  }
-  
-  .offerSection h3 {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    color: #333;
-  }
-  
-  .offerSection textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  .offerSection button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .offerSection button:hover {
-    background-color: #0056b3;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's on top of other content */
+}
+
+/* Styles for the popup content */
+.popupContent {
+  background-color: #fff; /* White background */
+  color: #333; /* Dark text color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%; /* Adjust width as needed */
+  max-height: 90%; /* Adjust max height as needed */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  position: relative; /* To position the close button */
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #777;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+.detailHeader {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.commissionTitle {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.detailInfo {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #f9f9f9; /* Light grey background for info section */
+}
+
+.infoRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  align-items: baseline; /* Align items to the baseline */
+}
+
+.infoRow strong {
+  font-weight: bold;
+  color: #333;
+  min-width: 180px; /* Adjust width as needed for alignment */
+}
+
+.infoRow i {
+  margin-right: 5px;
+  color: #007bff; /* Blue icon color */
+}
+
+.offerSection {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #f9f9f9; /* Light grey background for offer section */
+}
+
+.offerSection h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.noOffers {
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.newOfferButton {
+  background-color: #f0f0f0; /* Light grey button background */
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.newOfferButton:hover {
+  background-color: #e0e0e0;
+}
+
+.offerSection textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #333;
+}
+
+.offerSection button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.offerSection button:hover {
+  background-color: #0056b3;
+}

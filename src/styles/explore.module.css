@@ -59,22 +59,20 @@
   color: white;
 }
 
+/* styles/explore.module.css */
+
 .artworkGrid {
   display: grid;
-  /* Explicitly set the grid to have 9 columns */
-  grid-template-columns: repeat(9, 1fr);
-  gap: 10px; /* Adjust gap as needed */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust minmax as needed */
+  gap: 20px;
+  padding: 20px;
 }
 
 .gridItem {
-  background-color: #fff;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out;
-  display: flex; /* Use flex to arrange image and info */
-  flex-direction: column;
+  transition: transform 0.2s ease-in-out;
 }
 
 .gridItem:hover {
@@ -82,75 +80,75 @@
 }
 
 .artworkContainer {
-  position: relative;
+  position: relative; /* Make container relative for absolute positioning of button */
   width: 100%;
-  height: 200px; /* Adjust height as needed */
+  aspect-ratio: 1 / 1; /* Maintain a square aspect ratio for the image */
   overflow: hidden;
 }
 
 .artworkImage {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+}
+
+.likeButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: transparent; /* Make the background transparent */
+  color: white; /* Initial color of the heart */
+  border: none;
+  border-radius: 50%; /* Keep the circular shape for the icon */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s ease-in-out; /* Transition for color change */
+}
+
+.likeButton:hover {
+  background-color: transparent; /* Keep background transparent on hover */
+  color: red; /* Change color to red on hover */
 }
 
 .artworkInfo {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
+  padding: 15px;
+  background-color: #f9f9f9;
 }
 
 .artworkTitle {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
   color: #333;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .artistInfo {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 .profileImageContainer {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 8px;
 }
 
 .profileImage {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
 .artistUsername {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #777;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.likeButton {
-  background: none;
-  border: none;
-  color: #aaa;
-  font-size: 1rem;
-  cursor: pointer;
-  align-self: flex-end; /* Push to the right */
-  margin-top: auto; /* Push to the bottom */
-  padding: 5px;
-}
-
-.likeButton:hover {
-  color: #e53935; /* Example like color */
 }

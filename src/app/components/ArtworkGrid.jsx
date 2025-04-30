@@ -21,6 +21,9 @@ function ArtworkGrid({ artworks, onArtworkClick }) {
               alt={artwork.title}
               className={styles.artworkImage}
             />
+            <button className={styles.likeButton}>
+              <FontAwesomeIcon icon={faHeart} />
+            </button>
           </div>
           <div className={styles.artworkInfo}>
             <h3 className={styles.artworkTitle}>{artwork.title}</h3>
@@ -34,9 +37,6 @@ function ArtworkGrid({ artworks, onArtworkClick }) {
               </div>
               <p className={styles.artistUsername}>{artwork.artist}</p>
             </div>
-            <button className={styles.likeButton}>
-              <FontAwesomeIcon icon={faHeart} />
-            </button>
           </div>
         </div>
       ))}

@@ -1,97 +1,251 @@
-/* Artseek */
+/* styles/artseek.module.css */
 
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  font-family: sans-serif;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  font-family: 'Arial', sans-serif;
 }
 
 .content {
   width: fit-content;
   display: flex;
-  flex: 1;
+  flex: 1; /* Allow content to take remaining width */
 }
 
 .artseek {
-  flex: 1;
-  padding: 20px;
+  /* flex: 1; This will make it take all available width */
+  width: 179vh;
+  max-width: 90%;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-left: 10px;
+  border-left: 5px solid #007bff;
 }
 
 .artseekHeader {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
+}
+
+.seekArtistButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.seekArtistButton:hover {
+  background-color: #0056b3;
+}
+
+.filterSection {
   margin-bottom: 20px;
-  color: #999;
+  position: relative;
+}
+
+.filterButton {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.filterButton:hover {
+  background-color: #545b62;
+}
+
+.filterDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-top: 5px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filterGroup label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.filterGroup select,
+.filterGroup input[type="number"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.priceRange {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.applyFilterButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.applyFilterButton:hover {
+  background-color: #1e7e34;
 }
 
 .artseekGrid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Adjust minmax as needed */
   gap: 20px;
 }
 
 .artworkItem {
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
-  padding: 20px;
+  background-color: #fff;
+  padding: 15px;
   border-radius: 8px;
-  width: 300px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+}
+
+.artworkItem:hover {
+  transform: translateY(-2px);
 }
 
 .artworkInfo {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
+}
+
+.artworkHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
 }
 
 .artworkTopic {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .commission {
-  background-color: #ccc;
-  padding: 5px 10px;
-  border-radius: 5px;
+  background-color: #f0f8ff;
+  color: #6495ed;
+  padding: 4px 8px;
+  border-radius: 4px;
   font-size: 0.8rem;
 }
 
-.artworkDetails {
-  margin-bottom: 10px;
+.artworkPriceTime {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #555;
 }
 
-.time, .price {
-  margin-right: 10px;
+.price i,
+.time i,
+.usage i {
+  margin-right: 3px;
+  color: #007bff;
+}
+
+.usage {
   font-size: 0.9rem;
-  display: flex; /* เพิ่ม display: flex; */
-  align-items: center; /* เพิ่ม align-items: center; */
+  color: #555;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.artworkDetails {
+  font-size: 0.9rem;
+  color: #777;
+  line-height: 1.4;
+  margin-bottom: 8px;
 }
 
 .artistInfo {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-top: 10px;
-  justify-content: space-between;
+}
+
+.artistLeft {
+  display: flex;
+  align-items: center;
 }
 
 .artistAvatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  margin-right: 8px;
+  object-fit: cover;
+}
+
+.artistDetails {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
 }
 
 .artistName {
-  flex: 1;
-  text-align: center;
+  color: #333;
+  font-weight: bold;
 }
 
-.accept {
-  color: green;
+.artistHandle {
+  color: #777;
 }
 
-.reject {
-  color: red;
+.openStatus {
+  color: #28a745;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #e9f9ec;
 }
 
-.pending {
-  color: orange;
+.closedStatus {
+  color: #dc3545;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #fdeded;
 }
