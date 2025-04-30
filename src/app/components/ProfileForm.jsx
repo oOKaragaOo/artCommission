@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { SessionContext } from "@/app/api/checkUser/route";
 
@@ -8,12 +8,9 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    commissionStatus: "open", // ✅ เพิ่ม default value
+    commissionStatus: "open",
+    profilePicture: "",
   });
-
-  const [imageSrc, setImageSrc] = useState(null);
-  const fileInputRef = useRef(null);
-  const { sessionUser } = useContext(SessionContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,16 +19,46 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
   const handleToggle = () => {
     setFormData({
       ...formData,
-      commissionStatus:
-        formData.commissionStatus === "open" ? "close" : "open",
+      commissionStatus: formData.commissionStatus === "open" ? "close" : "open",
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted", formData);
-    setIsOpen(false);
+    console.log(formData)
+    try {
+      const response = await fetch("http://localhost:8080/user/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // สำคัญมาก ถ้าคุณใช้ session ใน Spring
+        body: JSON.stringify({
+          name: formData.name,
+          // profile_picture: formData.profilePicture,
+          description: formData.description,
+          // commission_status: formData.commissionStatus,
+        }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log("✅ Profile updated:", result);
+        alert("โปรไฟล์ได้รับการอัปเดตแล้ว");
+        setIsOpen(false); // ปิด popup
+        window.location.reload();
+      } else {
+        console.error("❌ Error:", result.error);
+        alert("เกิดข้อผิดพลาด: " + result.error);
+      }
+    } catch (error) {
+      console.error("❌ Network error:", error);
+      alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
+    }
   };
+  
+
   const { sessionUser } = useContext(SessionContext);
 
   if (!isOpen) return null;
@@ -47,17 +74,40 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
   
         {/* Avatar */}
         <div className="flex flex-col items-center mb-4">
-          <div className="relative">
-            <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center text-3xl font-bold text-black">
-              😊
-            </div>
-            <div className="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-full cursor-pointer">
-              {/*<PencilIcon className="h-4 w-4 text-white" />*/}
-            </div>
+          <div className="relative group">
+            <img
+              src={
+                formData.profilePicture ||
+                sessionUser?.profile_picture ||
+                "/default-avatar.png"
+              }
+              alt="Avatar"
+              className="w-20 h-20 object-cover rounded-full border-4 border-white shadow"
+            />
+
+            {/* ปุ่มแก้ไขรูป (hover หรือคลิก) */}
+            <label className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer">
+              ✏️
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setFormData({
+                        ...formData,
+                        profilePicture: reader.result,
+                      });
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+              />
+            </label>
           </div>
-          <p className="text-sm mt-2 cursor-pointer text-blue-300 underline">
-            Add Cover
-          </p>
         </div>
 
         {/* Form */}
