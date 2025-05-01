@@ -40,7 +40,7 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
         credentials: "include", // สำคัญมาก ถ้าคุณใช้ session ใน Spring
         body: JSON.stringify({
           name: formData.name,
-          // profile_picture: formData.profilePicture,
+          profile_picture: formData.profilePicture,
           description: formData.description,
           // commission_status: formData.commissionStatus,
         }),

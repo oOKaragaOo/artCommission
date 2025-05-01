@@ -84,10 +84,10 @@ export default function PostUpload({ onPost }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-gray-300 p-6 rounded-xl w-[450px] relative border border-black"
+            className="w-fit bg-gray-300 p-6 rounded-xl w-[450px] relative border border-black"
           >
             {/* กล่องรูป */}
-            <div className="w-full h-64 bg-gray-700 rounded-lg border-2 border-dashed border-black flex items-center justify-center mb-4 relative overflow-hidden">
+            <div className="w-140 h-75 bg-gray-700 rounded-lg border-2 border-dashed border-black flex items-center justify-center mb-4 relative overflow-hidden">
               <label className="absolute inset-0 cursor-pointer group">
                 <img
                   src={formData.imageUrl}
