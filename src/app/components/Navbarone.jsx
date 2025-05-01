@@ -60,7 +60,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className={styles.searchBar}>
-        <input type="text" placeholder="ค้นหา" />
+        <input type="text" placeholder="Search..." />
       </div>
       <div className={styles.icons}>
         <div className={styles.notificationIcon} ref={notificationRef}>

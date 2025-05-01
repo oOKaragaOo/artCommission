@@ -43,34 +43,34 @@ const Sidebar = () => {
       <div className={styles.sidebar}>
         <ul>
           <li>
-            <Link href="/explore">สำรวจ</Link>
+            <Link href="/explore">Explore</Link>
           </li>
           <li>
-            <Link href="/artists">นักวาด</Link>
+            <Link href="/artists">Artist</Link>
           </li>
           <li>
-            <Link href="/art_request">Art Request</Link>
+            <Link href="/art_request">Art Requests</Link>
           </li>
           <li>
-            <Link href="/artseek">กระดานจ้างงาน</Link>
+            <Link href="/artseek">Art Seek</Link>
           </li>
           <li>
-            <Link href="/marketplace">ตลาดซื้อขาย/ประมูล</Link>
+            <Link href="/marketplace">Marketplace</Link>
           </li>
           <li>
             Categories
           </li>
           <li>
-            <Link href="/home">หน้าแรก</Link>
+            <Link href="/home">Home</Link>
           </li>
           <li>
-            <Link href="/following">กำลังติดตาม</Link>
+            <Link href="/following">Following</Link>
           </li>
           <li>
-            <Link href="/works">ผลงาน</Link>
+            <Link href="/works">Art Works</Link>
           </li>
           <li>
-            <Link href="/recommended-artists">นักวาดแนะนำ</Link>
+            <Link href="/recommended-artists">Artists Recommend</Link>
           </li>
         </ul>
         <div className={styles.auth}>

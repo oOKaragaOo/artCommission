@@ -77,53 +77,75 @@ function ArtRequestPage() {
 
             {selectedRequest && (
                 <div className={detailStyles.popupOverlay}>
-                    <div className={detailStyles.popupContent}>
-                        <button onClick={handleClosePopup} className={detailStyles.closeButton}>
+                    <div className={detailStyles.popupContentNewLayout}>
+                        <button onClick={handleClosePopup} className={detailStyles.closeButtonRef}>
                             <FontAwesomeIcon icon={faTimes} />
                         </button>
-                        <div className={detailStyles.imageColumn}>
+
+                        <div className={detailStyles.box1}>
+                            <div className={detailStyles.profileImageContainer}>
+                                {selectedRequest.artistProfile && (
+                                    <img src={selectedRequest.artistProfile} alt={selectedRequest.artist} className={detailStyles.profileImage} />
+                                )}
+                            </div>
+                            <div className={detailStyles.artistInfo}>
+                                <h3 className={detailStyles.title}>{selectedRequest.title}</h3>
+                                <p className={detailStyles.username}>{selectedRequest.artist}</p>
+                            </div>
+                        </div>
+
+                        <div className={detailStyles.box2}>
+                            <div className={detailStyles.box2Row1Ref}>
+                                <span className={detailStyles.activeTabTitle}>
+                                    {activeTab === 'artsign' ? 'Artsign' : 'Commission'}
+                                </span>
+                                <span className={detailStyles.priceRef}>
+                                    Price
+                                </span>
+                            </div>
+                            <div className={detailStyles.box2Row2Ref}>
+                                <span className={`${detailStyles.statusBadge} ${selectedRequest.status === 'Closed' ? detailStyles.statusClosedBadge : ''}`}>
+                                    Status: {selectedRequest.status}
+                                </span>
+                                <span className={detailStyles.priceRef}>
+                                    <span className={detailStyles.currencySymbol}>$</span>
+                                    {selectedRequest.minBid && ` ${selectedRequest.minBid}`}
+                                    {selectedRequest.maxBid && ` - ${selectedRequest.maxBid}`}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className={detailStyles.box3}>
                             {selectedRequest.imageUrl && (
                                 <img
                                     src={selectedRequest.imageUrl}
                                     alt={selectedRequest.title}
-                                    className={detailStyles.detailImage}
+                                    className={detailStyles.detailImageRef}
                                 />
                             )}
                         </div>
-                        <div className={detailStyles.detailsColumn}>
-                            {/* Box 1: Artist Info */}
-                            <div className={detailStyles.infoBox}>
-                                <div className={detailStyles.profileBox}>
-                                    {selectedRequest.artistProfile && (
-                                        <img src={selectedRequest.artistProfile} alt={selectedRequest.artist} className={detailStyles.profileImage} />
-                                    )}
-                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                        <span className={detailStyles.username}>{selectedRequest.artist}</span>
-                                        <span className={`${detailStyles.status} ${selectedRequest.status === 'Closed' ? detailStyles.statusClosed : ''}`}>
-                                            {selectedRequest.status}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
 
-                            {/* Box 2: Client Info and Message */}
-                            <div className={detailStyles.infoBox}>
-                                <div className={detailStyles.messageHeader}>
-                                    {selectedRequest.clientProfile && (
-                                        <img src={selectedRequest.clientProfile} alt={selectedRequest.clientName} className={detailStyles.profileImage} />
-                                    )}
-                                    <span className={detailStyles.messageFrom}>From: {selectedRequest.clientName}</span>
-                                </div>
-                                {selectedRequest.message && <p className={detailStyles.clientMessage}>{selectedRequest.message}</p>}
-                                {selectedRequest.comment && <p className={detailStyles.comment}>{selectedRequest.comment}</p>}
-                            </div>
+                        <div className={detailStyles.box5}> {/* Box 5: Description */}
+                            <h4 className={detailStyles.descriptionTitle}>Description</h4>
+                            <ul className={detailStyles.descriptionList}>
+                                {selectedRequest.message && <li>{selectedRequest.message}</li>}
+                                {selectedRequest.comment && <li>Comment: {selectedRequest.comment}</li>}
+                                {selectedRequest.purpose && <li>Purpose: {selectedRequest.purpose}</li>}
+                                {selectedRequest.otherDetails && selectedRequest.otherDetails.map((detail, index) => (
+                                    <li key={index}>{detail}</li>
+                                ))}
+                            </ul>
+                        </div>
 
-                            {/* Box 3: New Request Button (Conditional Rendering) */}
+                        <div className={detailStyles.box4}> {/* Box 4: Action Buttons (อยู่ล่างสุด) */}
                             {selectedRequest.status !== 'Closed' && (
-                                <button className={detailStyles.actionButton}>
-                                    New Request
+                                <button className={detailStyles.newRequestButtonRef}>
+                                    New Commission Request
                                 </button>
                             )}
+                            <button className={detailStyles.chatButtonRef}>
+                                Chat
+                            </button>
                         </div>
                     </div>
                 </div>

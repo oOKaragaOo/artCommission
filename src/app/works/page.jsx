@@ -63,7 +63,7 @@ const WorksPage = () => {
       <div className={styles.content}>
         <Sidebar />
         <div className={styles.works}>
-          <h2 className={styles.pageTitle}>ผลงาน</h2>
+          <h2 className={styles.pageTitle}>Art Works</h2>
           <div className={styles.tabButtons}>
             <button
               className={`${styles.tabButton} ${activeTab === 'popular' ? styles.active : ''}`}

@@ -13,21 +13,22 @@
     z-index: 1000;
 }
 
-.popupContent {
+.popupContentNewLayout {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 80%;
-    max-width: 900px; /* Increase max width for two columns */
+    width: 90%;
+    max-width: 600px;
     max-height: 90%;
     overflow-y: auto;
     position: relative;
-    display: flex; /* Enable Flexbox for two-column layout */
-    gap: 20px; /* Space between the columns */
+    display: flex;
+    flex-direction: column; /* จัดเรียง Box เป็นแนวตั้ง */
+    gap: 15px; /* ระยะห่างระหว่าง Box */
 }
 
-.closeButton {
+.closeButtonRef {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -39,106 +40,171 @@
     z-index: 1001;
 }
 
-.closeButton:hover {
+.closeButtonRef:hover {
     color: #333;
 }
 
-.imageColumn {
-    flex: 1; /* Take up 1 part of the available space */
+/* Box 1: Profile Image, Title, Username */
+.box1 {
     display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-.detailImage {
-    max-width: 100%;
-    max-height: 400px;
-    object-fit: contain;
-    border-radius: 4px;
-}
-
-.detailsColumn {
-    flex: 1; /* Take up 1 part of the available space */
-    padding: 15px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Space between the boxes */
-}
-
-.infoBox {
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
+    gap: 15px;
     margin-bottom: 10px;
 }
 
-.profileBox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
+.profileImageContainer {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 .profileImage {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.username {
-    font-weight: bold;
-    color: #333;
-}
-
-.status {
-    color: green;
-    font-size: 0.9rem;
-}
-
-.statusClosed {
-    color: red;
-}
-
-.messageBox {
-    /* Inherits styles from infoBox */
-}
-
-.messageHeader {
+.artistInfo {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
+    flex-direction: column;
 }
 
-.messageFrom {
+.title {
     font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.username {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Box 2: Commission, Price, Status */
+.box2 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* ปรับระยะห่างระหว่างแถว */
+    margin-bottom: 10px;
+}
+
+.box2Row1Ref {
+    display: flex;
+    justify-content: space-between; /* จัดให้ Commission และ Price อยู่คนละฝั่ง */
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.commissionLabelRef {
+    font-size: 0.9rem;
     color: #555;
 }
 
-.clientMessage {
+.priceRef {
+    font-weight: bold;
     color: #333;
-    margin-top: 5px;
+    font-size: 1rem;
 }
 
-.comment {
+.currencySymbol {
+    font-size: 0.8rem;
     color: #777;
-    font-size: 0.9rem;
-    margin-top: 5px;
+    margin-left: 2px;
 }
 
-.actionButton {
+.box2Row2Ref {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.statusBadge {
+    background-color: #e0f7de; /* สีพื้นหลังสถานะ Open */
+    color: #1b5e20;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.statusClosedBadge {
+    background-color: #ffebee; /* สีพื้นหลังสถานะ Closed */
+    color: #c62828;
+}
+
+/* Box 3: Image */
+.box3 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.detailImageRef {
+    max-width: 70%;
+    height: auto;
+    display: block;
+}
+
+/* Box 5: Description */
+.box5 {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* จัดเรียงข้อความแนวตั้ง (ถ้ามีหลายบรรทัด) */
+    align-items: center; /* จัดข้อความให้อยู่ตรงกลางแนวนอน */
+    text-align: center; /* จัดข้อความภายในแต่ละบรรทัดให้อยู่ตรงกลาง */
+}
+
+.descriptionTitle {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.descriptionText {
+    color: #555;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+/* Box 4: Action Buttons (moved to the bottom) */
+.box4 {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px; /* เพิ่ม margin ด้านบนเพื่อเว้นระยะจาก Box 5 */
+}
+
+.newRequestButtonRef,
+.chatButtonRef {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    align-self: flex-start; /* Align button to the start of the details column */
 }
 
-.actionButton:hover {
+.newRequestButtonRef:hover,
+.chatButtonRef:hover {
     background-color: #0056b3;
+}
+
+.chatButtonRef {
+    background-color: #6c757d;
+}
+
+.chatButtonRef:hover {
+    background-color: #545b62;
 }
