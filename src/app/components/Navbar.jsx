@@ -36,9 +36,9 @@ function Navbar() {
 
             <nav className='bg-white text-black p-5'>
       <div className="container mx-auto flex justify-between items-center">
-        <div>
+        <div className="w-18 h-18">
           <Link href="/">
-            <span className="font-bold text-xl">LOGO</span>
+            <img src="/images/ArtCommission LOGO_.png" alt="" />
           </Link>
         </div>
         <ul className="flex list-none">

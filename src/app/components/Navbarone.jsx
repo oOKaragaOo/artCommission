@@ -56,7 +56,7 @@ const Navbar = () => {
     <div className={styles.header}>
       <div className={styles.logo}>
         <Link href="/">
-          <span className="font-bold text-xl">LOGO A-Comm</span>
+          <img src="/images/ArtCommission LOGO_.png" alt="" />
         </Link>
       </div>
       <div className={styles.searchBar}>
