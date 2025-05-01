@@ -120,53 +120,62 @@ const FeedPage = () => {
       </div>
 
       {selectedPost && (
-  <div className={detailStyles.popupOverlay}>
-    <div className={detailStyles.popupContent}>
-      <button onClick={handleClosePostDetail} className={detailStyles.closeButton}>
-        &times; {/* Using a simple 'x' for close icon */}
-      </button>
-      <div className={detailStyles.gridItemImage}>
-        <img src={selectedPost.image} alt="Post Image" />
-      </div>
-      <div className={detailStyles.gridItemDetails}>
-        {/* Part 1: Header */}
-        <div className={detailStyles.detailHeader}>
-          <img src="/images/default-avatar.png" alt={selectedPost.artistName} className={detailStyles.avatar} />
-          <div className={detailStyles.artistInfo}>
-            <h3>{selectedPost.artistName}</h3>
-            <p>{selectedPost.account}</p>
-          </div>
-        </div>
+        <div className={detailStyles.popupOverlay}>
+          <div className={detailStyles.popupContent}>
+            <button onClick={handleClosePostDetail} className={detailStyles.closeButton}>
+              &times; {/* Using a simple 'x' for close icon */}
+            </button>
+            <div className={detailStyles.gridItemImage}>
+              <img src={selectedPost.image} alt="Post Image" />
+            </div>
+            <div className={detailStyles.gridItemDetails}>
+              {/* Part 1: Header */}
+              <div className={detailStyles.detailHeader}>
+                <img src="/images/default-avatar.png" alt={selectedPost.artistName} className={detailStyles.avatar} />
+                <div className={detailStyles.artistInfo}>
+                  <h3>{selectedPost.artistName}</h3>
+                  <p>{selectedPost.account}</p>
+                </div>
+              </div>
 
-        {/* Part 2: Comments Section */}
-        <div className={detailStyles.commentsSection}>
-          <p className={detailStyles.postDetailDescription}>{selectedPost.description}</p>
-          {/* Example Comments - Replace with your actual comment data */}
-          <div className={detailStyles.comment}>
-            <strong>another_user:</strong> Looks amazing! <span>👏</span>
-          </div>
-          <div className={detailStyles.comment}>
-            <strong>cool_artist:</strong> Great shot!
-          </div>
-          {/* ... more comments ... */}
-        </div>
+              {/* Part 2: Comments Section */}
+              <div className={detailStyles.commentsSection}>
+                <p className={detailStyles.postDetailDescription}>{selectedPost.description}</p>
+                {/* Example Comments - Replace with your actual comment data */}
+                <div className={detailStyles.comment}>
+                  <strong>another_user:</strong> Looks amazing! <span>👏</span>
+                </div>
+                <div className={detailStyles.comment}>
+                  <strong>cool_artist:</strong> Great shot!
+                </div>
+                {/* ... more comments ... */}
+              </div>
 
-        {/* Part 3: Actions Buttons */}
-        <div className={detailStyles.detailActions}>
-          <button className={`${detailStyles.actionButton} ${selectedPost.liked ? detailStyles.liked : ''}`} onClick={() => handleLike(selectedPost.id)}>
-            <FontAwesomeIcon icon={faHeart} /> <span className={detailStyles.actionCount}>{selectedPost.likes}</span>
-          </button>
-          <button className={detailStyles.actionButton} onClick={() => handleComment(selectedPost.id)}>
-            <FontAwesomeIcon icon={faComment} /> <span className={detailStyles.actionCount}>{selectedPost.comments}</span>
-          </button>
-          <button className={detailStyles.actionButton} onClick={() => handleShare(selectedPost.id)}>
-            <FontAwesomeIcon icon={faShare} />
-          </button>
+              {/* Part 3: Actions Buttons */}
+              <div className={detailStyles.detailActions}>
+                <button className={`${detailStyles.actionButton} ${selectedPost.liked ? detailStyles.liked : ''}`} onClick={() => handleLike(selectedPost.id)}>
+                  <FontAwesomeIcon icon={faHeart} /> <span className={detailStyles.actionCount}>{selectedPost.likes}</span>
+                </button>
+                <button className={detailStyles.actionButton} onClick={() => handleComment(selectedPost.id)}>
+                  <FontAwesomeIcon icon={faComment} /> <span className={detailStyles.actionCount}>{selectedPost.comments}</span>
+                </button>
+                <button className={detailStyles.actionButton} onClick={() => handleShare(selectedPost.id)}>
+                  <FontAwesomeIcon icon={faShare} />
+                </button>
+              </div>
+
+              {/* Part 4: Comment Input */}
+              <div className={detailStyles.commentInputSection}>
+                <button className={detailStyles.emojiButton}> {/* Replace the img with a button */}
+                  <img src="/images/emoji_icon.png" alt="Emoji Icon" className={detailStyles.emojiIcon} /> {/* Image inside the button */}
+                </button>
+                <input type="text" className={detailStyles.commentInput} placeholder="เพิ่มความคิดเห็น..." />
+                <button className={detailStyles.postButton}>โพสต์</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </div>
   );
 };

@@ -135,3 +135,53 @@
   .liked {
     color: #ed4956;
   }
+
+/* --- Part 4: Comment Input (Updated for Emoji Button) --- */
+.commentInputSection {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-top: 1px solid #eee;
+}
+
+.emojiButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.emojiIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* Optional: Keep a circular shape */
+}
+
+.commentInput {
+  flex-grow: 1;
+  border: none;
+  padding: 8px;
+  border-radius: 20px;
+  background-color: #f2f2f2;
+  font-size: 0.9rem;
+  margin-right: 8px;
+}
+
+.commentInput:focus {
+  outline: none;
+  background-color: #e6e6e6;
+}
+
+.postButton {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.postButton:hover {
+  color: #0056b3;
+}
