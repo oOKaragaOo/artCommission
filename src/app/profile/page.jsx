@@ -8,6 +8,7 @@ import ProfileForm from "@/app/components/ProfileForm";
 import PostItem from "@/app/components/PostCard"; // component ที่ render โพสต์เดี่ยว
 import { SessionContext } from "@/app/api/checkUser/route";
 import { getProfile, getFeedProfile } from "@/app/api/route";
+import {getUserById} from "@/app/api/service/userService";
 
 export default function ProfilePage() {
   const { sessionUser: localSessionUser } = useContext(SessionContext);
@@ -19,15 +20,16 @@ export default function ProfilePage() {
   const [refreshFlag, setRefreshFlag] = useState(false); // 🔄 trigger for refresh
 
   // 🔄 โหลด user ใหม่ (ใช้หลังแก้โปรไฟล์)
-  const fetchUserData = async () => {
-    const result = await getProfile();
-    if (!result.error) setApiUserData(result.user);
+  const refreshUserData = async () => {
+    if (localSessionUser?.user?.id) {
+      const data = await getUserById(localSessionUser.user.id);
+      setApiUserData(data);
+    }
   };
 
-  // 🔄 โหลด user ตอนแรกและทุกครั้งที่ refreshFlag เปลี่ยน
   useEffect(() => {
-    fetchUserData();
-  }, [refreshFlag]);
+    refreshUserData();
+  }, [localSessionUser]);
 
   // 🔄 โหลดโพสต์ของ user
   useEffect(() => {
@@ -51,6 +53,7 @@ export default function ProfilePage() {
   const handleProfileUpdated = () => {
     setRefreshFlag((prev) => !prev); // 🔁 toggle เพื่อกระตุ้น useEffect รีโหลด
     setIsOpen(false);
+    location.reload();
   };
 
   return (
@@ -68,11 +71,12 @@ export default function ProfilePage() {
             <p>ไม่มีโพสต์</p>
         )}
         <ProfileForm
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          isLogin={isLogin}
-          onProfileUpdated={handleProfileUpdated} // ✅ trigger reload แบบแน่นอน
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            isLogin={isLogin}
+            onProfileUpdated={handleProfileUpdated}
         />
+
       </div>
     </div>
   );

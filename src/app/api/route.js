@@ -33,22 +33,20 @@ export const checkSession = async (setSessionUser) => {
     }
 };
 
-export const refreshProfile = async (setSessionUser) => {
+export const refreshProfile = async () => {
     try {
         const res = await fetch("http://localhost:8080/user/profile", {
             method: "GET",
             credentials: "include",
         });
 
-        if (!res.ok) {
-            console.error("Failed to refresh profile");
-            return;
-        }
+        if (!res.ok) throw new Error("Failed to refresh profile");
 
         const data = await res.json();
-        setSessionUser(data.user);
+        return data.user;
     } catch (err) {
         console.error("Error refreshing profile:", err);
+        return null;
     }
 };
 

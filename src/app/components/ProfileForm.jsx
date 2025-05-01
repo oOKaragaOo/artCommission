@@ -3,8 +3,12 @@
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { SessionContext } from "@/app/api/checkUser/route";
+import { refreshProfile } from "@/app/api/route"; // ⬅️ ฟังก์ชันที่นายมีแล้ว
 
-export default function ProfileForm({ isOpen, setIsOpen }) {
+export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
+
+  const { sessionUser, setSessionUser } = useContext(SessionContext);
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -47,23 +51,21 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
       });
   
       const result = await response.json();
-  
-      if (response.ok) {
-        console.log("✅ Profile updated:", result);
-        alert("โปรไฟล์ได้รับการอัปเดตแล้ว");
-        setIsOpen(false); // ปิด popup
-        window.location.reload();
-      } else {
+
+      const updatedUser = await refreshProfile();
+      if (updatedUser) setSessionUser(updatedUser); // ✅ ไม่ error แล้ว
+       // ✅ กระตุ้นให้โหลด apiUserData ใหม่
+       else {
         console.error("❌ Error:", result.error);
         alert("เกิดข้อผิดพลาด: " + result.error);
-      }
+      }onProfileUpdated?.();
     } catch (error) {
       console.error("❌ Network error:", error);
       alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
     }
   };
 
-  const { sessionUser } = useContext(SessionContext);
+
 
   if (!isOpen) return null;
 
