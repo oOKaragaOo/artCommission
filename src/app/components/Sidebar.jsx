@@ -49,6 +49,9 @@ const Sidebar = () => {
             <Link href="/artists">นักวาด</Link>
           </li>
           <li>
+            <Link href="/art_request">Art Request</Link>
+          </li>
+          <li>
             <Link href="/artseek">กระดานจ้างงาน</Link>
           </li>
           <li>

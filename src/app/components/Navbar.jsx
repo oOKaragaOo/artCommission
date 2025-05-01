@@ -43,16 +43,16 @@ function Navbar() {
         </div>
         <ul className="flex list-none">
           <li className='mx-3'>
-            <Link href="/home">หน้าแรก</Link>
+            <Link href="/explore">Explore</Link>
           </li>
           <li className='mx-3'>
-            <Link href="/explore">สำรวจ</Link>
+            <Link href="/art_request">Art Request</Link>
           </li>
           <li className='mx-3'>
-            <Link href="/artists">นักวาด</Link>
+            <Link href="/artists">Artist</Link>
           </li>
           <li className='mx-3'>
-            <Link href="/artseek">กระดานจ้างงาน</Link>
+            <Link href="/artseek">ArtSeek</Link>
           </li>
         </ul>
         <div>
