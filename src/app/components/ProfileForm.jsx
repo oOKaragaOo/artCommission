@@ -3,6 +3,7 @@
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { SessionContext } from "@/app/api/checkUser/route";
+import { uploadImageToCloudinary } from "../api/service/cloudinaryService";
 
 export default function ProfileForm({ isOpen, setIsOpen }) {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
     description: "",
     commissionStatus: "open",
     profilePicture: "",
+    profilePictureFile: null,
   });
 
   const handleChange = (e) => {
@@ -25,39 +27,46 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+
     try {
+      let imageUrl = formData.profilePicture;
+
+      // ✅ ถ้า user เลือกรูปใหม่ (เป็นไฟล์ object)
+      if (formData.profilePictureFile) {
+        console.log("Uploading to cloudinary...");
+        imageUrl = await uploadImageToCloudinary(
+          formData.profilePictureFile,
+          sessionUser?.id // 👉 ตรวจสอบว่า id ถูกต้องหรือเปลี่ยนตามจริง
+        );
+      }
+
       const response = await fetch("http://localhost:8080/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // สำคัญมาก ถ้าคุณใช้ session ใน Spring
+        credentials: "include",
         body: JSON.stringify({
           name: formData.name,
-          // profile_picture: formData.profilePicture,
           description: formData.description,
-          // commission_status: formData.commissionStatus,
+          profile_picture: imageUrl,
         }),
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
-        console.log("✅ Profile updated:", result);
         alert("โปรไฟล์ได้รับการอัปเดตแล้ว");
-        setIsOpen(false); // ปิด popup
-        window.location.reload();
+        setIsOpen(false);
+        // แนะนำ: reload หน้า หรือเรียก fetch ข้อมูลใหม่ใน parent
       } else {
-        console.error("❌ Error:", result.error);
         alert("เกิดข้อผิดพลาด: " + result.error);
       }
     } catch (error) {
-      console.error("❌ Network error:", error);
-      alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
+      console.error("❌ Error uploading:", error);
+      alert("ไม่สามารถอัปโหลดไฟล์ได้");
     }
   };
-  
 
   const { sessionUser } = useContext(SessionContext);
 
@@ -71,7 +80,6 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
         exit={{ opacity: 0, y: -20 }}
         className="bg-gray-300 text-white p-6 rounded-xl w-[400px] border-black relative"
       >
-  
         {/* Avatar */}
         <div className="flex flex-col items-center mb-4">
           <div className="relative group">
@@ -98,7 +106,8 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
                     reader.onloadend = () => {
                       setFormData({
                         ...formData,
-                        profilePicture: reader.result,
+                        profilePicture: reader.result, // สำหรับ preview
+                        profilePictureFile: file, // ไว้อัปโหลดจริง
                       });
                     };
                     reader.readAsDataURL(file);
