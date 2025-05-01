@@ -69,7 +69,7 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        className="bg-[#3E3E3E] text-white p-6 rounded-xl w-[400px] relative"
+        className="bg-gray-300 text-white p-6 rounded-xl w-[400px] border-black relative"
       >
   
         {/* Avatar */}
@@ -81,8 +81,7 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
                 sessionUser?.profile_picture ||
                 "/default-avatar.png"
               }
-              alt="Avatar"
-              className="w-20 h-20 object-cover rounded-full border-4 border-white shadow"
+              className="w-20 h-20 object-cover rounded-full border-4 border-black shadow"
             />
 
             {/* ปุ่มแก้ไขรูป (hover หรือคลิก) */}
@@ -113,18 +112,19 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <label className="text-sm text-blue-200">Name</label>
+            <label className="text-sm text-black">Name</label>
             <input
               name="name"
               value={formData.name}
               onChange={handleChange}
               className="w-full p-2 rounded bg-gray-800 text-white"
               placeholder="Name"
+              required
             />
           </div>
 
           <div>
-            <label className="text-sm text-blue-200">Description</label>
+            <label className="text-sm text-black">Description</label>
             <textarea
               name="description"
               value={formData.description}
