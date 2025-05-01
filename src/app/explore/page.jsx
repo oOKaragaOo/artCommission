@@ -43,7 +43,7 @@ function ExplorePage() {
           likes: post.likeCount || 0,
           comments: post.comments?.length || 0,
           profileImageUrl:
-            post.authorProfilePicture || "/images/default-profile.png",
+            post.authorProfile || "/images/default-profile.png",
           description: post.description || "",
         }));
         setArtworks(formatted);
