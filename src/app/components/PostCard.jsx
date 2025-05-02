@@ -1,9 +1,12 @@
 "use client";
 import { useState } from "react";
-import { commentPost } from "@/app/api/route";
+import { commentPost, likePost, unlikePost } from "@/app/api/route";
+
 
 export default function PostItem({ post }) {
   const [commentText, setCommentText] = useState("");
+  const [liked, setLiked] = useState(post.likedByMe || false);  // <-- จาก backend
+  const [likeCount, setLikeCount] = useState(post.likeCount || 0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +19,28 @@ export default function PostItem({ post }) {
       // หากต้องการ refresh comment ก็ใส่ callback มาเพิ่มได้
     } else {
       alert("เกิดข้อผิดพลาด: " + result.error);
+    }
+  };
+
+  const handleLikeClick = async () => {
+    if (liked) {
+      // Unlike
+      const result = await unlikePost(post.postId);
+      if (result.success) {
+        setLiked(false);
+        setLikeCount((prev) => prev - 1);
+      } else {
+        alert(result.error);
+      }
+    } else {
+      // Like
+      const result = await likePost(post.postId);
+      if (result.success) {
+        setLiked(true);
+        setLikeCount((prev) => prev + 1);
+      } else {
+        alert(result.error);
+      }
     }
   };
 
@@ -46,8 +71,13 @@ export default function PostItem({ post }) {
 
       {/* ปุ่ม */}
       <div className="flex items-center gap-4 mt-4">
-        <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
-          ❤️ {post.likeCount || 0}
+        <button
+          className={`px-3 py-1 rounded-full min-w-[60px] flex items-center justify-center ${
+            liked ? "bg-red-600 text-white" : "bg-gray-800 text-white"
+          }`}
+          onClick={handleLikeClick}
+        >
+          ❤️ {likeCount}
         </button>
         <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
           💬 {post.comments?.length || 0}

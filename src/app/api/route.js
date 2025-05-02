@@ -222,3 +222,33 @@ export const getFeedProfile = async (postId, setPost, setError) => {
     }
   };
   
+  export const likePost = async (postId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/posts/${postId}/like`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Like failed");
+      return { success: true };
+    } catch (err) {
+      console.error("Like error:", err);
+      return { success: false, error: err.message };
+    }
+  };
+  
+  export const unlikePost = async (postId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/posts/${postId}/like`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unlike failed");
+      return { success: true };
+    } catch (err) {
+      console.error("Unlike error:", err);
+      return { success: false, error: err.message };
+    }
+  };
+  
