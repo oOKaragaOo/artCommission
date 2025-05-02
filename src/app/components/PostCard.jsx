@@ -40,7 +40,7 @@ export default function PostItem({ post }) {
         <img
           src={post.imageUrl}
           alt="post"
-          className="h-60 w-full object-cover rounded"
+          className="h-130 w-full object-cover rounded"
         />
       )}
 
@@ -76,7 +76,7 @@ export default function PostItem({ post }) {
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="แสดงความคิดเห็น..."
-          className="w-full p-2 rounded-l bg-amber-200 text-sm"
+          className="w-full p-2 rounded-l border text-sm"
         />
         <button
           type="submit"
