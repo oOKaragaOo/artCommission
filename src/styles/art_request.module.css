@@ -23,9 +23,25 @@
   .requestHeader {
     display: flex;
     align-items: center;
+    justify-content: space-between; /* Space out title and button */
     margin-bottom: 20px;
   }
-  
+
+  .createButton {
+    background-color: #007bff; /* Light coral color similar to the reference */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .createButton:hover {
+    background-color: #e07070; /* Darker shade on hover */
+  }
   .pageTitle {
     font-size: 2rem;
     color: #333;

@@ -1,0 +1,212 @@
+/* src/styles/modal.module.css */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* สีดำโปร่งใส (ปรับได้ตามความเหมาะสม) */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow-x: hidden;
+}
+
+.createModal {
+  background-color: #fff; /* พื้นหลังสีขาว */
+  color: #333; /* สีตัวอักษรสีดำ/เทาเข้ม */
+  padding: 25px;
+  border-radius: 8px;
+  width: 90%;
+  height: 800px;
+  max-width: 700px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเล็กน้อย */
+  overflow-x: scroll;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee; /* เส้นแบ่งสีเทาอ่อน */
+  padding-bottom: 15px;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #333; /* สีตัวอักษรสีดำ/เทาเข้ม */
+}
+
+.cancelButton,
+.publishButton {
+  background-color: #f0f0f0; /* พื้นหลังปุ่มสีเทาอ่อน */
+  border: 1px solid #ccc; /* ขอบปุ่มสีเทา */
+  color: #333; /* สีตัวอักษรปุ่มสีดำ/เทาเข้ม */
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.cancelButton:hover,
+.publishButton:hover {
+  background-color: #e0e0e0; /* สีปุ่มเมื่อ hover */
+}
+
+.publishButton {
+  background-color: #007bff; /* สีน้ำเงิน (เหมือนปุ่ม Create) */
+  color: #fff;
+  border-color: #007bff;
+}
+
+.publishButton:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555; /* สีตัวอักษร Label */
+  font-size: 1rem;
+}
+
+.formGroup input[type="number"],
+.formGroup input[type="text"],
+.formGroup select,
+.formGroup textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc; /* ขอบ Input */
+  border-radius: 5px;
+  background-color: #fff; /* พื้นหลัง Input */
+  color: #333; /* สีตัวอักษร Input */
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.formGroup select {
+  appearance: none;
+  background-color: #fff; /* พื้นหลัง Select */
+  color: #333; /* สีตัวอักษร Select */
+  border: 1px solid #ccc; /* ขอบ Select */
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1rem;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+/* Attach Image Styling */
+.attachImageContainer {
+  width: 100%; /* ปรับขนาดให้เหมาะสม */
+  height: 500px;
+  border: 2px dashed #ccc; /* ขอบ Attach Image */
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* ป้องกันรูปภาพล้น */
+  cursor: pointer;
+  background-color: #f0f0f0; /* พื้นหลัง Attach Image */
+  position: relative; /* เพื่อให้ input อยู่ข้างใน */
+}
+
+.attachImagePlaceholder {
+  color: #777; /* สีข้อความ Placeholder */
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.attachImagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ครอบคลุมพื้นที่ */
+}
+
+.imageInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* ทำให้ Input โปร่งใส */
+  cursor: pointer;
+}
+
+.formGroup:has(#image) { /* จัดวาง container ให้อยู่ใน formGroup */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* ชิดซ้าย */
+}
+  
+.requestHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space out title and button */
+  margin-bottom: 20px;
+}
+
+.createButton {
+  background-color: #f08080; /* Light coral color similar to the reference */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.createButton:hover {
+  background-color: #e07070; /* Darker shade on hover */
+}
+
+.tabButtons {
+  margin-bottom: 15px;
+}
+
+.tabButton {
+  background-color: #333;
+  color: #eee;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.tabButton.active {
+  background-color: #555;
+  font-weight: bold;
+}
+
+.tabButton:hover {
+  background-color: #444;
+}

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import styles from '../../styles/art_request.module.css';
 import detailStyles from '../../styles/artrequestdetailpopup.module.css';
+import modalStyles from '../../styles/modal.module.css';
 import RequestGrid from '../components/RequestGrid';
 import Navbarone from '../components/Navbarone';
 import Sidebar from '../components/Sidebar';
@@ -13,6 +14,8 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 function ArtRequestPage() {
     const [activeTab, setActiveTab] = useState('artsign');
     const [selectedRequest, setSelectedRequest] = useState(null);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(null);
     const router = useRouter();
 
     // Sample art request data for Artsign (add profileImage and status)
@@ -43,6 +46,30 @@ function ArtRequestPage() {
         document.body.style.overflow = 'auto';
     };
 
+    const openCreateModal = () => {
+        setIsCreateModalOpen(true);
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeCreateModal = () => {
+        setIsCreateModalOpen(false);
+        document.body.style.overflow = 'auto';
+        setUploadingImage(null); // ล้างรูปตัวอย่างเมื่อปิด Modal
+    };
+
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUploadingImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setUploadingImage(null);
+        }
+    };
+
     const requestsToDisplay =
         activeTab === 'artsign' ? artsignRequests :
         activeTab === 'commission' ? commissionRequests :
@@ -56,6 +83,9 @@ function ArtRequestPage() {
                 <div className={styles.requests}>
                     <div className={styles.requestHeader}>
                         <h2 className={styles.pageTitle}>Art Requests</h2>
+                        <button className={styles.createButton} onClick={openCreateModal}>
+                            + Create
+                        </button>
                     </div>
                     <div className={styles.tabButtons}>
                         <button
@@ -74,6 +104,62 @@ function ArtRequestPage() {
                     <RequestGrid requests={requestsToDisplay} onRequestClick={handleRequestClick} />
                 </div>
             </div>
+
+            {isCreateModalOpen && (
+                <div className={modalStyles.modalOverlay}>
+                    <div className={modalStyles.createModal}>
+                        <div className={modalStyles.modalHeader}>
+                            <button onClick={closeCreateModal} className={modalStyles.cancelButton}>
+                                CANCEL
+                            </button>
+                            <h2>Create New Request</h2>
+                            <button className={modalStyles.publishButton}>
+                                PUBLISH
+                            </button>
+                        </div>
+                        <div className={modalStyles.modalBody}>
+                            <div className={modalStyles.formGroup}>
+                                <label htmlFor="status">Status</label>
+                                <select id="status">
+                                    <option value="open">Open</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
+                            <div className={modalStyles.formGroup}>
+                                <label htmlFor="minRate">Min. Rate ($)</label>
+                                <input type="number" id="minRate" placeholder="Minimum Price" />
+                            </div>
+                            <div className={modalStyles.formGroup}>
+                                <label htmlFor="maxRate">Max. Rate ($)</label>
+                                <input type="number" id="maxRate" placeholder="Maximum Price (Optional)" />
+                            </div>
+                            <div className={modalStyles.formGroup}>
+                                <label htmlFor="workDuration">Work duration (days)</label>
+                                <input type="number" id="workDuration" placeholder="Estimated Days" />
+                            </div>
+                            <div className={modalStyles.formGroup}>
+                                <label htmlFor="image">Attach Image</label>
+                                <div className={modalStyles.attachImageContainer}>
+                                    {uploadingImage ? (
+                                        <img src={uploadingImage} alt="Preview" className={modalStyles.attachImagePreview} />
+                                    ) : (
+                                        <div className={modalStyles.attachImagePlaceholder}>+ Album Cover</div>
+                                    )}
+                                    <input type="file" id="image" accept="image/*" onChange={handleImageUpload} className={modalStyles.imageInput} />
+                                </div>
+                            </div>
+                            <div className={modalStyles.formGroup}>
+                                <label htmlFor="title">Title</label>
+                                <input type="text" id="title" placeholder="Request Title" />
+                            </div>
+                            <div className={modalStyles.formGroup}>
+                                <label htmlFor="description">Description</label>
+                                <textarea id="description" rows="4" placeholder="Detailed Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {selectedRequest && (
                 <div className={detailStyles.popupOverlay}>
