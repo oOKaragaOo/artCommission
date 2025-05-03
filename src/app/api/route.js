@@ -252,3 +252,17 @@ export const getFeedProfile = async (postId, setPost, setError) => {
     }
   };
   
+  export async function getAllPosts(setPosts, setError) {
+    try {
+      const res = await fetch("/api/posts", {
+        method: "GET",
+        credentials: "include", // เพื่อให้ส่ง session cookie
+      });
+      if (!res.ok) throw new Error("ไม่สามารถโหลดโพสต์ได้");
+      const data = await res.json();
+      setPosts(data);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
+  }

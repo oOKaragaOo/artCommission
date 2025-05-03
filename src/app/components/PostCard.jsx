@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { commentPost, likePost, unlikePost } from "@/app/api/route";
 
-
 export default function PostItem({ post }) {
   const [commentText, setCommentText] = useState("");
-  const [liked, setLiked] = useState(post.likedByMe || false);  // <-- จาก backend
+  const [liked, setLiked] = useState(post.likedByMe || false); // <-- จาก backend
   const [likeCount, setLikeCount] = useState(post.likeCount || 0);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +16,6 @@ export default function PostItem({ post }) {
     if (result.success) {
       setCommentText("");
       window.location.reload();
-      // หากต้องการ refresh comment ก็ใส่ callback มาเพิ่มได้
     } else {
       alert("เกิดข้อผิดพลาด: " + result.error);
     }
@@ -24,7 +23,6 @@ export default function PostItem({ post }) {
 
   const handleLikeClick = async () => {
     if (liked) {
-      // Unlike
       const result = await unlikePost(post.postId);
       if (result.success) {
         setLiked(false);
@@ -33,7 +31,6 @@ export default function PostItem({ post }) {
         alert(result.error);
       }
     } else {
-      // Like
       const result = await likePost(post.postId);
       if (result.success) {
         setLiked(true);
@@ -44,18 +41,79 @@ export default function PostItem({ post }) {
     }
   };
 
+  const handleEditPost = () => {
+    alert("คลิกแก้ไขโพสต์");
+    // TODO: เปิด modal สำหรับแก้ไขโพสต์
+  };
+
+  const handleDeletePost = () => {
+    const confirmDelete = confirm("คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้?");
+    if (confirmDelete) {
+      alert("โพสต์ถูกลบแล้ว");
+      // TODO: เรียก API เพื่อลบโพสต์
+    }
+  };
+
+  const handleReportPost = () => {
+    alert("รายงานโพสต์เรียบร้อย");
+    // TODO: ส่งรายงานโพสต์
+  };
+
   return (
-    <div className="bg-gray-100 p-4 rounded shadow mb-4">
+    <div className="bg-gray-100 p-4 min-w-190 rounded shadow mb-4 relative">
       {/* หัวโพสต์ */}
-      <div className="flex items-center gap-2 mb-2">
-        <img
-          src={post.authorProfile || "/default-avatar.png"}
-          className="w-8 h-8 rounded-full object-cover"
-          alt="author"
-        />
-        <div>
-          <p className="font-semibold text-gray-800">{post.authorName}</p>
-          <p className="text-sm text-gray-400">{post.createdAt}</p>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <img
+            src={post.authorProfile || "/default-avatar.png"}
+            className="w-8 h-8 rounded-full object-cover"
+            alt="author"
+          />
+          <div>
+            <p className="font-semibold text-gray-800">{post.authorName}</p>
+            <p className="text-sm text-gray-400">{post.createdAt}</p>
+          </div>
+        </div>
+
+        {/* Kebab button */}
+        <div className="relative">
+          <button
+            onClick={() => setShowDropdown((prev) => !prev)}
+            className="text-2xl stext-gray-600 hover:text-gray-900 px-2 rounded-full"
+          >
+            ⋮
+          </button>
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow z-10">
+              <button
+                onClick={() => {
+                  handleEditPost();
+                  setShowDropdown(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              >
+                ✏️ แก้ไขโพสต์
+              </button>
+              <button
+                onClick={() => {
+                  handleDeletePost();
+                  setShowDropdown(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              >
+                🗑️ ลบโพสต์
+              </button>
+              <button
+                onClick={() => {
+                  handleReportPost();
+                  setShowDropdown(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              >
+                🚩 รายงานโพสต์
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function ProfileCard({ userData, onEditClick }) {
   return (
-    <div className="relative bg-gray-100 rounded-lg shadow mb-4 overflow-hidden">
+    <div className="relative bg-gray-100 min-w-190 rounded-lg shadow mb-4 overflow-hidden">
       {/* Cover Background Layer (อยู่ด้านหลัง) */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gray-500 z-0" />
 

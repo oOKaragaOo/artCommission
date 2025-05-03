@@ -12,18 +12,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function ArtRequestPage() {
-    const [activeTab, setActiveTab] = useState('artsign');
+    const [activeTab, setActiveTab] = useState('commission');
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [uploadingImage, setUploadingImage] = useState(null);
     const router = useRouter();
-
-    // Sample art request data for Artsign (add profileImage and status)
-    const artsignRequests = [
-        { id: 1, imageUrl: '/images/explore/1.jpg', title: 'Sci-Fi Landscape', artist: 'ArtSigner1', artistProfile: '/images/profiles/artist1.png', status: 'Open', minBid: 50, clientName: 'ClientA', clientProfile: '/images/profiles/client1.png', message: 'Looking for a cool sci-fi piece!', comment: 'Excited to see the results!' },
-        { id: 2, imageUrl: '/images/explore/2.jpg', title: 'Cute Cat Avatar', artist: 'ArtMaster', artistProfile: '/images/profiles/artist2.png', status: 'Closed', minBid: 25, clientName: 'CatLover', clientProfile: '/images/profiles/client2.png', message: 'Need a cute avatar for my cat.', comment: 'Hope it turns out great!' },
-        // ... more Artsign requests
-    ];
 
     // Sample art request data for Commission (add profileImage and status)
     const commissionRequests = [
@@ -71,7 +64,6 @@ function ArtRequestPage() {
     };
 
     const requestsToDisplay =
-        activeTab === 'artsign' ? artsignRequests :
         activeTab === 'commission' ? commissionRequests :
         [];
 
@@ -88,12 +80,6 @@ function ArtRequestPage() {
                         </button>
                     </div>
                     <div className={styles.tabButtons}>
-                        <button
-                            className={`${styles.tabButton} ${activeTab === 'artsign' ? styles.active : ''}`}
-                            onClick={() => handleTabChange('artsign')}
-                        >
-                            Artsign
-                        </button>
                         <button
                             className={`${styles.tabButton} ${activeTab === 'commission' ? styles.active : ''}`}
                             onClick={() => handleTabChange('commission')}
@@ -183,7 +169,7 @@ function ArtRequestPage() {
                         <div className={detailStyles.box2}>
                             <div className={detailStyles.box2Row1Ref}>
                                 <span className={detailStyles.activeTabTitle}>
-                                    {activeTab === 'artsign' ? 'Artsign' : 'Commission'}
+                                    {activeTab === 'Commission'}
                                 </span>
                                 <span className={detailStyles.priceRef}>
                                     Price

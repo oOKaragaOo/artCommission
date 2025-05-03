@@ -68,7 +68,7 @@ export default function PostUpload({ onPost }) {
   return (
     <>
       {/* ปุ่มเปิด popup */}
-      <div className="bg-gray-100 text-center rounded-lg p-4 shadow mb-4">
+      <div className="bg-gray-100 text-center min-w-190 rounded-lg p-4 shadow mb-4">
         <button
           onClick={() => setIsOpen(true)}
           className="text-cyan-400 font-semibold hover:underline"
