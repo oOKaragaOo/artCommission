@@ -94,14 +94,18 @@ const FeedPage = () => {
           {posts.map((post) => (
             <div key={post.id} className={styles.post}>
               <div className={styles.postHeader}>
-                <img src="/images/default-avatar.png" alt={post.artistName} className={styles.avatar} />
+                <img 
+                  src="/images/default-avatar.png" alt={post.artistName} className={styles.avatar} />
                 <div className={styles.artistInfo}>
                   <h3>{post.artistName}</h3>
                   <p>{post.account}</p>
                 </div>
               </div>
               <div className={styles.postImage} onClick={() => handleOpenPostDetail(post)}>
-                <img src={post.image} alt="Post Image" />
+                <img 
+                  src={post.image} 
+                  alt="Post Image" 
+                  onContextMenu={(e) => e.preventDefault()} />
               </div>
               <div className={styles.postActions}>
                 <button className={`${styles.actionButton} ${post.liked ? styles.liked : ''}`} onClick={() => handleLike(post.id)}>
@@ -126,7 +130,11 @@ const FeedPage = () => {
               &times; {/* Using a simple 'x' for close icon */}
             </button>
             <div className={detailStyles.gridItemImage}>
-              <img src={selectedPost.image} alt="Post Image" />
+              <img
+                  src={selectedPost.image}
+                  alt="Post Image"
+                  onContextMenu={(e) => e.preventDefault()} // ป้องกัน Context Menu
+              />
             </div>
             <div className={detailStyles.gridItemDetails}>
               {/* Part 1: Header */}
