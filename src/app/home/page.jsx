@@ -6,7 +6,7 @@ import Sidebar from "../components/Sidebar";
 import PostItem from "@/app/components/PostCard"; // component ที่ render โพสต์เดี่ยว
 import { SessionContext } from "@/app/api/checkUser/route";
 import { getAllPosts } from "@/app/api/route";
-import styles from '../../styles/feedpage.module.css';
+import styles from './feedpage.module.css';
 
 export default function HomeFeed() {
 
