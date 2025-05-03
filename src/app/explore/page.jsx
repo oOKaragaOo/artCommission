@@ -6,13 +6,15 @@ import detailStyles from '../../styles/artworkdetailpopup.module.css';
 import Navbarone from '../components/Navbarone';
 import Sidebar from '../components/Sidebar';
 import ArtworkGrid from '../components/ArtworkGrid'; // Import the new component
+import { commentPost } from "@/app/api/route";
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faHeart, faComment, faShare } from '@fortawesome/free-solid-svg-icons';
 
-function ExplorePage() {
+export default function PostItem({ post }) {
   const [activeTab, setActiveTab] = useState('popular');
   const [selectedArtwork, setSelectedArtwork] = useState(null);
+  const [commentText, setCommentText] = useState("");
   const router = useRouter();
 
   // Sample artwork data (replace with your actual data including more details)
@@ -56,6 +58,20 @@ function ExplorePage() {
     document.body.style.overflow = 'auto';
   };
 
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (!commentText.trim()) return;
+  
+      const result = await commentPost(post.id, commentText.trim());
+      if (result.success) {
+        setCommentText("");
+        window.location.reload();
+        // หากต้องการ refresh comment ก็ใส่ callback มาเพิ่มได้
+      } else {
+        alert("เกิดข้อผิดพลาด: " + result.error);
+      }
+    };
+
   const artworksToDisplay = activeTab === 'popular' ? popularArtworks : recentArtworks;
 
   return (
@@ -87,65 +103,74 @@ function ExplorePage() {
 
       {selectedArtwork && (
         <div className={detailStyles.popupOverlay}>
-            <div className={`${detailStyles.popupContent} bg-gray-100 p-4 rounded shadow mb-4`}>
+            <div className={`${detailStyles.popupContent} bg-white rounded-md shadow-lg p-4`}>
                 <button onClick={handleClosePopup} className={detailStyles.closeButton}>
                     <FontAwesomeIcon icon={faTimes} />
                 </button>
-                {/* หัวโพสต์ */}
+
+                {/* ส่วนหัว */}
                 <div className="flex items-center gap-2 mb-2">
                     <img
                         src={selectedArtwork.profileImageUrl || "/default-avatar.png"}
+                        alt={selectedArtwork.artist}
                         className="w-8 h-8 rounded-full object-cover"
-                        alt="author"
                     />
                     <div>
-                        <p className="font-semibold text-gray-800">{selectedArtwork.artist}</p>
-                        {/* <p className="text-sm text-gray-400">{/* Add createdAt if available *}</p> */}
+                        <p className="text-sm font-semibold text-gray-800">{selectedArtwork.artist}</p>
+                        {/* <p className="text-xs text-gray-500">{/* Add createdAt if available *}</p> */}
                     </div>
                 </div>
 
-                {/* แคปชันและรูป */}
-                {selectedArtwork.description && (
-                    <p className="text-sm text-gray-500 mb-2">{selectedArtwork.description}</p>
-                )}
-                <img
-                    src={selectedArtwork.imageUrl}
-                    alt={selectedArtwork.title}
-                    className="h-60 w-full object-cover rounded"
-                />
+                {/* เนื้อหาหลัก - รูปภาพ Artwork */}
+                  <img
+                      src={selectedArtwork.imageUrl}
+                      alt={selectedArtwork.title}
+                      className={`${detailStyles.postImage} w-full rounded-md object-cover mb-2`} // เพิ่ม detailStyles.postImage เข้าไป
+                  />
 
-                {/* ปุ่ม */}
-                <div className="flex items-center gap-4 mt-4">
-                    <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
-                        ❤️ {selectedArtwork.likes || 0}
+                {/* ส่วนท้าย - ปุ่ม Like และ Comment */}
+                <div className="flex items-center gap-4 mb-2">
+                    <button className="flex items-center gap-1 text-sm text-gray-700">
+                        <FontAwesomeIcon icon={faHeart} className="text-red-500" />
+                        {selectedArtwork.likes || 0}
                     </button>
-                    <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
-                        💬 {selectedArtwork.comments || 0} {/* ปรับถ้าโครงสร้าง comment ต่างกัน */}
+                    <button className="flex items-center gap-1 text-sm text-gray-700">
+                        <FontAwesomeIcon icon={faComment} className="text-blue-500" />
+                        {selectedArtwork.comments || 0} {/* ปรับถ้าโครงสร้าง comment ต่างกัน */}
                     </button>
-                    <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
-                        <FontAwesomeIcon icon={faShare} /> Share
-                    </button>
+                    {/* อาจเพิ่มปุ่ม Share ตรงนี้ */}
                 </div>
 
-                {/* ส่วน Comment (ถ้าต้องการ) */}
+                {/* คอมเมนต์ */}
                 {/* <div className="mt-4 space-y-2">
-                    {/* Map through comments * /}
+                  {post.comments?.map((cmt, idx) => (
+                    <div key={idx} className="flex items-start gap-2">
+                      <img
+                        src={cmt.profilePicture || "/default-avatar.png"}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                      <div>
+                        <p className="text-sm font-semibold">{cmt.name}</p>
+                        <p className="text-sm">{cmt.content}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div> */}
 
-                {/* ช่อง Comment (ถ้าต้องการ) */}
+                {/* ช่อง comment */}
                 <form onSubmit={handleSubmit} className="flex mt-4">
-                    <input
-                        value={commentText}
-                        onChange={(e) => setCommentText(e.target.value)}
-                        placeholder="แสดงความคิดเห็น..."
-                        className="w-full p-2 rounded-l bg-amber-200 text-sm"
-                    />
-                    <button
-                        type="submit"
-                        className="bg-black text-white px-4 rounded-r hover:bg-gray-800"
-                    >
-                        ➤
-                    </button>
+                  <input
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    placeholder="แสดงความคิดเห็น..."
+                    className="w-full p-2 rounded-l text-sm"
+                  />
+                  <button
+                    type="submit"
+                    className="bg-black text-white px-4 rounded-r hover:bg-gray-800"
+                  >
+                    ➤
+                  </button>
                 </form>
             </div>
         </div>
@@ -153,5 +178,3 @@ function ExplorePage() {
     </div>
   );
 }
-
-export default ExplorePage;
