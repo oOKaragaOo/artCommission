@@ -7,13 +7,15 @@ import detailStyles from '../../styles/artworkdetailpopup.module.css';
 import Navbarone from '../components/Navbarone';
 import Sidebar from '../components/Sidebar';
 import ArtworkGrid from '../components/ArtworkGrid'; // Import the new component
+import { commentPost } from "@/app/api/route";
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faHeart, faComment, faShare } from '@fortawesome/free-solid-svg-icons';
 
-function ExplorePage() {
+export default function PostItem({ post }) {
   const [activeTab, setActiveTab] = useState('popular');
   const [selectedArtwork, setSelectedArtwork] = useState(null);
+  const [commentText, setCommentText] = useState("");
   const router = useRouter();
 
   // Sample artwork data (replace with your actual data including more details)
@@ -57,6 +59,20 @@ function ExplorePage() {
     document.body.style.overflow = 'auto';
   };
 
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (!commentText.trim()) return;
+  
+      const result = await commentPost(post.id, commentText.trim());
+      if (result.success) {
+        setCommentText("");
+        window.location.reload();
+        // หากต้องการ refresh comment ก็ใส่ callback มาเพิ่มได้
+      } else {
+        alert("เกิดข้อผิดพลาด: " + result.error);
+      }
+    };
+
   const artworksToDisplay = activeTab === 'popular' ? popularArtworks : recentArtworks;
 
   return (
@@ -88,38 +104,78 @@ function ExplorePage() {
 
       {selectedArtwork && (
         <div className={detailStyles.popupOverlay}>
-          <div className={detailStyles.popupContent}>
-            <button onClick={handleClosePopup} className={detailStyles.closeButton}>
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-            <img
-              src={selectedArtwork.imageUrl}
-              alt={selectedArtwork.title}
-              className={detailStyles.detailImage}
-            />
-            <h3 className={detailStyles.detailTitle}>{selectedArtwork.title}</h3>
-            <p className={detailStyles.detailArtist}>{selectedArtwork.artist}</p>
-            {selectedArtwork.description && (
-              <p className={detailStyles.detailDescription}>{selectedArtwork.description}</p>
-            )}
-            <div className={detailStyles.detailActions}>
-              <button className={detailStyles.actionButton}>
-                <FontAwesomeIcon icon={faHeart} /> {selectedArtwork.likes}
-              </button>
-              <button className={detailStyles.actionButton}>
-                <FontAwesomeIcon icon={faComment} /> {selectedArtwork.comments}
-              </button>
-              <button className={detailStyles.actionButton}>
-                <FontAwesomeIcon icon={faShare} /> Share
-              </button>
-              {/* Add more action buttons as needed */}
+            <div className={`${detailStyles.popupContent} bg-white rounded-md shadow-lg p-4`}>
+
+                {/* ส่วนหัว */}
+                <div className="flex items-center gap-2 mb-2">
+                    <img
+                        src={selectedArtwork.profileImageUrl || "/default-avatar.png"}
+                        alt={selectedArtwork.artist}
+                        className="w-8 h-8 rounded-full object-cover"
+                    />
+                    <div>
+                        <p className="text-sm font-semibold text-gray-800">{selectedArtwork.artist}</p>
+                        {/* <p className="text-xs text-gray-500">{/* Add createdAt if available *}</p> */}
+                    </div>
+                    <button onClick={handleClosePopup} className={detailStyles.closeButton}>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                </div>
+
+                {/* เนื้อหาหลัก - รูปภาพ Artwork */}
+                  <img
+                      src={selectedArtwork.imageUrl}
+                      alt={selectedArtwork.title}
+                      className={`${detailStyles.postImage} w-full rounded-md object-cover mb-2`} // เพิ่ม detailStyles.postImage เข้าไป
+                  />
+
+                {/* ส่วนท้าย - ปุ่ม Like และ Comment */}
+                <div className="flex items-center gap-4 mb-2">
+                    <button className="flex items-center gap-1 text-sm text-gray-700">
+                        <FontAwesomeIcon icon={faHeart} className="text-red-500" />
+                        {selectedArtwork.likes || 0}
+                    </button>
+                    <button className="flex items-center gap-1 text-sm text-gray-700">
+                        <FontAwesomeIcon icon={faComment} className="text-blue-500" />
+                        {selectedArtwork.comments || 0} {/* ปรับถ้าโครงสร้าง comment ต่างกัน */}
+                    </button>
+                    {/* อาจเพิ่มปุ่ม Share ตรงนี้ */}
+                </div>
+
+                {/* คอมเมนต์ */}
+                {/* <div className="mt-4 space-y-2">
+                  {post.comments?.map((cmt, idx) => (
+                    <div key={idx} className="flex items-start gap-2">
+                      <img
+                        src={cmt.profilePicture || "/default-avatar.png"}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                      <div>
+                        <p className="text-sm font-semibold">{cmt.name}</p>
+                        <p className="text-sm">{cmt.content}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div> */}
+
+                {/* ช่อง comment */}
+                <form onSubmit={handleSubmit} className="flex mt-4">
+                  <input
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    placeholder="แสดงความคิดเห็น..."
+                    className="w-full p-2 rounded-l bg-amber-200 text-sm"
+                  />
+                  <button
+                    type="submit"
+                    className="bg-black text-white px-4 rounded-r hover:bg-gray-800"
+                  >
+                    ➤
+                  </button>
+                </form>
             </div>
-            {/* Add comment section or more details here */}
-          </div>
         </div>
-      )}
+    )}
     </div>
   );
 }
-
-export default ExplorePage;
