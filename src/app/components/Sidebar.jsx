@@ -43,7 +43,7 @@ const Sidebar = () => {
       <div className={styles.sidebar}>
         <ul>
           <li>
-            <Link href="/explore">Explore</Link>
+            <p className=''href="/">Explore</p>
           </li>
           <li>
             <Link href="/artists">Artist</Link>
