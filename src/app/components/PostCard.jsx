@@ -6,6 +6,7 @@ export default function PostItem({ post }) {
   const [commentText, setCommentText] = useState("");
   const [liked, setLiked] = useState(post.likedByMe || false); // <-- จาก backend
   const [likeCount, setLikeCount] = useState(post.likeCount || 0);
+  const [shareCount, setShareCount] = useState(post.shareCount);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -58,7 +59,7 @@ export default function PostItem({ post }) {
     alert("รายงานโพสต์เรียบร้อย");
     // TODO: ส่งรายงานโพสต์
   };
-
+  
   return (
     <div className="bg-gray-100 p-4 min-w-190 rounded shadow mb-4 relative">
       {/* หัวโพสต์ */}
@@ -139,6 +140,9 @@ export default function PostItem({ post }) {
         </button>
         <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
           💬 {post.comments?.length || 0}
+        </button>
+        <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
+          ➥ {shareCount}
         </button>
       </div>
 

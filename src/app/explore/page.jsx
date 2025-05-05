@@ -62,10 +62,10 @@ function ExplorePage() {
     setActiveTab(tab);
   };
 
-  const handleArtworkClick = (artwork) => {
-    setSelectedArtwork(artwork);
-    document.body.style.overflow = "hidden";
-  };
+  // const handleArtworkClick = (artwork) => {
+  //   setSelectedArtwork(artwork);
+  //   document.body.style.overflow = "hidden";
+  // };
 
   const handleClosePopup = () => {
     setSelectedArtwork(null);
@@ -108,14 +108,14 @@ function ExplorePage() {
           ) : (
             <ArtworkGrid
               artworks={artworksToDisplay}
-              onArtworkClick={handleArtworkClick}
+              // onArtworkClick={handleArtworkClick}
             />
           )}
         </div>
       </div>
 
-      {selectedArtwork && (
-        <div className={detailStyles.popupOverlay}>
+      {/* {selectedArtwork && ( */}
+        {/* <div className={detailStyles.popupOverlay}>
           <div
             className={`${detailStyles.popupContent} bg-gray-100 p-4 rounded shadow mb-4`}
           >
@@ -124,9 +124,9 @@ function ExplorePage() {
               className={detailStyles.closeButton}
             >
               <FontAwesomeIcon icon={faTimes} />
-            </button>
+            </button> */}
             {/* หัวโพสต์ */}
-            <div className="flex items-center gap-2 mb-2">
+            {/* <div className="flex items-center gap-2 mb-2">
               <img
                 src={selectedArtwork.profileImageUrl || "/default-avatar.png"}
                 className="w-8 h-8 rounded-full object-cover"
@@ -136,12 +136,11 @@ function ExplorePage() {
                 <p className="font-semibold text-gray-800">
                   {selectedArtwork.artist}
                 </p>
-                {/* <p className="text-sm text-gray-400">{/* Add createdAt if available *}</p> */}
               </div>
-            </div>
+            </div> */}
 
             {/* แคปชันและรูป */}
-            {selectedArtwork.description && (
+            {/* {selectedArtwork.description && (
               <p className="text-sm text-gray-500 mb-2">
                 {selectedArtwork.description}
               </p>
@@ -150,21 +149,20 @@ function ExplorePage() {
               src={selectedArtwork.imageUrl}
               alt={selectedArtwork.title}
               className="h-60 w-full object-cover rounded"
-            />
+            /> */}
 
             {/* ปุ่ม */}
-            <div className="flex items-center gap-4 mt-4">
+            {/* <div className="flex items-center gap-4 mt-4">
               <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
                 ❤️ {selectedArtwork.likes || 0}
               </button>
               <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
                 💬 {selectedArtwork.comments || 0}{" "}
-                {/* ปรับถ้าโครงสร้าง comment ต่างกัน */}
               </button>
               <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
                 <FontAwesomeIcon icon={faShare} /> Share
               </button>
-            </div>
+            </div> */}
 
             {/* ส่วน Comment (ถ้าต้องการ) */}
             {/* <div className="mt-4 space-y-2">
@@ -172,7 +170,7 @@ function ExplorePage() {
                 </div> */}
 
             {/* ช่อง Comment (ถ้าต้องการ) */}
-            <form onSubmit={handleSubmit} className="flex mt-4">
+            {/* <form onSubmit={handleSubmit} className="flex mt-4">
               <input
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
@@ -188,9 +186,9 @@ function ExplorePage() {
             </form>
           </div>
         </div>
-      )}
+      )}*/}
     </div>
   );
-}
+} 
 
 export default ExplorePage;
