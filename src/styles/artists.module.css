@@ -19,6 +19,13 @@
   padding: 20px;
 }
 
+.pageTitle {
+  font-size: 2rem;
+  color: #333;
+  padding-left: 10px;
+  border-left: 5px solid #007bff;
+}
+
 .artistHeader {
   display: flex;
   justify-content: space-between;
@@ -111,23 +118,8 @@
   text-align: center;
 }
 
-.artistButton--green {
-  background-color: #008170;
-  color: white;
-}
-
-.artistButton--red {
-  background-color: #a0153e;
-  color: white;
-}
-
-.artistButton--blue {
-  background-color: #3d3c86;
-  color: white;
-}
-
 .artistButton--new {
-  background-color: #000000;
+  background-color: #3d3c86;
   color: white;
 }
 
