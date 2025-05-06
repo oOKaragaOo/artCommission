@@ -79,7 +79,7 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr); /* Adjust minmax as needed */
     gap: 20px;
-    padding: 20px;
+    padding: 5px;
   }
   
   .gridItem {
