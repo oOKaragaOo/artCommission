@@ -7,6 +7,7 @@ import modalStyles from "../../styles/modal.module.css";
 import RequestGrid from "../components/RequestGrid";
 import Navbarone from "../components/Navbarone";
 import Sidebar from "../components/Sidebar";
+import ChatButton from '../components/ChatButton';
 import { SessionContext } from "@/app/api/checkUser/route";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -105,6 +106,7 @@ function ArtRequestPage() {
             onRequestClick={handleRequestClick}
           />
         </div>
+        <ChatButton />
       </div>
 
       {isCreateModalOpen && (
