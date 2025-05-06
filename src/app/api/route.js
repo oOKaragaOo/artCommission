@@ -266,3 +266,21 @@ export const getFeedProfile = async (postId, setPost, setError) => {
       setError(err.message);
     }
   }
+
+  export async function getPublicCards(setCards, setError) {
+    try {
+      const res = await fetch("http://localhost:8080/artist/public-cards", {
+        method: "GET",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("โหลด Public Cards ไม่สำเร็จ");
+      const data = await res.json();
+      console.log("✅ Public Cards Response:", data); // ✅ log ตรงนี้เลย!
+      setCards(data);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
+  }
+  
+  

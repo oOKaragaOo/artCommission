@@ -1,56 +1,44 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styles from "../../styles/art_request.module.css";
 import detailStyles from "../../styles/artrequestdetailpopup.module.css";
 import modalStyles from "../../styles/modal.module.css";
 import RequestGrid from "../components/RequestGrid";
 import Navbarone from "../components/Navbarone";
 import Sidebar from "../components/Sidebar";
+import { SessionContext } from "@/app/api/checkUser/route";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { getPublicCards } from "../api/route";
 
 function ArtRequestPage() {
   const [activeTab, setActiveTab] = useState("commission");
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(null);
+  const { sessionUser: localSessionUser } = useContext(SessionContext);
+  const [publicCards, setPublicCards] = useState([]);
+  const [error, setError] = useState(null);
+
   const router = useRouter();
 
   // Sample art request data for Commission (add profileImage and status)
-  const commissionRequests = [
-    // {
-    //   id: 3,
-    //   imageUrl: "/images/explore/3.jpg",
-    //   title: "Anime Portrait",
-    //   artist: "AnimeArtist",
-    //   artistProfile: "/images/profiles/artist3.png",
-    //   status: "Open",
-    //   minBid: 75,
-    //   purpose: "OC Portrait",
-    //   clientName: "AnimeFan",
-    //   clientProfile: "/images/profiles/client3.png",
-    //   message: "Requesting a stylized anime portrait.",
-    //   comment: "Looking forward to your unique style!",
-    // },
-    // {
-    //   id: 4,
-    //   imageUrl: "/images/explore/4.jpg",
-    //   title: "Bakery Logo",
-    //   artist: "LogoPro",
-    //   artistProfile: "/images/profiles/artist4.png",
-    //   status: "Closed",
-    //   minBid: 100,
-    //   purpose: "Branding",
-    //   clientName: "BreadKing",
-    //   clientProfile: "/images/profiles/client4.png",
-    //   message: "Need a professional logo for my bakery.",
-    //   comment: "Want something memorable.",
-    // },
-    // ... more Commission requests
-  ];
-  const [posts, setCommisposts] = useState([]);
+
+  useEffect(() => {
+    const fetchPublicCards = async () => {
+      await getPublicCards(setPublicCards, setError);
+    };
+    fetchPublicCards();
+    console.log("eeeeeeee", publicCards);
+  }, []);
+
+  useEffect(() => {
+    if (publicCards.length > 0) {
+      console.log("📦 Public Cards updated:", publicCards);
+    }
+  }, [publicCards]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -90,9 +78,6 @@ function ArtRequestPage() {
     }
   };
 
-  const requestsToDisplay =
-    activeTab === "commission" ? commissionRequests : [];
-
   return (
     <div className={styles.container}>
       <Navbarone />
@@ -116,7 +101,7 @@ function ArtRequestPage() {
             </button>
           </div>
           <RequestGrid
-            requests={requestsToDisplay}
+            requests={publicCards}
             onRequestClick={handleRequestClick}
           />
         </div>
@@ -216,7 +201,7 @@ function ArtRequestPage() {
                 {selectedRequest.artistProfile && (
                   <img
                     src={selectedRequest.artistProfile}
-                    alt={selectedRequest.artist}
+                    alt={selectedRequest.artist || "Artist"}
                     className={detailStyles.profileImage}
                   />
                 )}
@@ -224,40 +209,41 @@ function ArtRequestPage() {
               <div className={detailStyles.artistInfo}>
                 <h3 className={detailStyles.title}>{selectedRequest.title}</h3>
                 <p className={detailStyles.username}>
-                  {selectedRequest.artist}
+                  {selectedRequest.artist || "Unknown Artist"}
                 </p>
               </div>
             </div>
 
             <div className={detailStyles.box2}>
               <div className={detailStyles.box2Row1Ref}>
-                <span className={detailStyles.activeTabTitle}>
-                  {activeTab === "Commission"}
-                </span>
+                <span className={detailStyles.activeTabTitle}>Commission</span>
                 <span className={detailStyles.priceRef}>Price</span>
               </div>
               <div className={detailStyles.box2Row2Ref}>
                 <span
                   className={`${detailStyles.statusBadge} ${
-                    selectedRequest.status === "Closed"
-                      ? detailStyles.statusClosedBadge
-                      : ""
+                    !selectedRequest.open ? detailStyles.statusClosedBadge : ""
                   }`}
                 >
-                  Status: {selectedRequest.status}
+                  Status: {selectedRequest.open ? "Open" : "Closed"}
                 </span>
                 <span className={detailStyles.priceRef}>
-                  <span className={detailStyles.currencySymbol}>$</span>
-                  {selectedRequest.minBid && ` ${selectedRequest.minBid}`}
-                  {selectedRequest.maxBid && ` - ${selectedRequest.maxBid}`}
+                  {selectedRequest.price !== null ? (
+                    <>
+                      <span className={detailStyles.currencySymbol}>$</span>
+                      {selectedRequest.price}
+                    </>
+                  ) : (
+                    "Price not set"
+                  )}
                 </span>
               </div>
             </div>
 
             <div className={detailStyles.box3}>
-              {selectedRequest.imageUrl && (
+              {selectedRequest.sampleImageUrl && (
                 <img
-                  src={selectedRequest.imageUrl}
+                  src={selectedRequest.sampleImageUrl}
                   alt={selectedRequest.title}
                   className={detailStyles.detailImageRef}
                 />
@@ -265,28 +251,19 @@ function ArtRequestPage() {
             </div>
 
             <div className={detailStyles.box5}>
-              {" "}
               {/* Box 5: Description */}
               <h4 className={detailStyles.descriptionTitle}>Description</h4>
               <ul className={detailStyles.descriptionList}>
-                {selectedRequest.message && <li>{selectedRequest.message}</li>}
-                {selectedRequest.comment && (
-                  <li>Comment: {selectedRequest.comment}</li>
-                )}
-                {selectedRequest.purpose && (
-                  <li>Purpose: {selectedRequest.purpose}</li>
-                )}
-                {selectedRequest.otherDetails &&
-                  selectedRequest.otherDetails.map((detail, index) => (
-                    <li key={index}>{detail}</li>
-                  ))}
+                <li>{selectedRequest.description}</li>
+                <li>
+                  Estimated Duration: {selectedRequest.estimatedDuration} days
+                </li>
               </ul>
             </div>
 
             <div className={detailStyles.box4}>
-              {" "}
-              {/* Box 4: Action Buttons (อยู่ล่างสุด) */}
-              {selectedRequest.status !== "Closed" && (
+              {/* Box 4: Action Buttons */}
+              {selectedRequest.open && (
                 <button className={detailStyles.newRequestButtonRef}>
                   New Commission Request
                 </button>
