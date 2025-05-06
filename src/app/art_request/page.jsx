@@ -20,36 +20,37 @@ function ArtRequestPage() {
 
   // Sample art request data for Commission (add profileImage and status)
   const commissionRequests = [
-    {
-      id: 3,
-      imageUrl: "/images/explore/3.jpg",
-      title: "Anime Portrait",
-      artist: "AnimeArtist",
-      artistProfile: "/images/profiles/artist3.png",
-      status: "Open",
-      minBid: 75,
-      purpose: "OC Portrait",
-      clientName: "AnimeFan",
-      clientProfile: "/images/profiles/client3.png",
-      message: "Requesting a stylized anime portrait.",
-      comment: "Looking forward to your unique style!",
-    },
-    {
-      id: 4,
-      imageUrl: "/images/explore/4.jpg",
-      title: "Bakery Logo",
-      artist: "LogoPro",
-      artistProfile: "/images/profiles/artist4.png",
-      status: "Closed",
-      minBid: 100,
-      purpose: "Branding",
-      clientName: "BreadKing",
-      clientProfile: "/images/profiles/client4.png",
-      message: "Need a professional logo for my bakery.",
-      comment: "Want something memorable.",
-    },
+    // {
+    //   id: 3,
+    //   imageUrl: "/images/explore/3.jpg",
+    //   title: "Anime Portrait",
+    //   artist: "AnimeArtist",
+    //   artistProfile: "/images/profiles/artist3.png",
+    //   status: "Open",
+    //   minBid: 75,
+    //   purpose: "OC Portrait",
+    //   clientName: "AnimeFan",
+    //   clientProfile: "/images/profiles/client3.png",
+    //   message: "Requesting a stylized anime portrait.",
+    //   comment: "Looking forward to your unique style!",
+    // },
+    // {
+    //   id: 4,
+    //   imageUrl: "/images/explore/4.jpg",
+    //   title: "Bakery Logo",
+    //   artist: "LogoPro",
+    //   artistProfile: "/images/profiles/artist4.png",
+    //   status: "Closed",
+    //   minBid: 100,
+    //   purpose: "Branding",
+    //   clientName: "BreadKing",
+    //   clientProfile: "/images/profiles/client4.png",
+    //   message: "Need a professional logo for my bakery.",
+    //   comment: "Want something memorable.",
+    // },
     // ... more Commission requests
   ];
+  const [posts, setCommisposts] = useState([]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
