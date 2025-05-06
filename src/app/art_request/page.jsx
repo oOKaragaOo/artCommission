@@ -87,9 +87,9 @@ function ArtRequestPage() {
     const description = document.getElementById("description").value.trim();
     const price = document.getElementById("minRate").value;
     const estimatedDuration = document.getElementById("workDuration").value;
-    const status = document.getElementById("status").value;
+    /* const status = document.getElementById("status").value; */
     const imageInput = document.getElementById("image");
-  
+
     // ✅ เช็กว่า title & description ต้องมี
     if (!title) {
       alert("กรุณากรอก Title ก่อนโพสต์");
@@ -99,9 +99,9 @@ function ArtRequestPage() {
       alert("กรุณากรอก Description ก่อนโพสต์");
       return;
     }
-  
+
     let imageUrl = null;
-  
+
     try {
       // ✅ ถ้ามีไฟล์รูป ให้ upload ก่อน
       if (imageInput.files && imageInput.files[0]) {
@@ -111,7 +111,7 @@ function ArtRequestPage() {
       } else {
         console.log("⚠️ No image uploaded.");
       }
-  
+
       // 🔥 ส่ง form เข้า backend (ไม่ต้อง userId)
       const response = await fetch("http://localhost:8080/artist/commission-cards", {
         method: "POST",
@@ -128,24 +128,26 @@ function ArtRequestPage() {
           open: status === "open",
         }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "สร้าง Commission Card ไม่สำเร็จ");
       }
-  
+
       const data = await response.json();
       console.log("✅ Commission Card created:", data);
       alert("สร้าง Commission Card สำเร็จ!");
       closeCreateModal();
-      // 👉 อาจรีโหลด/refresh ตรงนี้ด้วย
+
+      // 🔄 อัปเดต state publicCards โดยเพิ่ม card ใหม่ที่ด้านหน้า
+      setPublicCards([data, ...publicCards]);
+
     } catch (err) {
       console.error("❌ Error:", err);
       alert("เกิดข้อผิดพลาด: " + err.message);
     }
   };
   
-
   return (
     <div className={styles.container}>
       <Navbarone />
@@ -195,13 +197,13 @@ function ArtRequestPage() {
               </button>
             </div>
             <div className={modalStyles.modalBody}>
-              <div className={modalStyles.formGroup}>
+              {/* <div className={modalStyles.formGroup}>
                 <label htmlFor="status">Status</label>
                 <select id="status">
                   <option value="open">Open</option>
                   <option value="closed">Closed</option>
                 </select>
-              </div>
+              </div> */}
               <div className={modalStyles.formGroup}>
                 <label htmlFor="minRate">Min. Rate ($)</label>
                 <input

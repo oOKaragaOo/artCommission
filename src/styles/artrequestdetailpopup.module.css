@@ -57,6 +57,7 @@
     height: 50px;
     border-radius: 50%;
     overflow: hidden;
+    margin-left: 20px;
 }
 
 .profileImage {
@@ -94,7 +95,7 @@
     display: flex;
     justify-content: space-between; /* จัดให้ Commission และ Price อยู่คนละฝั่ง */
     align-items: center;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-right: 10px;
 }
 
