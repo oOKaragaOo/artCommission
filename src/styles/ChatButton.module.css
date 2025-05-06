@@ -1,0 +1,26 @@
+/* components/ChatButton.module.css */
+.chatButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff; /* สีหลักของปุ่ม */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px; /* ทำให้เป็นวงรี */
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* ทำให้ปุ่มอยู่เหนือองค์ประกอบอื่นๆ */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .chatButton:hover {
+    background-color: #0056b3; /* สีเมื่อ Hover */
+  }
+  
+  .chatIcon {
+    font-size: 1.2em;
+  }

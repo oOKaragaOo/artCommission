@@ -25,6 +25,7 @@
     align-items: center;
     justify-content: space-between; /* Space out title and button */
     margin-bottom: 20px;
+    margin-right: 5px;
   }
 
   .createButton {
