@@ -26,7 +26,7 @@ function LoginPage() {
         await checkSession(setSessionUser);// ✅ After login
 
         localStorage.setItem("userId", result.userId || "guest");
-        router.replace("/welcome");
+        router.replace("/explore");
     };
 
     return (
