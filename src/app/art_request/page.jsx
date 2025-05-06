@@ -113,15 +113,15 @@ function ArtRequestPage() {
                             </div>
                             <div className={modalStyles.formGroup}>
                                 <label htmlFor="minRate">Min. Rate ($)</label>
-                                <input type="number" id="minRate" placeholder="Minimum Price" />
+                                <input type="number" id="minRate" placeholder="Minimum Price" min="0" />
                             </div>
-                            <div className={modalStyles.formGroup}>
+                            {/* <div className={modalStyles.formGroup}>
                                 <label htmlFor="maxRate">Max. Rate ($)</label>
                                 <input type="number" id="maxRate" placeholder="Maximum Price (Optional)" />
-                            </div>
+                            </div> */}
                             <div className={modalStyles.formGroup}>
                                 <label htmlFor="workDuration">Work duration (days)</label>
-                                <input type="number" id="workDuration" placeholder="Estimated Days" />
+                                <input type="number" id="workDuration" placeholder="Estimated Days" min="0" />
                             </div>
                             <div className={modalStyles.formGroup}>
                                 <label htmlFor="image">Attach Image</label>
@@ -182,7 +182,7 @@ function ArtRequestPage() {
                                 <span className={detailStyles.priceRef}>
                                     <span className={detailStyles.currencySymbol}>$</span>
                                     {selectedRequest.minBid && ` ${selectedRequest.minBid}`}
-                                    {selectedRequest.maxBid && ` - ${selectedRequest.maxBid}`}
+                                    {/* {selectedRequest.maxBid && ` - ${selectedRequest.maxBid}`} */}
                                 </span>
                             </div>
                         </div>
