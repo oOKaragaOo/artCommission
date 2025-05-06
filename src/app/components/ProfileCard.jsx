@@ -45,6 +45,9 @@ export default function ProfileCard({ userData, onEditClick }) {
                   Followers: {userData?.followerCount || 0}
                 </span>
               </p>
+              <button className="mt-2 px-4 py-1 text-sm border border-gray-400 rounded hover:bg-gray-200 transition">
+                Follow
+              </button>
               {userData?.description && (
                 <p className="text-sm text-gray-700 mt-1">
                   {userData?.description}
