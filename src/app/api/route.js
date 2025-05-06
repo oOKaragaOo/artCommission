@@ -283,4 +283,27 @@ export const getFeedProfile = async (postId, setPost, setError) => {
     }
   }
   
+  export async function createCommissionCard(formData, onSuccess, onError) {
+    try {
+      const res = await fetch("http://localhost:8080/artist/commission-cards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+  
+      if (!res.ok) throw new Error("สร้าง Commission Card ไม่สำเร็จ");
+      const data = await res.json();
+      console.log("✅ Created Commission Card:", data); // ✅ log ตรงนี้เลย!
+      onSuccess(data);
+    } catch (err) {
+      console.error(err);
+      onError(err.message);
+    }
+  }
+  
+
+  
   

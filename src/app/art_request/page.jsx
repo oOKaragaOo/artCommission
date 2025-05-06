@@ -7,12 +7,15 @@ import modalStyles from "../../styles/modal.module.css";
 import RequestGrid from "../components/RequestGrid";
 import Navbarone from "../components/Navbarone";
 import Sidebar from "../components/Sidebar";
-import ChatButton from '../components/ChatButton';
+import ChatButton from "../components/ChatButton";
 import { SessionContext } from "@/app/api/checkUser/route";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { getPublicCards } from "../api/route";
+import { createCommissionCard } from "../api/route";
+import { uploadImageToCloudinary } from "../api/service/cloudinaryService"; // เปลี่ยน path ตามโปรเจ็กต์คุณ
+
 
 function ArtRequestPage() {
   const [activeTab, setActiveTab] = useState("commission");
@@ -79,6 +82,70 @@ function ArtRequestPage() {
     }
   };
 
+  const handlePublish = async () => {
+    const title = document.getElementById("title").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const price = document.getElementById("minRate").value;
+    const estimatedDuration = document.getElementById("workDuration").value;
+    const status = document.getElementById("status").value;
+    const imageInput = document.getElementById("image");
+  
+    // ✅ เช็กว่า title & description ต้องมี
+    if (!title) {
+      alert("กรุณากรอก Title ก่อนโพสต์");
+      return;
+    }
+    if (!description) {
+      alert("กรุณากรอก Description ก่อนโพสต์");
+      return;
+    }
+  
+    let imageUrl = null;
+  
+    try {
+      // ✅ ถ้ามีไฟล์รูป ให้ upload ก่อน
+      if (imageInput.files && imageInput.files[0]) {
+        console.log("⏳ Uploading image...");
+        imageUrl = await uploadImageToCloudinary(imageInput.files[0], "default"); // โฟลเดอร์ default หรือแล้วแต่ตั้งค่า
+        console.log("✅ Image uploaded:", imageUrl);
+      } else {
+        console.log("⚠️ No image uploaded.");
+      }
+  
+      // 🔥 ส่ง form เข้า backend (ไม่ต้อง userId)
+      const response = await fetch("http://localhost:8080/artist/commission-cards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          title,
+          description,
+          price: price ? parseFloat(price) : null,
+          estimatedDuration: estimatedDuration ? parseInt(estimatedDuration) : null,
+          sampleImageUrl: imageUrl,
+          open: status === "open",
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "สร้าง Commission Card ไม่สำเร็จ");
+      }
+  
+      const data = await response.json();
+      console.log("✅ Commission Card created:", data);
+      alert("สร้าง Commission Card สำเร็จ!");
+      closeCreateModal();
+      // 👉 อาจรีโหลด/refresh ตรงนี้ด้วย
+    } catch (err) {
+      console.error("❌ Error:", err);
+      alert("เกิดข้อผิดพลาด: " + err.message);
+    }
+  };
+  
+
   return (
     <div className={styles.container}>
       <Navbarone />
@@ -120,7 +187,12 @@ function ArtRequestPage() {
                 CANCEL
               </button>
               <h2>Create New Request</h2>
-              <button className={modalStyles.publishButton}>PUBLISH</button>
+              <button
+                className={modalStyles.publishButton}
+                onClick={handlePublish}
+              >
+                PUBLISH
+              </button>
             </div>
             <div className={modalStyles.modalBody}>
               <div className={modalStyles.formGroup}>
