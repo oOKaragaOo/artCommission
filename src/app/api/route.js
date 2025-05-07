@@ -33,22 +33,20 @@ export const checkSession = async (setSessionUser) => {
     }
 };
 
-export const refreshProfile = async (setSessionUser) => {
+export const refreshProfile = async () => {
     try {
         const res = await fetch("http://localhost:8080/user/profile", {
             method: "GET",
             credentials: "include",
         });
 
-        if (!res.ok) {
-            console.error("Failed to refresh profile");
-            return;
-        }
+        if (!res.ok) throw new Error("Failed to refresh profile");
 
         const data = await res.json();
-        setSessionUser(data.user);
+        return data.user;
     } catch (err) {
         console.error("Error refreshing profile:", err);
+        return null;
     }
 };
 
@@ -198,62 +196,62 @@ export const getFeedProfile = async (postId, setPost, setError) => {
     }
 };
 
-  export const createPost = async ({ caption, imageUrl }) => {
-    try {
-      const response = await fetch("http://localhost:8080/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // สำคัญมากถ้าใช้ session login
-        body: JSON.stringify({
-          caption,
-          imageUrl,
-        }),
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        console.log("✅ Post created:", result);
-        return { success: true, data: result };
-      } else {
-        console.error("❌ Failed to create post:", result.error);
-        return { success: false, error: result.error };
-      }
-    } catch (error) {
-      console.error("⚠️ Network error:", error);
-      return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
-    }
-  };
-  
-  export const commentPost = async (postId, content) => {
-    try { console.log(postId, "Teeeeeeeeeee")
-      const response = await fetch(`http://localhost:8080/posts/${postId}/comment`, {
-        
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // ใช้ session จาก browser
-        body: JSON.stringify({ content }),
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        console.log("✅ Comment added:", result);
-        return { success: true, data: result };
-      } else {
-        console.error("❌ Failed to comment:", result.error);
-        return { success: false, error: result.error };
-      }
-    } catch (error) {
-      console.error("⚠️ Network error:", error);
-      return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
-    }
-  };
-  
+export const createPost = async ({ caption, imageUrl }) => {
+try {
+  const response = await fetch("http://localhost:8080/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // สำคัญมากถ้าใช้ session login
+    body: JSON.stringify({
+      caption,
+      imageUrl,
+    }),
+  });
+
+  const result = await response.json();
+
+  if (response.ok) {
+    console.log("✅ Post created:", result);
+    return { success: true, data: result };
+  } else {
+    console.error("❌ Failed to create post:", result.error);
+    return { success: false, error: result.error };
+  }
+} catch (error) {
+  console.error("⚠️ Network error:", error);
+  return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
+}
+};
+
+export const commentPost = async (postId, content) => {
+try { console.log(postId, "Teeeeeeeeeee")
+  const response = await fetch(`http://localhost:8080/posts/${postId}/comment`, {
+
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // ใช้ session จาก browser
+    body: JSON.stringify({ content }),
+  });
+
+  const result = await response.json();
+
+  if (response.ok) {
+    console.log("✅ Comment added:", result);
+    return { success: true, data: result };
+  } else {
+    console.error("❌ Failed to comment:", result.error);
+    return { success: false, error: result.error };
+  }
+} catch (error) {
+  console.error("⚠️ Network error:", error);
+  return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
+}
+};
+
   export const likePost = async (postId) => {
     try {
       const response = await fetch(`http://localhost:8080/posts/${postId}/like`, {
@@ -268,7 +266,7 @@ export const getFeedProfile = async (postId, setPost, setError) => {
       return { success: false, error: err.message };
     }
   };
-  
+
   export const unlikePost = async (postId) => {
     try {
       const response = await fetch(`http://localhost:8080/posts/${postId}/like`, {
@@ -283,7 +281,7 @@ export const getFeedProfile = async (postId, setPost, setError) => {
       return { success: false, error: err.message };
     }
   };
-  
+
   export async function getAllPosts(setPosts, setError) {
     try {
       const res = await fetch("/api/posts", {
@@ -314,7 +312,7 @@ export const getFeedProfile = async (postId, setPost, setError) => {
       setError(err.message);
     }
   }
-  
+
   export async function createCommissionCard(formData, onSuccess, onError) {
     try {
       const res = await fetch("http://localhost:8080/artist/commission-cards", {
@@ -325,7 +323,7 @@ export const getFeedProfile = async (postId, setPost, setError) => {
         credentials: "include",
         body: JSON.stringify(formData),
       });
-  
+
       if (!res.ok) throw new Error("สร้าง Commission Card ไม่สำเร็จ");
       const data = await res.json();
       console.log("✅ Created Commission Card:", data); // ✅ log ตรงนี้เลย!
@@ -335,7 +333,6 @@ export const getFeedProfile = async (postId, setPost, setError) => {
       onError(err.message);
     }
   }
-  
 
-  
-  
+
+

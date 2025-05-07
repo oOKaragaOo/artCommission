@@ -1,11 +1,17 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { SessionContext } from "@/app/api/checkUser/route";
-import { uploadImageToCloudinary } from "../api/service/cloudinaryService";
+import { refreshProfile } from "@/app/api/route";
+import { uploadImageToCloudinary } from "@/app/api/service/cloudinaryService";
 
-export default function ProfileForm({ isOpen, setIsOpen }) {
+export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated, userData }) {
+
+  const { sessionUser, setSessionUser } = useContext(SessionContext);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -14,63 +20,85 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
     profilePictureFile: null,
   });
 
+  // ✅ ดึงค่าจาก sessionUser มา preload ฟอร์มเมื่อเปิด popup
+  useEffect(() => {
+    if (isOpen && userData) {
+      setFormData({
+        name: userData.name || "",
+        description: userData.description || "",
+        commissionStatus: userData.commission_status || "open",
+        profilePicture: userData.profile_picture || "",
+      });
+      setPreviewUrl("");
+      setImageFile(null);
+    }
+  }, [isOpen, userData]);
+
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleToggle = () => {
-    setFormData({
-      ...formData,
-      commissionStatus: formData.commissionStatus === "open" ? "close" : "open",
-    });
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => setPreviewUrl(reader.result);
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(formData)
     try {
-      let imageUrl = formData.profilePicture;
-
-      // ✅ ถ้า user เลือกรูปใหม่ (เป็นไฟล์ object)
-      if (formData.profilePictureFile) {
-        console.log("Uploading to cloudinary...");
-        imageUrl = await uploadImageToCloudinary(
-          formData.profilePictureFile,
-          sessionUser?.id // 👉 ตรวจสอบว่า id ถูกต้องหรือเปลี่ยนตามจริง
-        );
+      let uploadedUrl = formData.profilePicture;
+      if (imageFile) {
+        // console.log("Uploading file:", imageFile);
+        uploadedUrl = await uploadImageToCloudinary(imageFile, userData.id);
       }
+
 
       const response = await fetch("http://localhost:8080/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        credentials: "include", // สำคัญมาก ถ้าคุณใช้ session ใน Spring
         body: JSON.stringify({
           name: formData.name,
+          profile_picture: uploadedUrl,
           description: formData.description,
-          profile_picture: imageUrl,
+          commission_status: formData.commissionStatus,
         }),
       });
 
       const result = await response.json();
-
-      if (response.ok) {
-        alert("โปรไฟล์ได้รับการอัปเดตแล้ว");
-        setIsOpen(false);
-        // แนะนำ: reload หน้า หรือเรียก fetch ข้อมูลใหม่ใน parent
-      } else {
+      if (!response.ok) {
+        console.error("❌ Error:", result.error);
         alert("เกิดข้อผิดพลาด: " + result.error);
+        return;
       }
+
+      const updatedUser = await refreshProfile();
+      if (updatedUser) setSessionUser(updatedUser);
+
+      onProfileUpdated?.();
+      setIsOpen(false);
     } catch (error) {
-      console.error("❌ Error uploading:", error);
-      alert("ไม่สามารถอัปโหลดไฟล์ได้");
+      console.error("❌ Upload/Profile error:", error);
+      alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
     }
   };
 
-  const { sessionUser } = useContext(SessionContext);
-
   if (!isOpen) return null;
+
+  const safeSrc =
+      previewUrl?.trim() ||
+      formData.profilePicture?.trim() ||
+      sessionUser?.profile_picture?.trim() ||
+      "/default-avatar.png";
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
@@ -143,52 +171,51 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
             />
           </div>
 
-          {sessionUser?.role === "Artist" && (
-            <div>
-              <label className="text-sm text-blue-200 mb-1 block">
-                Commission Status
-              </label>
-              <div className="flex items-center space-x-2">
+            {sessionUser?.role === "Artist" && (
+                <div>
+                  <label className="text-sm text-blue-200 mb-1 block">Commission Status</label>
+                  <div className="flex items-center space-x-2">
                 <span className="text-sm w-10 text-right">
                   {formData.commissionStatus === "open" ? "Open" : "Close"}
                 </span>
-                <div
-                  className={`w-14 h-8 p-1 rounded-full flex items-center transition-all duration-300 cursor-pointer ${
-                    formData.commissionStatus === "open"
-                      ? "bg-green-500"
-                      : "bg-gray-500"
-                  }`}
-                  onClick={handleToggle}
-                >
-                  <div
-                    className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                      formData.commissionStatus === "open"
-                        ? "translate-x-0"
-                        : "translate-x-6"
-                    }`}
-                  />
+                    <div
+                        className={`w-14 h-8 p-1 rounded-full flex items-center transition-all duration-300 cursor-pointer ${
+                            formData.commissionStatus === "open" ? "bg-green-500" : "bg-gray-500"
+                        }`}
+                        onClick={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              commissionStatus: prev.commissionStatus === "open" ? "close" : "open",
+                            }))
+                        }
+                    >
+                      <div
+                          className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                              formData.commissionStatus === "open" ? "translate-x-0" : "translate-x-6"
+                          }`}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          )}
+            )}
 
-          <div className="flex justify-center mt-4 space-x-10">
-            <button
-              type="submit"
-              className="bg-cyan-400 text-white px-4 py-2 rounded hover:bg-cyan-500"
-            >
-              ยืนยัน
-            </button>
-            <button
-              type="button"
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              onClick={() => setIsOpen(false)}
-            >
-              ยกเลิก
-            </button>
-          </div>
-        </form>
-      </motion.div>
-    </div>
+            <div className="flex justify-center mt-4 space-x-10">
+              <button
+                  type="submit"
+                  className="bg-cyan-400 text-white px-4 py-2 rounded hover:bg-cyan-500"
+              >
+                ยืนยัน
+              </button>
+              <button
+                  type="button"
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  onClick={() => setIsOpen(false)}
+              >
+                ยกเลิก
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
   );
 }
