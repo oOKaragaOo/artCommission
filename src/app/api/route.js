@@ -351,10 +351,27 @@ export const deletePost = async (postId) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("5555555555555555555555555", res);
+    // console.log("5555555555555555555555555", res);
     const data = await res.json();
     return data;
   } catch (error) {
     return { error: "Failed to delete post" };
+  }
+};
+
+export const getAuthorProfile = async (authorId) => {
+  try {
+    const res = await fetch(`http://localhost:8080/user/${authorId}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("5555555555555555555555555", res);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return { error: "Failed to get profile" };
   }
 };

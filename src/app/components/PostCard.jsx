@@ -1,13 +1,16 @@
 "use client";
 import { useState } from "react";
 import { commentPost, likePost, unlikePost, deletePost } from "@/app/api/route";
+import { useRouter } from "next/navigation";
+import { getAuthorProfile } from "@/app/api/route";
 
-export default function PostItem({ post, setPosts}) {
+export default function PostItem({ post, setPosts }) {
   const [commentText, setCommentText] = useState("");
   const [liked, setLiked] = useState(post.likedByMe || false); // <-- จาก backend
   const [likeCount, setLikeCount] = useState(post.likeCount || 0);
   const [shareCount, setShareCount] = useState(post.shareCount);
   const [showDropdown, setShowDropdown] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,7 +64,6 @@ export default function PostItem({ post, setPosts}) {
     } else {
       alert(result?.error || "Failed to delete post");
     }
-
   };
 
   const handleReportPost = () => {
@@ -69,10 +71,24 @@ export default function PostItem({ post, setPosts}) {
     // TODO: ส่งรายงานโพสต์
   };
 
+  const handleAuthorProfile = async (authorId) => {
+    const result = await getAuthorProfile(authorId);
+    console.log("Author Profile:", result);
+
+    if (result.error) {
+        alert("ไม่สามารถโหลดโปรไฟล์ได้");
+    } else {
+        router.replace(`/profile`); // 👈 ไปหน้าโปรไฟล์คนนั้นเลย
+    }
+};
+
   return (
     <div className="bg-gray-100 p-4 min-w-190 rounded shadow mb-4 relative">
       {/* หัวโพสต์ */}
-      <div className="flex items-center justify-between mb-2">
+      <div
+        onClick={() => handleAuthorProfile(post.authorId)}
+        className="flex items-center justify-between mb-2 cursor-pointer"
+      >
         <div className="flex items-center gap-2">
           <img
             src={post.authorProfile || "/default-avatar.png"}
