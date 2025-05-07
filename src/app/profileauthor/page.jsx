@@ -19,6 +19,7 @@ export default function ProfileAuthorPage() {
   const [isLogin, setIsLogin] = useState(false);
   const searchParams = useSearchParams(); // ✅ ดึง params
   const authorId = searchParams.get("authorId"); // 👈 ดึง authorId จาก query string
+  const isOwnProfile = localSessionUser?.user?.id === Number(authorId);
 
   // โหลด user ข้อมูลจาก authorId
   const loadUserData = async () => {
@@ -78,7 +79,11 @@ export default function ProfileAuthorPage() {
       <div className="max-w-3xl mx-auto p-4">
         {apiUserData ? (
           <>
-            <ProfileCard userData={apiUserData} onEditClick={handleEditProfile} />
+            <ProfileCard
+              userData={apiUserData}
+              onEditClick={handleEditProfile}
+              isOwnProfile={false}
+            />
 
             {/* ✅ เงื่อนไข: ถ้าเป็นเจ้าของเอง ค่อยโชว์ PostUpload */}
             {localSessionUser?.user?.id === Number(authorId) && (

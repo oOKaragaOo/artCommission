@@ -60,7 +60,11 @@ export default function ProfilePage() {
     <div>
       <Navbar session={localSessionUser} />
       <div className="max-w-3xl mx-auto p-4">
-        <ProfileCard userData={apiUserData} onEditClick={handleEditProfile} />
+        <ProfileCard
+          userData={apiUserData}
+          onEditClick={handleEditProfile}
+          isOwnProfile={true}
+        />
         <PostUpload onPost={handleNewPost} />
 
         {Array.isArray(posts) && posts.length > 0 ? (
