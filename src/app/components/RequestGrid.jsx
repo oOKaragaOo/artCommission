@@ -27,7 +27,7 @@ function RequestGrid({ requests, onRequestClick }) {
               <p className={styles.budgetInfo}>Min. Bid: ${request.price}</p>
             )}
             <p className={styles.requesterUsername}>
-              Requester: {request.artist || "N/A"}
+              Requester: {request.artistName || "N/A"}
             </p>{" "}
             {/* Assuming 'artist' in your data is the requester's name */}
             {/* You can display other relevant info in the grid item */}

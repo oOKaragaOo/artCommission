@@ -16,7 +16,6 @@ import { getPublicCards } from "../api/route";
 import { createCommissionCard } from "../api/route";
 import { uploadImageToCloudinary } from "../api/service/cloudinaryService"; // เปลี่ยน path ตามโปรเจ็กต์คุณ
 
-
 function ArtRequestPage() {
   const [activeTab, setActiveTab] = useState("commission");
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -49,9 +48,9 @@ function ArtRequestPage() {
 
   useEffect(() => {
     // Logic ในการดึงข้อมูล User ที่ Login
-    setCurrentUser({ id: 'user123' }); // ตัวอย่าง ID
+    setCurrentUser({ id: "user123" }); // ตัวอย่าง ID
     // Logic ในการกำหนด ID ของ User ที่จะ Chat ด้วย (เช่น จากการคลิกบน Profile)
-    setTargetUser({ id: 'user456' }); // ตัวอย่าง ID
+    setTargetUser({ id: "user456" }); // ตัวอย่าง ID
   }, []);
 
   if (!currentUser || !targetUser) {
@@ -120,28 +119,36 @@ function ArtRequestPage() {
       // ✅ ถ้ามีไฟล์รูป ให้ upload ก่อน
       if (imageInput.files && imageInput.files[0]) {
         console.log("⏳ Uploading image...");
-        imageUrl = await uploadImageToCloudinary(imageInput.files[0], "default"); // โฟลเดอร์ default หรือแล้วแต่ตั้งค่า
+        imageUrl = await uploadImageToCloudinary(
+          imageInput.files[0],
+          "default"
+        ); // โฟลเดอร์ default หรือแล้วแต่ตั้งค่า
         console.log("✅ Image uploaded:", imageUrl);
       } else {
         console.log("⚠️ No image uploaded.");
       }
 
       // 🔥 ส่ง form เข้า backend (ไม่ต้อง userId)
-      const response = await fetch("http://localhost:8080/artist/commission-cards", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          title,
-          description,
-          price: price ? parseFloat(price) : null,
-          estimatedDuration: estimatedDuration ? parseInt(estimatedDuration) : null,
-          sampleImageUrl: imageUrl,
-          open: status === "open",
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8080/artist/commission-cards",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            title,
+            description,
+            price: price ? parseFloat(price) : null,
+            estimatedDuration: estimatedDuration
+              ? parseInt(estimatedDuration)
+              : null,
+            sampleImageUrl: imageUrl,
+            open: status === "open",
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -155,13 +162,12 @@ function ArtRequestPage() {
 
       // 🔄 อัปเดต state publicCards โดยเพิ่ม card ใหม่ที่ด้านหน้า
       setPublicCards([data, ...publicCards]);
-
     } catch (err) {
       console.error("❌ Error:", err);
       alert("เกิดข้อผิดพลาด: " + err.message);
     }
   };
-  
+
   return (
     <div className={styles.container}>
       <Navbarone />
@@ -288,10 +294,10 @@ function ArtRequestPage() {
 
             <div className={detailStyles.box1}>
               <div className={detailStyles.profileImageContainer}>
-                {selectedRequest.artistProfile && (
+                {selectedRequest.artistProfilePicture && (
                   <img
-                    src={selectedRequest.artistProfile}
-                    alt={selectedRequest.artist || "Artist"}
+                    src={selectedRequest.artistProfilePicture}
+                    alt={selectedRequest.artistName || "Artist"}
                     className={detailStyles.profileImage}
                   />
                 )}
@@ -299,7 +305,7 @@ function ArtRequestPage() {
               <div className={detailStyles.artistInfo}>
                 <h3 className={detailStyles.title}>{selectedRequest.title}</h3>
                 <p className={detailStyles.username}>
-                  {selectedRequest.artist || "Unknown Artist"}
+                  {"@"+selectedRequest.artistName || "Unknown Artist"}
                 </p>
               </div>
             </div>
