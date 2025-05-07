@@ -75,6 +75,7 @@ export default function ProfilePage() {
             setIsOpen={setIsOpen}
             isLogin={isLogin}
             onProfileUpdated={handleProfileUpdated}
+            userData={apiUserData}
         />
 
       </div>

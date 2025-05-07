@@ -164,59 +164,59 @@ export const getFeedProfile = async (postId, setPost, setError) => {
     }
 };
 
-  export const createPost = async ({ caption, imageUrl }) => {
-    try {
-      const response = await fetch("http://localhost:8080/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // สำคัญมากถ้าใช้ session login
-        body: JSON.stringify({
-          caption,
-          imageUrl,
-        }),
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        console.log("✅ Post created:", result);
-        return { success: true, data: result };
-      } else {
-        console.error("❌ Failed to create post:", result.error);
-        return { success: false, error: result.error };
-      }
-    } catch (error) {
-      console.error("⚠️ Network error:", error);
-      return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
-    }
-  };
-  
-  export const commentPost = async (postId, content) => {
-    try { console.log(postId, "Teeeeeeeeeee")
-      const response = await fetch(`http://localhost:8080/posts/${postId}/comment`, {
-        
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // ใช้ session จาก browser
-        body: JSON.stringify({ content }),
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        console.log("✅ Comment added:", result);
-        return { success: true, data: result };
-      } else {
-        console.error("❌ Failed to comment:", result.error);
-        return { success: false, error: result.error };
-      }
-    } catch (error) {
-      console.error("⚠️ Network error:", error);
-      return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
-    }
-  };
+export const createPost = async ({ caption, imageUrl }) => {
+try {
+  const response = await fetch("http://localhost:8080/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // สำคัญมากถ้าใช้ session login
+    body: JSON.stringify({
+      caption,
+      imageUrl,
+    }),
+  });
+
+  const result = await response.json();
+
+  if (response.ok) {
+    console.log("✅ Post created:", result);
+    return { success: true, data: result };
+  } else {
+    console.error("❌ Failed to create post:", result.error);
+    return { success: false, error: result.error };
+  }
+} catch (error) {
+  console.error("⚠️ Network error:", error);
+  return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
+}
+};
+
+export const commentPost = async (postId, content) => {
+try { console.log(postId, "Teeeeeeeeeee")
+  const response = await fetch(`http://localhost:8080/posts/${postId}/comment`, {
+
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // ใช้ session จาก browser
+    body: JSON.stringify({ content }),
+  });
+
+  const result = await response.json();
+
+  if (response.ok) {
+    console.log("✅ Comment added:", result);
+    return { success: true, data: result };
+  } else {
+    console.error("❌ Failed to comment:", result.error);
+    return { success: false, error: result.error };
+  }
+} catch (error) {
+  console.error("⚠️ Network error:", error);
+  return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
+}
+};
   
