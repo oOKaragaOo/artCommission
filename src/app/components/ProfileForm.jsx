@@ -3,9 +3,13 @@
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { SessionContext } from "@/app/api/checkUser/route";
-import { uploadImageToCloudinary } from "../api/service/cloudinaryService";
 
-export default function ProfileForm({ isOpen, setIsOpen }) {
+import { refreshProfile } from "@/app/api/route"; // ⬅️ ฟังก์ชันที่นายมีแล้ว
+
+export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
+
+  const { sessionUser, setSessionUser } = useContext(SessionContext);
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -55,20 +59,20 @@ export default function ProfileForm({ isOpen, setIsOpen }) {
 
       const result = await response.json();
 
-      if (response.ok) {
-        alert("โปรไฟล์ได้รับการอัปเดตแล้ว");
-        setIsOpen(false);
-        // แนะนำ: reload หน้า หรือเรียก fetch ข้อมูลใหม่ใน parent
-      } else {
+      const updatedUser = await refreshProfile();
+      if (updatedUser) setSessionUser(updatedUser); // ✅ ไม่ error แล้ว
+       // ✅ กระตุ้นให้โหลด apiUserData ใหม่
+       else {
+        console.error("❌ Error:", result.error);
         alert("เกิดข้อผิดพลาด: " + result.error);
-      }
+      }onProfileUpdated?.();
     } catch (error) {
       console.error("❌ Error uploading:", error);
       alert("ไม่สามารถอัปโหลดไฟล์ได้");
     }
   };
 
-  const { sessionUser } = useContext(SessionContext);
+
 
   if (!isOpen) return null;
 
