@@ -17,6 +17,7 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated, userD
     description: "",
     commissionStatus: "open",
     profilePicture: "",
+    profilePictureFile: null,
   });
 
   // ✅ ดึงค่าจาก sessionUser มา preload ฟอร์มเมื่อเปิด popup
@@ -50,7 +51,7 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated, userD
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(formData)
     try {
       let uploadedUrl = formData.profilePicture;
 
@@ -63,7 +64,7 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated, userD
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        credentials: "include", // สำคัญมาก ถ้าคุณใช้ session ใน Spring
         body: JSON.stringify({
           name: formData.name,
           profile_picture: uploadedUrl,
@@ -99,51 +100,75 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated, userD
       "/default-avatar.png";
 
   return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-        <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="bg-[#3E3E3E] text-white p-6 rounded-xl w-[400px] relative"
-        >
-          {/* Avatar */}
-          <div className="flex flex-col items-center mb-4">
-            <div className="relative group">
-              <img
-                  src={safeSrc}
-                  alt="Avatar"
-                  className="w-20 h-20 object-cover rounded-full border-4 border-white shadow"
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="bg-gray-300 text-white p-6 rounded-xl w-[400px] border-black relative"
+      >
+        {/* Avatar */}
+        <div className="flex flex-col items-center mb-4">
+          <div className="relative group">
+            <img
+              src={
+                formData.profilePicture ||
+                sessionUser?.profile_picture ||
+                "/default-avatar.png"
+              }
+              className="w-20 h-20 object-cover rounded-full border-4 border-black shadow"
+            />
+
+            {/* ปุ่มแก้ไขรูป (hover หรือคลิก) */}
+            <label className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer">
+              ✏️
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setFormData({
+                        ...formData,
+                        profilePicture: reader.result, // สำหรับ preview
+                        profilePictureFile: file, // ไว้อัปโหลดจริง
+                      });
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
               />
-              <label className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer">
-                ✏️
-                <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
-              </label>
-            </div>
+            </label>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
+            <label className="text-sm text-black">Name</label>
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full p-2 rounded bg-gray-800 text-white"
+              placeholder="Name"
+              required
+            />
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div>
-              <label className="text-sm text-blue-200">Name</label>
-              <input
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full p-2 rounded bg-gray-800 text-white"
-                  placeholder="Name"
-              />
-            </div>
-
-            <div>
-              <label className="text-sm text-blue-200">Description</label>
-              <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  className="w-full p-2 rounded bg-gray-800 text-white"
-                  placeholder="Description"
-              />
-            </div>
+          <div>
+            <label className="text-sm text-black">Description</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full p-2 rounded bg-gray-800 text-white"
+              placeholder="Description"
+            />
+          </div>
 
             {sessionUser?.role === "Artist" && (
                 <div>

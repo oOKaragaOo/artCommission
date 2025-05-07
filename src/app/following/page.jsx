@@ -54,7 +54,7 @@ const FollowingPage = () => {
       <div className={styles.content}>
         <Sidebar />
         <div className={styles.followingContent}>
-          <h1 className={styles.pageTitle}>กำลังติดตาม</h1>
+          <h1 className={styles.pageTitle}>Following</h1>
           <ul className={styles.followingList}>
             {followingList.map(user => (
               <li key={user.id} className={styles.followingItem}>

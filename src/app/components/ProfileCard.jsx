@@ -1,9 +1,63 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ProfileCard({ userData, onEditClick }) {
+  const [isFollowing, setIsFollowing] = useState(false); // สถานะ follow/unfollow
+  const [loading, setLoading] = useState(false);
+
+  const handleFollow = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`http://localhost:8080/user/${targetUserId}/follow`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(data.message);
+        setIsFollowing(true); // ✅ อัปเดตเป็นกำลัง follow
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error("Error following user:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUnfollow = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`http://localhost:8080/user/${targetUserId}/unfollow`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(data.message);
+        setIsFollowing(false); // ✅ อัปเดตเป็นเลิก follow
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
   return (
-    <div className="relative bg-gray-100 rounded-lg shadow mb-4 overflow-hidden">
+    <div className="relative bg-gray-100 min-w-190 rounded-lg shadow mb-4 overflow-hidden">
       {/* Cover Background Layer (อยู่ด้านหลัง) */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gray-500 z-0" />
 
@@ -45,6 +99,18 @@ export default function ProfileCard({ userData, onEditClick }) {
                   Followers: {userData?.followerCount || 0}
                 </span>
               </p>
+              <button
+                onClick={isFollowing ? handleUnfollow : handleFollow}
+                disabled={loading}
+                className={`mt-2 px-4 py-1 text-sm border rounded transition ${
+                  isFollowing
+                    ? "border-red-400 text-red-500 hover:bg-red-100"
+                    : "border-gray-400 hover:bg-gray-200"
+                }`}
+              >
+                {loading ? "Loading..." : isFollowing ? "Unfollow" : "Follow"}
+              </button>
+
               {userData?.description && (
                 <p className="text-sm text-gray-700 mt-1">
                   {userData?.description}

@@ -1,0 +1,187 @@
+/* postdetailpopup.module.css */
+
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popupContent {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%; /* Increased width */
+    max-width: 1000px; /* Increased max-width */
+    max-height: 100%; /* Increased max-height */
+    overflow: hidden;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr; /* Adjusted image ratio */
+    gap: 0;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #8e8e8e;
+    font-size: 1.5rem;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 1001;
+  }
+  
+  .closeButton:hover {
+    color: #262626;
+  }
+  
+  .gridItemImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #000; /* Black background for image */
+  }
+  
+  .gridItemImage img {
+    display: block;
+    max-width: 100%;
+    max-height: 100vh; /* Increased image max-height */
+    object-fit: contain;
+  }
+  
+  .gridItemDetails {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+  }
+  
+  /* --- Part 1: Header (Profile & Username) --- */
+  .detailHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px; /* Increased bottom margin */
+  }
+  
+  .avatar {
+    width: 40px; /* Slightly larger avatar */
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+  }
+  
+  .artistInfo h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #262626;
+    margin-bottom: 4px;
+  }
+  
+  .artistInfo p {
+    font-size: 0.9rem;
+    color: #8e8e8e;
+  }
+  
+  /* --- Part 2: Empty Comments Section (or Description) --- */
+  .commentsSection {
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-bottom: auto; /* Push actions to the bottom */
+  }
+  
+  .postDetailDescription {
+    font-size: 0.9rem;
+    color: #262626;
+    line-height: 1.4;
+    margin-bottom: 16px; /* Add some space if description is present */
+  }
+  
+  /* --- Part 3: Actions Buttons --- */
+  .detailActions {
+    display: flex;
+    align-items: center;
+    padding: 8px 0; /* Adjust padding */
+    border-top: 1px solid #eee;
+  }
+  
+  .actionButton {
+    background: none;
+    border: none;
+    color: #262626;
+    padding: 8px;
+    margin-right: 16px;
+    font-size: 1.2rem; /* Slightly larger icons */
+    cursor: pointer;
+  }
+  
+  .actionButton svg {
+    margin-right: 5px;
+  }
+  
+  .actionCount {
+    font-size: 1rem;
+    color: #262626;
+  }
+  
+  .liked {
+    color: #ed4956;
+  }
+
+/* --- Part 4: Comment Input (Updated for Emoji Button) --- */
+.commentInputSection {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-top: 1px solid #eee;
+}
+
+.emojiButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.emojiIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* Optional: Keep a circular shape */
+}
+
+.commentInput {
+  flex-grow: 1;
+  border: none;
+  padding: 8px;
+  border-radius: 20px;
+  background-color: #f2f2f2;
+  font-size: 0.9rem;
+  margin-right: 8px;
+}
+
+.commentInput:focus {
+  outline: none;
+  background-color: #e6e6e6;
+}
+
+.postButton {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.postButton:hover {
+  color: #0056b3;
+}

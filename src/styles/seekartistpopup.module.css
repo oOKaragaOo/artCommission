@@ -1,0 +1,142 @@
+/* styles/seekartistpopup.module.css */
+
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Ensure it's on top of detail popup */
+}
+
+.popupContent {
+    background-color: #fff;
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #777;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.closeButton:hover {
+    color: #333;
+}
+
+.popupContent h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="number"],
+.formGroup select,
+.formGroup textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.formGroup textarea {
+    min-height: 100px;
+}
+
+.radioGroup {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.radioGroup label {
+    font-weight: normal;
+}
+
+.checkboxGroup {
+    margin-bottom: 10px;
+}
+
+.checkboxGroup label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #333;
+}
+
+.optional {
+    color: #777;
+    font-style: italic;
+}
+
+.agreementSection {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.agreementSection p {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.agreementSection label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.submitButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.submitButton:hover {
+    background-color: #0056b3;
+}

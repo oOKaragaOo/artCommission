@@ -46,6 +46,7 @@ export default function PostUpload({ onPost }) {
   };
 
   return (
+
       <>
         <div className="bg-gray-100 text-center rounded-lg p-4 shadow mb-4">
           <button
@@ -86,6 +87,7 @@ export default function PostUpload({ onPost }) {
                     />
                   </label>
                 </div>
+
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <input

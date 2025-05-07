@@ -219,4 +219,88 @@ try { console.log(postId, "Teeeeeeeeeee")
   return { success: false, error: "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้" };
 }
 };
-  
+
+  export const likePost = async (postId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/posts/${postId}/like`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Like failed");
+      return { success: true };
+    } catch (err) {
+      console.error("Like error:", err);
+      return { success: false, error: err.message };
+    }
+  };
+
+  export const unlikePost = async (postId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/posts/${postId}/like`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unlike failed");
+      return { success: true };
+    } catch (err) {
+      console.error("Unlike error:", err);
+      return { success: false, error: err.message };
+    }
+  };
+
+  export async function getAllPosts(setPosts, setError) {
+    try {
+      const res = await fetch("/api/posts", {
+        method: "GET",
+        credentials: "include", // เพื่อให้ส่ง session cookie
+      });
+      if (!res.ok) throw new Error("ไม่สามารถโหลดโพสต์ได้");
+      const data = await res.json();
+      setPosts(data);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
+  }
+
+  export async function getPublicCards(setCards, setError) {
+    try {
+      const res = await fetch("http://localhost:8080/artist/public-cards", {
+        method: "GET",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("โหลด Public Cards ไม่สำเร็จ");
+      const data = await res.json();
+      console.log("✅ Public Cards Response:", data); // ✅ log ตรงนี้เลย!
+      setCards(data);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
+  }
+
+  export async function createCommissionCard(formData, onSuccess, onError) {
+    try {
+      const res = await fetch("http://localhost:8080/artist/commission-cards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("สร้าง Commission Card ไม่สำเร็จ");
+      const data = await res.json();
+      console.log("✅ Created Commission Card:", data); // ✅ log ตรงนี้เลย!
+      onSuccess(data);
+    } catch (err) {
+      console.error(err);
+      onError(err.message);
+    }
+  }
+
+
+

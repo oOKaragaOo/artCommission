@@ -1,106 +1,49 @@
 "use client";
 
-import React, { useState } from 'react';
-import styles from '../../styles/feedpage.module.css';
-import Navbarone from '../components/Navbarone'; // Import Navbarone
-import Sidebar from '../components/Sidebar';   // Import Sidebar
+import React, { useContext, useEffect, useState } from "react";
+import Navbarone from "@/app/components/Navbarone";
+import Sidebar from "../components/Sidebar";
+import PostItem from "@/app/components/PostCard"; // component ที่ render โพสต์เดี่ยว
+import { SessionContext } from "@/app/api/checkUser/route";
+import { getAllPosts } from "@/app/api/route";
+import styles from './feedpage.module.css';
 
-const FeedPage = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      artistName: 'USER NAME',
-      account: '@NameAccount',
-      image: '/images/test1.jpg',
-      likes: 15,
-      comments: 3,
-      shares: 2,
-      liked: false,
-    },
-    {
-      id: 2,
-      artistName: 'USER NAME',
-      account: '@NameAccount',
-      image: '/images/placeholder-image-2.png',
-      likes: 28,
-      comments: 8,
-      shares: 5,
-      liked: true,
-    },
-    {
-      id: 3,
-      artistName: 'USER NAME',
-      account: '@NameAccount',
-      image: '/images/placeholder-image-2.png',
-      likes: 28,
-      comments: 8,
-      shares: 5,
-      liked: true,
-    },
-    {
-      id: 4,
-      artistName: 'USER NAME',
-      account: '@NameAccount',
-      image: '/images/placeholder-image-2.png',
-      likes: 28,
-      comments: 8,
-      shares: 5,
-      liked: true,
-    },
-    // เพิ่มโพสต์อื่นๆ
-  ]);
+export default function HomeFeed() {
 
-  const handleLike = (postId) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId ? { ...post, likes: post.liked ? post.likes - 1 : post.likes + 1, liked: !post.liked } : post
-      )
-    );
-  };
+  const { sessionUser: localSessionUser } = useContext(SessionContext); // 👈 เก็บไว้ใช้
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState(null);
 
-  const handleComment = (postId) => {
-    alert(`เปิดความคิดเห็นสำหรับโพสต์ ID: ${postId}`);
-  };
-
-  const handleShare = (postId) => {
-    alert(`แชร์โพสต์ ID: ${postId}`);
-  };
+  useEffect(() => {
+    const fetchPosts = async () => {
+      await getAllPosts(setPosts, setError);
+    };
+    fetchPosts();
+  }, []);
 
   return (
     <div className={styles.container}>
-      <Navbarone /> {/* เรียกใช้ Navbarone */}
+      <Navbarone />
       <div className={styles.content}>
-        <Sidebar />   {/* เรียกใช้ Sidebar */}
+        <Sidebar />
         <div className={styles.feed}>
-          {posts.map((post) => (
-            <div key={post.id} className={styles.post}>
-              <div className={styles.postHeader}>
-                <img src="/images/default-avatar.png" alt={post.artistName} className={styles.avatar} />
-                <div className={styles.artistInfo}>
-                  <h3>{post.artistName}</h3>
-                  <p>{post.account}</p>
-                </div>
-              </div>
-              <div className={styles.postImage}>
-                <img src={post.image} alt="Post Image" />
-              </div>
-              <div className={styles.postActions}>
-                <button className={`${styles.actionButton} ${post.liked ? styles.liked : ''}`} onClick={() => handleLike(post.id)}>
-                  <span role="img" aria-label="heart">❤️</span> {post.likes}
-                </button>
-                <button className={styles.actionButton} onClick={() => handleComment(post.id)}>
-                  <span role="img" aria-label="comment">💬</span> {post.comments}
-                </button>
-                <button className={styles.actionButton} onClick={() => handleShare(post.id)}>
-                  <span role="img" aria-label="share">📤</span> {post.shares}
-                </button>
-              </div>
-            </div>
-          ))}
+          {Array.isArray(posts) && posts.length > 0 ? (
+            posts.map((post) =>
+              post ? (
+                <PostItem
+                  className={styles.post}
+                  key={post.postId}
+                  post={{ ...post, id: post.postId }}
+                  sessionUser={localSessionUser} // 👈 ส่งลงไปด้วย (ถ้า PostItem จะใช้)
+                />
+              ) : null
+            )
+          ) : (
+            <p>ไม่มีโพสต์</p>
+          )}
+          {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
       </div>
     </div>
   );
-};
-
-export default FeedPage;
+}
