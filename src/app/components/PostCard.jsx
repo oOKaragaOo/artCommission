@@ -78,7 +78,7 @@ export default function PostItem({ post, setPosts }) {
     if (result.error) {
         alert("ไม่สามารถโหลดโปรไฟล์ได้");
     } else {
-        router.replace(`/profile`); // 👈 ไปหน้าโปรไฟล์คนนั้นเลย
+      router.replace(`/profileauthor?authorId=${authorId}`); // 👈 ไปหน้าโปรไฟล์คนนั้นเลย
     }
 };
 
