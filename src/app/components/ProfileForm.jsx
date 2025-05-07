@@ -54,10 +54,11 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated, userD
     console.log(formData)
     try {
       let uploadedUrl = formData.profilePicture;
-
       if (imageFile) {
+        // console.log("Uploading file:", imageFile);
         uploadedUrl = await uploadImageToCloudinary(imageFile, userData.id);
       }
+
 
       const response = await fetch("http://localhost:8080/user/profile", {
         method: "PUT",

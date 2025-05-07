@@ -13,8 +13,8 @@ export const uploadImageToCloudinary = async (file, userId) => {
             body: formData,
         }
     );
-
     const data = await res.json();
+    console.log("Hi cloudinary --> 🧑‍⚖️",data)
     if (!res.ok) throw new Error(data.error?.message || "อัปโหลดล้มเหลว");
     return data.secure_url;
 };
