@@ -50,7 +50,8 @@ export default function PostUpload({ onPost }) {
       const result = await response.json();
 
       if (response.ok) {
-        alert("โพสต์ของคุณถูกเผยแพร่เรียบร้อยแล้ว!");
+        location.reload();
+        // alert("โพสต์ของคุณถูกเผยแพร่เรียบร้อยแล้ว!");
         if (onPost && result.post) {
           onPost(result.post);
         }
@@ -67,7 +68,7 @@ export default function PostUpload({ onPost }) {
   return (
     <>
       {/* ปุ่มเปิด popup */}
-      <div className="bg-gray-100 text-center rounded-lg p-4 shadow mb-4">
+      <div className="bg-gray-100 text-center min-w-190 rounded-lg p-4 shadow mb-4">
         <button
           onClick={() => setIsOpen(true)}
           className="text-cyan-400 font-semibold hover:underline"
@@ -83,14 +84,13 @@ export default function PostUpload({ onPost }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-gray-300 p-6 rounded-xl w-[450px] relative border border-black"
+            className="w-fit bg-gray-300 p-6 rounded-xl w-[450px] relative border border-black"
           >
             {/* กล่องรูป */}
-            <div className="w-full h-64 bg-gray-700 rounded-lg border-2 border-dashed border-black flex items-center justify-center mb-4 relative overflow-hidden">
+            <div className="w-140 h-75 bg-gray-800 rounded-lg border-2 border-dashed border-black flex items-center justify-center mb-4 relative overflow-hidden">
               <label className="absolute inset-0 cursor-pointer group">
                 <img
                   src={formData.imageUrl}
-                  alt="Preview"
                   className="w-full h-full object-cover group-hover:opacity-80"
                 />
                 <div className="absolute inset-0 flex items-center justify-center text-white text-xl opacity-0 group-hover:opacity-100 bg-black/40 transition">
@@ -113,7 +113,7 @@ export default function PostUpload({ onPost }) {
                 onChange={(e) =>
                   setFormData({ ...formData, caption: e.target.value })
                 }
-                className="w-full p-2 rounded bg-gray-600 text-white placeholder:text-gray-300"
+                className="w-full p-2 rounded bg-gray-800 text-white placeholder:text-gray-300"
                 placeholder="Caption"
               />
 

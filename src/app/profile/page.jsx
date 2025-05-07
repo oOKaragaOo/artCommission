@@ -60,14 +60,13 @@ export default function ProfilePage() {
         <ProfileCard userData={apiUserData} onEditClick={handleEditProfile} />
         <PostUpload onPost={handleNewPost} />
 
-        {error ? (
-          <div>Error: {error}</div>
+        {Array.isArray(posts) && posts.length > 0 ? (
+            posts.map((post) =>
+                post ? <PostItem key={post.postId} post={{ ...post, id: post.postId }} />: null
+            )
         ) : (
-          posts.map((post) => (
-            <PostItem key={post.postId} post={{ ...post, id: post.postId }} />
-          ))
+            <p>ไม่มีโพสต์</p>
         )}
-
         <ProfileForm
           isOpen={isOpen}
           setIsOpen={setIsOpen}
