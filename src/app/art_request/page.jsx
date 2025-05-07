@@ -240,6 +240,19 @@ function ArtRequestPage() {
                   id="workDuration"
                   placeholder="Estimated Days"
                   min="0"
+                  max="150"
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value);
+                    if (!isNaN(value) && value > 150) {
+                      e.target.value = 150;
+                    }
+                  }}
+                  onBlur={(e) => {
+                    const value = parseInt(e.target.value);
+                    if (!isNaN(value) && value > 150) {
+                      e.target.value = 150;
+                    }
+                  }}
                 />
               </div>
               <div className={modalStyles.formGroup}>

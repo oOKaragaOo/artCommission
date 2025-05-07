@@ -4,12 +4,13 @@ import { useState } from "react";
 export default function ProfileCard({ userData, onEditClick, isOwnProfile }) {
   const [isFollowing, setIsFollowing] = useState(false); // สถานะ follow/unfollow
   const [loading, setLoading] = useState(false);
+  console.log("111",userData);
 
   const handleFollow = async () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:8080/user/${userData.userId}/follow`,
+        `http://localhost:8080/user/${userData.user_id}/follow`,
         {
           method: "POST",
           headers: {
@@ -38,7 +39,7 @@ export default function ProfileCard({ userData, onEditClick, isOwnProfile }) {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:8080/user/${userData.userId}/unfollow`,
+        `http://localhost:8080/user/${userData.user_id}/unfollow`,
         {
           method: "DELETE",
           headers: {
