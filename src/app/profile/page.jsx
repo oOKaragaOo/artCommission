@@ -8,7 +8,7 @@ import ProfileForm from "@/app/components/ProfileForm";
 import PostItem from "@/app/components/PostCard"; // component ที่ render โพสต์เดี่ยว
 import { SessionContext } from "@/app/api/checkUser/route";
 import { getProfile, getFeedProfile } from "@/app/api/route";
-import {getUserById} from "@/app/api/service/userService";
+import { getUserById } from "@/app/api/service/userService";
 
 export default function ProfilePage() {
   const { sessionUser: localSessionUser } = useContext(SessionContext);
@@ -64,20 +64,25 @@ export default function ProfilePage() {
         <PostUpload onPost={handleNewPost} />
 
         {Array.isArray(posts) && posts.length > 0 ? (
-            posts.map((post) =>
-                post ? <PostItem key={post.postId} post={{ ...post, id: post.postId }} />: null
-            )
+          posts.map((post) =>
+            post ? (
+              <PostItem
+                key={post.postId}
+                post={{ ...post, id: post.postId }}
+                setPosts={setPosts} // ✅ ส่ง props นี้เข้าไป
+              />
+            ) : null
+          )
         ) : (
-            <p>ไม่มีโพสต์</p>
+          <p>ไม่มีโพสต์</p>
         )}
         <ProfileForm
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            isLogin={isLogin}
-            onProfileUpdated={handleProfileUpdated}
-            userData={apiUserData}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          isLogin={isLogin}
+          onProfileUpdated={handleProfileUpdated}
+          userData={apiUserData}
         />
-
       </div>
     </div>
   );

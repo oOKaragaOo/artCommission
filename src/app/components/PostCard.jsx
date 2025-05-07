@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { commentPost, likePost, unlikePost } from "@/app/api/route";
+import { commentPost, likePost, unlikePost, deletePost } from "@/app/api/route";
 
-export default function PostItem({ post }) {
+export default function PostItem({ post, setPosts}) {
   const [commentText, setCommentText] = useState("");
   const [liked, setLiked] = useState(post.likedByMe || false); // <-- จาก backend
   const [likeCount, setLikeCount] = useState(post.likeCount || 0);
@@ -47,19 +47,28 @@ export default function PostItem({ post }) {
     // TODO: เปิด modal สำหรับแก้ไขโพสต์
   };
 
-  const handleDeletePost = () => {
-    const confirmDelete = confirm("คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้?");
-    if (confirmDelete) {
-      alert("โพสต์ถูกลบแล้ว");
-      // TODO: เรียก API เพื่อลบโพสต์
+  const handleDeletePost = async (postId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+    if (!confirmed) return;
+
+    const result = await deletePost(postId);
+
+    if (result?.message === "Post deleted") {
+      setPosts((prev) => prev.filter((post) => post.id !== postId));
+      window.location.reload();
+    } else {
+      alert(result?.error || "Failed to delete post");
     }
+
   };
 
   const handleReportPost = () => {
     alert("รายงานโพสต์เรียบร้อย");
     // TODO: ส่งรายงานโพสต์
   };
-  
+
   return (
     <div className="bg-gray-100 p-4 min-w-190 rounded shadow mb-4 relative">
       {/* หัวโพสต์ */}
@@ -88,7 +97,7 @@ export default function PostItem({ post }) {
             <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow z-10">
               <button
                 onClick={() => {
-                  handleEditPost();
+                  handleEditPost(post.id);
                   setShowDropdown(false);
                 }}
                 className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
@@ -97,7 +106,7 @@ export default function PostItem({ post }) {
               </button>
               <button
                 onClick={() => {
-                  handleDeletePost();
+                  handleDeletePost(post.id); // ✅ ส่ง id เข้าไป
                   setShowDropdown(false);
                 }}
                 className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
