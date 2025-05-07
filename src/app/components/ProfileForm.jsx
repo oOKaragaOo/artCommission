@@ -3,6 +3,7 @@
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { SessionContext } from "@/app/api/checkUser/route";
+
 import { refreshProfile } from "@/app/api/route"; // ⬅️ ฟังก์ชันที่นายมีแล้ว
 
 export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
@@ -14,11 +15,8 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
     description: "",
     commissionStatus: "open",
     profilePicture: "",
+    profilePictureFile: null,
   });
-
-  // const [imageSrc, setImageSrc] = useState(null);
-  // const fileInputRef = useRef(null);
-  // const { sessionUser } = useContext(SessionContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,29 +25,38 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
   const handleToggle = () => {
     setFormData({
       ...formData,
-      commissionStatus:
-        formData.commissionStatus === "open" ? "close" : "open",
+      commissionStatus: formData.commissionStatus === "open" ? "close" : "open",
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+
     try {
+      let imageUrl = formData.profilePicture;
+
+      // ✅ ถ้า user เลือกรูปใหม่ (เป็นไฟล์ object)
+      if (formData.profilePictureFile) {
+        console.log("Uploading to cloudinary...");
+        imageUrl = await uploadImageToCloudinary(
+          formData.profilePictureFile,
+          sessionUser?.id // 👉 ตรวจสอบว่า id ถูกต้องหรือเปลี่ยนตามจริง
+        );
+      }
+
       const response = await fetch("http://localhost:8080/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // สำคัญมาก ถ้าคุณใช้ session ใน Spring
+        credentials: "include",
         body: JSON.stringify({
           name: formData.name,
-          // profile_picture: formData.profilePicture,
           description: formData.description,
-          // commission_status: formData.commissionStatus,
+          profile_picture: imageUrl,
         }),
       });
-  
+
       const result = await response.json();
 
       const updatedUser = await refreshProfile();
@@ -60,8 +67,8 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
         alert("เกิดข้อผิดพลาด: " + result.error);
       }onProfileUpdated?.();
     } catch (error) {
-      console.error("❌ Network error:", error);
-      alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
+      console.error("❌ Error uploading:", error);
+      alert("ไม่สามารถอัปโหลดไฟล์ได้");
     }
   };
 
@@ -75,9 +82,8 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        className="bg-[#3E3E3E] text-white p-6 rounded-xl w-[400px] relative"
+        className="bg-gray-300 text-white p-6 rounded-xl w-[400px] border-black relative"
       >
-  
         {/* Avatar */}
         <div className="flex flex-col items-center mb-4">
           <div className="relative group">
@@ -87,8 +93,7 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
                 sessionUser?.profile_picture ||
                 "/default-avatar.png"
               }
-              alt="Avatar"
-              className="w-20 h-20 object-cover rounded-full border-4 border-white shadow"
+              className="w-20 h-20 object-cover rounded-full border-4 border-black shadow"
             />
 
             {/* ปุ่มแก้ไขรูป (hover หรือคลิก) */}
@@ -105,7 +110,8 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
                     reader.onloadend = () => {
                       setFormData({
                         ...formData,
-                        profilePicture: reader.result,
+                        profilePicture: reader.result, // สำหรับ preview
+                        profilePictureFile: file, // ไว้อัปโหลดจริง
                       });
                     };
                     reader.readAsDataURL(file);
@@ -114,24 +120,24 @@ export default function ProfileForm({ isOpen, setIsOpen, onProfileUpdated }) {
               />
             </label>
           </div>
-
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <label className="text-sm text-blue-200">Name</label>
+            <label className="text-sm text-black">Name</label>
             <input
               name="name"
               value={formData.name}
               onChange={handleChange}
               className="w-full p-2 rounded bg-gray-800 text-white"
               placeholder="Name"
+              required
             />
           </div>
 
           <div>
-            <label className="text-sm text-blue-200">Description</label>
+            <label className="text-sm text-black">Description</label>
             <textarea
               name="description"
               value={formData.description}

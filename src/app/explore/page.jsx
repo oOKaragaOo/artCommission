@@ -1,63 +1,78 @@
-// src/app/explore/page.jsx
 "use client";
 
-import React, { useState } from 'react';
-import styles from '../../styles/explore.module.css';
-import detailStyles from '../../styles/artworkdetailpopup.module.css'; // Import CSS for the detail popup
-import Navbarone from '../components/Navbarone';
-import Sidebar from '../components/Sidebar';
-import { useRouter } from 'next/navigation'; // Import useRouter
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons'; // Import the close icon
+import React, { useState, useEffect } from "react";
+import styles from "../../styles/explore.module.css";
+import detailStyles from "../../styles/artworkdetailpopup.module.css";
+import Navbarone from "../components/Navbarone";
+import Sidebar from "../components/Sidebar";
+import ArtworkGrid from "../components/ArtworkGrid";
+import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTimes,
+  faHeart,
+  faComment,
+  faShare,
+} from "@fortawesome/free-solid-svg-icons";
 
 function ExplorePage() {
-  const [activeTab, setActiveTab] = useState('popular');
+  const [activeTab, setActiveTab] = useState("popular");
   const [selectedArtwork, setSelectedArtwork] = useState(null);
+  const [artworks, setArtworks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const router = useRouter();
 
-  // Sample artwork data (replace with your actual data including more details)
-  const popularArtworks = [
-    { id: 1, imageUrl: '/images/explore_popular1.jpg', title: 'Popular 1', artist: 'Artist A', description: 'A beautiful artwork.', likes: 15, comments: 3 },
-    { id: 2, imageUrl: '/images/explore_popular2.jpg', title: 'Popular 2', artist: 'Artist B', description: 'An abstract piece.', likes: 22, comments: 8 },
-    { id: 3, imageUrl: '/images/explore_popular3.jpg', title: 'Popular 3', artist: 'Artist C', description: 'A digital painting.', likes: 10, comments: 1 },
-    { id: 4, imageUrl: '/images/explore_popular4.jpg', title: 'Popular 4', artist: 'Artist D', description: 'A surreal landscape.', likes: 30, comments: 5 },
-    { id: 5, imageUrl: '/images/explore_popular5.jpg', title: 'Popular 5', artist: 'Artist E', description: 'A character design.', likes: 18, comments: 2 },
-    { id: 6, imageUrl: '/images/explore_popular6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
-    { id: 7, imageUrl: '/images/explore_popular6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
-    { id: 8, imageUrl: '/images/explore_popular6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
-    { id: 9, imageUrl: '/images/explore_popular6.jpg', title: 'Popular 6', artist: 'Artist F', description: 'A vibrant illustration.', likes: 25, comments: 7 },
-    
-    // ... more popular artworks
-  ];
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/posts", {
+          method: "GET",
+          credentials: "include",
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to load posts");
+        }
+        const formatted = data.map((post) => ({
+          id: post.postId,
+          imageUrl: post.imageUrl,
+          title: post.caption || "Untitled",
+          artist: post.authorName || "Unknown Artist",
+          likes: post.likeCount || 0,
+          comments: post.comments?.length || 0,
+          profileImageUrl:
+            post.authorProfilePicture || "/images/default-profile.png",
+          description: post.description || "",
+        }));
+        setArtworks(formatted);
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const recentArtworks = [
-    { id: 101, imageUrl: '/images/explore_recent1.jpg', title: 'Recent 1', artist: 'New Artist 1', description: 'Freshly created art.', likes: 5, comments: 0 },
-    { id: 102, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 103, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 104, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 105, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 106, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 107, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 108, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    { id: 109, imageUrl: '/images/explore_recent2.jpg', title: 'Recent 2', artist: 'New Artist 2', description: 'Another recent piece.', likes: 12, comments: 4 },
-    // ... more recent artworks
-  ];
+    fetchPosts();
+  }, []);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
 
-  const handleArtworkClick = (artwork) => {
-    setSelectedArtwork(artwork);
-    document.body.style.overflow = 'hidden'; // Prevent scrolling behind the popup
-  };
+  // const handleArtworkClick = (artwork) => {
+  //   setSelectedArtwork(artwork);
+  //   document.body.style.overflow = "hidden";
+  // };
 
   const handleClosePopup = () => {
     setSelectedArtwork(null);
-    document.body.style.overflow = 'auto'; // Allow scrolling again
+    document.body.style.overflow = "auto";
   };
 
-  const artworksToDisplay = activeTab === 'popular' ? popularArtworks : recentArtworks;
+  const artworksToDisplay = artworks;
 
   return (
     <div className={styles.container}>
@@ -70,51 +85,110 @@ function ExplorePage() {
           </div>
           <div className={styles.tabButtons}>
             <button
-              className={`${styles.tabButton} ${activeTab === 'popular' ? styles.active : ''}`}
-              onClick={() => handleTabChange('popular')}
+              className={`${styles.tabButton} ${
+                activeTab === "popular" ? styles.active : ""
+              }`}
+              onClick={() => handleTabChange("popular")}
             >
               Popular
             </button>
             <button
-              className={`${styles.tabButton} ${activeTab === 'recent' ? styles.active : ''}`}
-              onClick={() => handleTabChange('recent')}
+              className={`${styles.tabButton} ${
+                activeTab === "recent" ? styles.active : ""
+              }`}
+              onClick={() => handleTabChange("recent")}
             >
               Recent
             </button>
           </div>
-          <div className={styles.artworkGrid}>
-            {artworksToDisplay.map(artwork => (
-              <div key={artwork.id} className={styles.artworkItem} onClick={() => handleArtworkClick(artwork)}>
-                <img src={artwork.imageUrl} alt={artwork.title} className={styles.artworkImage} />
-                {/* You might want to add title overlay on hover later */}
-              </div>
-            ))}
-          </div>
+          {loading ? (
+            <p>Loading artworks...</p>
+          ) : error ? (
+            <p className="text-red-500">Error: {error}</p>
+          ) : (
+            <ArtworkGrid
+              artworks={artworksToDisplay}
+              // onArtworkClick={handleArtworkClick}
+            />
+          )}
         </div>
       </div>
 
-      {selectedArtwork && (
-        <div className={detailStyles.popupOverlay}>
-          <div className={detailStyles.popupContent}>
-            <button onClick={handleClosePopup} className={detailStyles.closeButton}>
+      {/* {selectedArtwork && ( */}
+        {/* <div className={detailStyles.popupOverlay}>
+          <div
+            className={`${detailStyles.popupContent} bg-gray-100 p-4 rounded shadow mb-4`}
+          >
+            <button
+              onClick={handleClosePopup}
+              className={detailStyles.closeButton}
+            >
               <FontAwesomeIcon icon={faTimes} />
-            </button>
-            <img src={selectedArtwork.imageUrl} alt={selectedArtwork.title} className={detailStyles.detailImage} />
-            <h3 className={detailStyles.detailTitle}>{selectedArtwork.title}</h3>
-            <p className={detailStyles.detailArtist}>By: {selectedArtwork.artist}</p>
-            <p className={detailStyles.detailDescription}>{selectedArtwork.description}</p>
-            <div className={detailStyles.detailActions}>
-              <button className={detailStyles.actionButton}><i className="fas fa-heart"></i> {selectedArtwork.likes} Likes</button>
-              <button className={detailStyles.actionButton}><i className="fas fa-comment"></i> {selectedArtwork.comments} Comments</button>
-              <button className={detailStyles.actionButton}><i className="fas fa-share"></i> Share</button>
-              {/* Add more action buttons as needed */}
-            </div>
-            {/* Add comment section or more details here */}
+            </button> */}
+            {/* หัวโพสต์ */}
+            {/* <div className="flex items-center gap-2 mb-2">
+              <img
+                src={selectedArtwork.profileImageUrl || "/default-avatar.png"}
+                className="w-8 h-8 rounded-full object-cover"
+                alt="author"
+              />
+              <div>
+                <p className="font-semibold text-gray-800">
+                  {selectedArtwork.artist}
+                </p>
+              </div>
+            </div> */}
+
+            {/* แคปชันและรูป */}
+            {/* {selectedArtwork.description && (
+              <p className="text-sm text-gray-500 mb-2">
+                {selectedArtwork.description}
+              </p>
+            )}
+            <img
+              src={selectedArtwork.imageUrl}
+              alt={selectedArtwork.title}
+              className="h-60 w-full object-cover rounded"
+            /> */}
+
+            {/* ปุ่ม */}
+            {/* <div className="flex items-center gap-4 mt-4">
+              <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
+                ❤️ {selectedArtwork.likes || 0}
+              </button>
+              <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
+                💬 {selectedArtwork.comments || 0}{" "}
+              </button>
+              <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
+                <FontAwesomeIcon icon={faShare} /> Share
+              </button>
+            </div> */}
+
+            {/* ส่วน Comment (ถ้าต้องการ) */}
+            {/* <div className="mt-4 space-y-2">
+                    {/* Map through comments * /}
+                </div> */}
+
+            {/* ช่อง Comment (ถ้าต้องการ) */}
+            {/* <form onSubmit={handleSubmit} className="flex mt-4">
+              <input
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder="แสดงความคิดเห็น..."
+                className="w-full p-2 rounded-l bg-amber-200 text-sm"
+              />
+              <button
+                type="submit"
+                className="bg-black text-white px-4 rounded-r hover:bg-gray-800"
+              >
+                ➤
+              </button>
+            </form>
           </div>
         </div>
-      )}
+      )}*/}
     </div>
   );
-}
+} 
 
 export default ExplorePage;

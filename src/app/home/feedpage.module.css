@@ -1,0 +1,115 @@
+/* feedpage.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: sans-serif;
+  background-color: #f0f2f5; /* สีพื้นหลังแบบ Facebook */
+  position: sticky;
+}
+
+.content {
+  width: fit-content; /* Adjust if you want a fixed width for the content area */
+  display: flex;
+  flex: 1;
+  justify-content: center; /* Center content horizontally */
+}
+
+.feed {
+  width: 600px; /* กำหนดความกว้างของ feed */
+  max-width: 100%; /* ป้องกันไม่ให้ feed ใหญ่เกินหน้าจอ */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* จัดโพสต์ไว้ตรงกลางตามแนวนอนภายใน feed */
+  padding: 20px;
+  margin-left: 500px;
+  background-color: transparent;
+  gap: 15px;
+}
+
+.post {
+  background-color: #900d0d;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%; /* ให้โพสต์เต็มความกว้างของ feed */
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  background-color: #ffffff;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.artistInfo h3 {
+  font-size: 1rem;
+  margin-bottom: 2px;
+  color: #212121;
+  font-weight: bold;
+}
+
+.artistInfo p {
+  font-size: 0.85rem;
+  color: #757575;
+}
+
+.postImage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.postImage img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.postActions {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-top: 1px solid #eee;
+  background-color: #ffffff;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: #555;
+  margin-right: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.actionButton:hover {
+  background-color: #f0f0f0;
+}
+
+.actionButton span {
+  margin-right: 5px;
+  font-size: 1.1rem;
+}
+
+.liked {
+  color: #e91e63;
+}

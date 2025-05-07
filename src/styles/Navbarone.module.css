@@ -1,0 +1,169 @@
+/* styles/Navbarone.module.css */
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  width: 60px;
+  height: 100%;
+  margin-top: 10px;
+}
+
+.searchBar {
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  padding: 8px 15px;
+}
+
+.searchBar input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  padding-right: 0;
+}
+
+.notificationIcon {
+  position: relative;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #555;
+}
+
+.profile {
+  width: 30px;
+  height: 30px;
+  margin-left: 20px;
+  border-radius: 50%;
+}
+
+.notificationDropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 400px; /* Slightly wider */
+  z-index: 101;
+}
+
+.notificationHeader {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.notificationHeader h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: bold; /* Make the title bold */
+}
+
+.notificationTabs {
+  display: flex;
+  border-bottom: 1px solid #eee; /* Add a border below the tabs */
+}
+
+.notificationTabs button {
+  flex-grow: 1; /* Distribute space evenly */
+  border: none;
+  background: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #777;
+  transition: color 0.2s ease;
+}
+
+.notificationTabs button.active {
+  color: #007bff; /* Active tab color */
+  font-weight: bold;
+  border-bottom: 2px solid #007bff; /* Add an indicator for the active tab */
+}
+
+.tabIcon {
+  margin-right: 5px;
+  font-size: 0.9rem;
+}
+
+.notificationList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notificationItem {
+  padding: 10px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center; /* Align icon and text vertically */
+}
+
+.notificationItem:last-child {
+  border-bottom: none;
+}
+
+.notificationItemIcon {
+  width: 24px; /* Adjust icon size */
+  height: 24px;
+  margin-right: 10px;
+  color: #007bff; /* Example icon color */
+}
+
+.notificationContent {
+  flex-grow: 1;
+}
+
+.notificationMessage {
+  color: #333;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.notificationTime {
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-left: auto; /* Push time to the right */
+}
+
+.notificationFooter {
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.notificationFooter a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.notificationFooter a:hover {
+  text-decoration: underline;
+}

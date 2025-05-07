@@ -1,0 +1,146 @@
+/* request.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: sans-serif;
+    background-color: #f8f8f8;
+  }
+  
+  .content {
+    width: fit-content;
+    display: flex;
+    flex: 1;
+  }
+  
+  .requests {
+    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .requestHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space out title and button */
+    margin-bottom: 20px;
+    margin-right: 5px;
+  }
+
+  .createButton {
+    background-color: #007bff; /* Light coral color similar to the reference */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .createButton:hover {
+    background-color: #e07070; /* Darker shade on hover */
+  }
+  .pageTitle {
+    font-size: 2rem;
+    color: #333;
+    padding-left: 10px;
+    border-left: 5px solid #007bff;
+  }
+  
+  .tabButtons {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  
+  .tabButton {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tabButton:hover {
+    background-color: #ccc;
+  }
+  
+  .tabButton.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .requestGrid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Adjust minmax as needed */
+    gap: 20px;
+    padding: 5px;
+  }
+  
+  .gridItem {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    background-color: white; /* Add background for better visibility */
+    display: flex; /* Use flex to arrange image and info */
+    flex-direction: column; /* Stack image and info vertically */
+  }
+  
+  .gridItem:hover {
+    transform: scale(1.02);
+  }
+  
+  .requestImageContainer {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Maintain a square aspect ratio for the image */
+    overflow: hidden;
+    border-bottom: 1px solid #eee; /* Add a separator */
+  }
+  
+  .requestImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .requestInfo {
+    padding: 15px;
+  }
+  
+  .requestTitle {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .requesterInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .requesterUsername {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  .budgetInfo {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .deadlineInfo {
+    font-size: 0.8rem;
+    color: #888;
+  }
+  
+  /* You can add more specific styles for requests here */

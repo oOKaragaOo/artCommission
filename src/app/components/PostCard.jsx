@@ -1,9 +1,13 @@
 "use client";
 import { useState } from "react";
-import { commentPost } from "@/app/api/route";
+import { commentPost, likePost, unlikePost } from "@/app/api/route";
 
 export default function PostItem({ post }) {
   const [commentText, setCommentText] = useState("");
+  const [liked, setLiked] = useState(post.likedByMe || false); // <-- จาก backend
+  const [likeCount, setLikeCount] = useState(post.likeCount || 0);
+  const [shareCount, setShareCount] = useState(post.shareCount);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,24 +17,104 @@ export default function PostItem({ post }) {
     if (result.success) {
       setCommentText("");
       window.location.reload();
-      // หากต้องการ refresh comment ก็ใส่ callback มาเพิ่มได้
     } else {
       alert("เกิดข้อผิดพลาด: " + result.error);
     }
   };
 
+  const handleLikeClick = async () => {
+    if (liked) {
+      const result = await unlikePost(post.postId);
+      if (result.success) {
+        setLiked(false);
+        setLikeCount((prev) => prev - 1);
+      } else {
+        alert(result.error);
+      }
+    } else {
+      const result = await likePost(post.postId);
+      if (result.success) {
+        setLiked(true);
+        setLikeCount((prev) => prev + 1);
+      } else {
+        alert(result.error);
+      }
+    }
+  };
+
+  const handleEditPost = () => {
+    alert("คลิกแก้ไขโพสต์");
+    // TODO: เปิด modal สำหรับแก้ไขโพสต์
+  };
+
+  const handleDeletePost = () => {
+    const confirmDelete = confirm("คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้?");
+    if (confirmDelete) {
+      alert("โพสต์ถูกลบแล้ว");
+      // TODO: เรียก API เพื่อลบโพสต์
+    }
+  };
+
+  const handleReportPost = () => {
+    alert("รายงานโพสต์เรียบร้อย");
+    // TODO: ส่งรายงานโพสต์
+  };
+  
   return (
-    <div className="bg-gray-100 p-4 rounded shadow mb-4">
+    <div className="bg-gray-100 p-4 min-w-190 rounded shadow mb-4 relative">
       {/* หัวโพสต์ */}
-      <div className="flex items-center gap-2 mb-2">
-        <img
-          src={post.authorProfile || "/default-avatar.png"}
-          className="w-8 h-8 rounded-full object-cover"
-          alt="author"
-        />
-        <div>
-          <p className="font-semibold text-gray-800">{post.authorName}</p>
-          <p className="text-sm text-gray-400">{post.createdAt}</p>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <img
+            src={post.authorProfile || "/default-avatar.png"}
+            className="w-8 h-8 rounded-full object-cover"
+            alt="author"
+          />
+          <div>
+            <p className="font-semibold text-gray-800">{post.authorName}</p>
+            <p className="text-sm text-gray-400">{post.createdAt}</p>
+          </div>
+        </div>
+
+        {/* Kebab button */}
+        <div className="relative">
+          <button
+            onClick={() => setShowDropdown((prev) => !prev)}
+            className="text-2xl stext-gray-600 hover:text-gray-900 px-2 rounded-full"
+          >
+            ⋮
+          </button>
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow z-10">
+              <button
+                onClick={() => {
+                  handleEditPost();
+                  setShowDropdown(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              >
+                ✏️ แก้ไขโพสต์
+              </button>
+              <button
+                onClick={() => {
+                  handleDeletePost();
+                  setShowDropdown(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              >
+                🗑️ ลบโพสต์
+              </button>
+              <button
+                onClick={() => {
+                  handleReportPost();
+                  setShowDropdown(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              >
+                🚩 รายงานโพสต์
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -40,17 +124,25 @@ export default function PostItem({ post }) {
         <img
           src={post.imageUrl}
           alt="post"
-          className="h-60 w-full object-cover rounded"
+          className="h-130 w-full object-cover rounded"
         />
       )}
 
       {/* ปุ่ม */}
       <div className="flex items-center gap-4 mt-4">
-        <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
-          ❤️ {post.likeCount || 0}
+        <button
+          className={`px-3 py-1 rounded-full min-w-[60px] flex items-center justify-center ${
+            liked ? "bg-red-600 text-white" : "bg-gray-800 text-white"
+          }`}
+          onClick={handleLikeClick}
+        >
+          ❤️ {likeCount}
         </button>
         <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
           💬 {post.comments?.length || 0}
+        </button>
+        <button className="bg-gray-800 text-white px-3 py-1 rounded-full">
+          ➥ {shareCount}
         </button>
       </div>
 
@@ -76,7 +168,7 @@ export default function PostItem({ post }) {
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="แสดงความคิดเห็น..."
-          className="w-full p-2 rounded-l bg-amber-200 text-sm"
+          className="w-full p-2 rounded-l border text-sm"
         />
         <button
           type="submit"
