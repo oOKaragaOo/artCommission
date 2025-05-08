@@ -1,5 +1,3 @@
-/* styles/seekartistpopup.module.css */
-
 .popupOverlay {
     position: fixed;
     top: 0;
@@ -10,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1001; /* Ensure it's on top of detail popup */
+    z-index: 1001;
 }
 
 .popupContent {

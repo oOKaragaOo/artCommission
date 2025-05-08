@@ -1,5 +1,3 @@
-/* postdetailpopup.module.css */
-
 .popupOverlay {
     position: fixed;
     top: 0;
@@ -17,13 +15,13 @@
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 100%; /* Increased width */
-    max-width: 1000px; /* Increased max-width */
-    max-height: 100%; /* Increased max-height */
+    width: 100%;
+    max-width: 1000px;
+    max-height: 100%;
     overflow: hidden;
     position: relative;
     display: grid;
-    grid-template-columns: 1.3fr 0.7fr; /* Adjusted image ratio */
+    grid-template-columns: 1.3fr 0.7fr;
     gap: 0;
   }
   
@@ -49,13 +47,13 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-color: #000; /* Black background for image */
+    background-color: #000;
   }
   
   .gridItemImage img {
     display: block;
     max-width: 100%;
-    max-height: 100vh; /* Increased image max-height */
+    max-height: 100vh;
     object-fit: contain;
   }
   
@@ -69,11 +67,11 @@
   .detailHeader {
     display: flex;
     align-items: center;
-    margin-bottom: 16px; /* Increased bottom margin */
+    margin-bottom: 16px;
   }
   
   .avatar {
-    width: 40px; /* Slightly larger avatar */
+    width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 12px;
@@ -95,21 +93,21 @@
   .commentsSection {
     overflow-y: auto;
     padding-right: 8px;
-    margin-bottom: auto; /* Push actions to the bottom */
+    margin-bottom: auto;
   }
   
   .postDetailDescription {
     font-size: 0.9rem;
     color: #262626;
     line-height: 1.4;
-    margin-bottom: 16px; /* Add some space if description is present */
+    margin-bottom: 16px;
   }
   
   /* --- Part 3: Actions Buttons --- */
   .detailActions {
     display: flex;
     align-items: center;
-    padding: 8px 0; /* Adjust padding */
+    padding: 8px 0;
     border-top: 1px solid #eee;
   }
   
@@ -119,7 +117,7 @@
     color: #262626;
     padding: 8px;
     margin-right: 16px;
-    font-size: 1.2rem; /* Slightly larger icons */
+    font-size: 1.2rem;
     cursor: pointer;
   }
   
@@ -155,7 +153,7 @@
 .emojiIcon {
   width: 20px;
   height: 20px;
-  border-radius: 50%; /* Optional: Keep a circular shape */
+  border-radius: 50%;
 }
 
 .commentInput {

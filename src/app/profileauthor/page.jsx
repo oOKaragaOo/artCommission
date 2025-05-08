@@ -5,119 +5,118 @@ import Navbar from "@/app/components/Navbar";
 import PostUpload from "@/app/components/PostUpload";
 import ProfileCard from "@/app/components/ProfileCard";
 import ProfileForm from "@/app/components/ProfileForm";
-import PostItem from "@/app/components/PostCard"; // component ที่ render โพสต์เดี่ยว
+import PostItem from "@/app/components/PostCard";
 import { SessionContext } from "@/app/api/checkUser/route";
 import { getFeedProfile } from "@/app/api/route";
-import { useSearchParams } from "next/navigation"; // ✅ ใช้สำหรับดึง authorId
+import { useSearchParams } from "next/navigation";
 
-export default function ProfileAuthorPage() {
-  const { sessionUser: localSessionUser } = useContext(SessionContext);
-  const [apiUserData, setApiUserData] = useState(null);
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const searchParams = useSearchParams(); // ✅ ดึง params
-  const authorId = searchParams.get("authorId"); // 👈 ดึง authorId จาก query string
-  const isOwnProfile = localSessionUser?.user?.id === Number(authorId);
+const ProfileAuthorPage = () => {
+    const { sessionUser: localSessionUser } = useContext(SessionContext);
+    const [apiUserData, setApiUserData] = useState(null);
+    const [posts, setPosts] = useState([]);
+    const [error, setError] = useState(null);
+    const [isProfileFormOpen, setIsProfileFormOpen] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
+    const searchParams = useSearchParams();
+    const authorId = searchParams.get("authorId");
+    const isOwnProfile = localSessionUser?.user?.id === Number(authorId);
 
-  // โหลด user ข้อมูลจาก authorId
-  const loadUserData = async () => {
-    try {
-      const res = await fetch(`http://localhost:8080/user/${authorId}`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to get profile");
-      setApiUserData(data.user); // ✅ สมมติ API ส่งเป็น { user: {...} }
-    } catch (error) {
-      console.error("Failed to load user data:", error);
-      setError("ไม่สามารถโหลดโปรไฟล์ผู้ใช้ได้");
-    }
-  };
+    const fetchUserData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/user/${authorId}`, {
+                method: "GET",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await response.json();
 
-  // โหลดโพสต์ของ user (โดยใช้ authorId)
-  const loadUserPosts = async () => {
-    if (!authorId) return;
-    try {
-      await getFeedProfile(authorId, setPosts, setError);
-    } catch (err) {
-      console.error("Failed to load posts:", err);
-    }
-  };
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to get profile");
+            }
 
-  // โหลด user + โพสต์ ตอน mount
-  useEffect(() => {
-    if (authorId) {
-      loadUserData();
-      loadUserPosts();
-    }
-  }, [authorId]);
+            setApiUserData(data.user);
+        } catch (err) {
+            console.error("Failed to load user data:", err);
+            setError("ไม่สามารถโหลดโปรไฟล์ผู้ใช้ได้");
+        }
+    };
 
-  const handleNewPost = (newPost) => {
-    setPosts((prev) => [newPost, ...prev]);
-  };
+    const fetchUserPosts = async () => {
+        if (!authorId) return;
 
-  const handleEditProfile = () => {
-    setIsLogin(true);
-    setIsOpen(true);
-  };
+        try {
+            await getFeedProfile(authorId, setPosts, setError);
+        } catch (err) {
+            console.error("Failed to load posts:", err);
+        }
+    };
 
-  const handleProfileUpdated = () => {
-    loadUserData(); // reload ข้อมูลใหม่
-    loadUserPosts();
-    setIsOpen(false);
-  };
+    useEffect(() => {
+        if (authorId) {
+            fetchUserData();
+            fetchUserPosts();
+        }
+    }, [authorId]);
 
-  return (
-    <div>
-      <Navbar session={localSessionUser} />
-      <div className="max-w-3xl mx-auto p-4">
-        {apiUserData ? (
-          <>
-            <ProfileCard
-              userData={apiUserData}
-              onEditClick={handleEditProfile}
-              isOwnProfile={false}
-            />
+    const handleNewPost = (newPost) => {
+        setPosts((prev) => [newPost, ...prev]);
+    };
 
-            {/* ✅ เงื่อนไข: ถ้าเป็นเจ้าของเอง ค่อยโชว์ PostUpload */}
-            {localSessionUser?.user?.id === Number(authorId) && (
-              <PostUpload onPost={handleNewPost} />
-            )}
+    const handleEditProfileClick = () => {
+        setIsLogin(true);
+        setIsProfileFormOpen(true);
+    };
 
-            {Array.isArray(posts) && posts.length > 0 ? (
-              posts.map((post) =>
-                post ? (
-                  <PostItem
-                    key={post.postId}
-                    post={{ ...post, id: post.postId }}
-                    setPosts={setPosts}
-                  />
-                ) : null
-              )
-            ) : (
-              <p>ไม่มีโพสต์</p>
-            )}
+    const handleProfileUpdated = () => {
+        fetchUserData();
+        fetchUserPosts();
+        setIsProfileFormOpen(false);
+    };
 
-            <ProfileForm
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-              isLogin={isLogin}
-              onProfileUpdated={handleProfileUpdated}
-              userData={apiUserData}
-            />
-          </>
-        ) : error ? (
-          <p className="text-red-500">{error}</p>
-        ) : (
-          <p>กำลังโหลดข้อมูล...</p>
-        )}
-      </div>
-    </div>
-  );
-}
+    return (
+        <div>
+            <Navbar session={localSessionUser} />
+            <div className="max-w-3xl mx-auto p-4">
+                {apiUserData ? (
+                    <>
+                        <ProfileCard
+                            userData={apiUserData}
+                            onEditClick={handleEditProfileClick}
+                            isOwnProfile={isOwnProfile}
+                        />
+
+                        {isOwnProfile && <PostUpload onPost={handleNewPost} />}
+
+                        {Array.isArray(posts) && posts.length > 0 ? (
+                            posts.map((post) =>
+                                post ? (
+                                    <PostItem
+                                        key={post.postId}
+                                        post={{ ...post, id: post.postId }}
+                                        setPosts={setPosts}
+                                    />
+                                ) : null
+                            )
+                        ) : (
+                            <p>ไม่มีโพสต์</p>
+                        )}
+
+                        <ProfileForm
+                            isOpen={isProfileFormOpen}
+                            setIsOpen={setIsProfileFormOpen}
+                            isLogin={isLogin}
+                            onProfileUpdated={handleProfileUpdated}
+                            userData={apiUserData}
+                        />
+                    </>
+                ) : error ? (
+                    <p className="text-red-500">{error}</p>
+                ) : (
+                    <p>กำลังโหลดข้อมูล...</p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default ProfileAuthorPage;

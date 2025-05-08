@@ -5,89 +5,91 @@ import Navbar from "@/app/components/Navbar";
 import PostUpload from "@/app/components/PostUpload";
 import ProfileCard from "@/app/components/ProfileCard";
 import ProfileForm from "@/app/components/ProfileForm";
-import PostItem from "@/app/components/PostCard"; // component ที่ render โพสต์เดี่ยว
+import PostItem from "@/app/components/PostCard";
 import { SessionContext } from "@/app/api/checkUser/route";
-import { getProfile, getFeedProfile } from "@/app/api/route";
+import { getFeedProfile } from "@/app/api/route";
 import { getUserById } from "@/app/api/service/userService";
 
-export default function ProfilePage() {
-  const { sessionUser: localSessionUser } = useContext(SessionContext);
-  const [apiUserData, setApiUserData] = useState(null);
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const [refreshFlag, setRefreshFlag] = useState(false); // 🔄 trigger for refresh
+const ProfilePage = () => {
+    const { sessionUser: localSessionUser } = useContext(SessionContext);
+    const [apiUserData, setApiUserData] = useState(null);
+    const [posts, setPosts] = useState([]);
+    const [error, setError] = useState(null);
+    const [isProfileFormOpen, setIsProfileFormOpen] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
 
-  // 🔄 โหลด user ใหม่ (ใช้หลังแก้โปรไฟล์)
-  const refreshUserData = async () => {
-    if (localSessionUser?.user?.id) {
-      const data = await getUserById(localSessionUser.user.id);
-      setApiUserData(data);
-    }
-  };
-
-  useEffect(() => {
-    refreshUserData();
-  }, [localSessionUser]);
-
-  // 🔄 โหลดโพสต์ของ user
-  useEffect(() => {
-    const fetchPosts = async () => {
-      if (localSessionUser?.user?.id) {
-        await getFeedProfile(localSessionUser.user.id, setPosts, setError);
-      }
+    const fetchUserData = async () => {
+        if (localSessionUser?.user?.id) {
+            const userData = await getUserById(localSessionUser.user.id);
+            setApiUserData(userData);
+        }
     };
-    fetchPosts();
-  }, [localSessionUser]);
 
-  const handleNewPost = (newPost) => {
-    setPosts((prev) => [newPost, ...prev]);
-  };
+    const fetchUserPosts = async () => {
+        if (localSessionUser?.user?.id) {
+            await getFeedProfile(localSessionUser.user.id, setPosts, setError);
+        }
+    };
 
-  const handleEditProfile = () => {
-    setIsLogin(true);
-    setIsOpen(true);
-  };
+    useEffect(() => {
+        fetchUserData();
+    }, [localSessionUser]);
 
-  const handleProfileUpdated = () => {
-    setRefreshFlag((prev) => !prev); // 🔁 toggle เพื่อกระตุ้น useEffect รีโหลด
-    setIsOpen(false);
-    location.reload();
-  };
+    useEffect(() => {
+        fetchUserPosts();
+    }, [localSessionUser]);
 
-  return (
-    <div>
-      <Navbar session={localSessionUser} />
-      <div className="max-w-3xl mx-auto p-4">
-        <ProfileCard
-          userData={apiUserData}
-          onEditClick={handleEditProfile}
-          isOwnProfile={true}
-        />
-        <PostUpload onPost={handleNewPost} />
+    const handleNewPost = (newPost) => {
+        setPosts((prev) => [newPost, ...prev]);
+    };
 
-        {Array.isArray(posts) && posts.length > 0 ? (
-          posts.map((post) =>
-            post ? (
-              <PostItem
-                key={post.postId}
-                post={{ ...post, id: post.postId }}
-                setPosts={setPosts} // ✅ ส่ง props นี้เข้าไป
-              />
-            ) : null
-          )
-        ) : (
-          <p>ไม่มีโพสต์</p>
-        )}
-        <ProfileForm
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          isLogin={isLogin}
-          onProfileUpdated={handleProfileUpdated}
-          userData={apiUserData}
-        />
-      </div>
-    </div>
-  );
-}
+    const handleEditProfileClick = () => {
+        setIsLogin(true);
+        setIsProfileFormOpen(true);
+    };
+
+    const handleProfileUpdated = () => {
+        fetchUserData(); // Reload user data
+        setIsProfileFormOpen(false);
+        // Consider a more specific UI update instead of a full reload
+        // location.reload();
+    };
+
+    return (
+        <div>
+            <Navbar session={localSessionUser} />
+            <div className="max-w-3xl mx-auto p-4">
+                <ProfileCard
+                    userData={apiUserData}
+                    onEditClick={handleEditProfileClick}
+                    isOwnProfile={true}
+                />
+                <PostUpload onPost={handleNewPost} />
+
+                {Array.isArray(posts) && posts.length > 0 ? (
+                    posts.map((post) =>
+                        post ? (
+                            <PostItem
+                                key={post.postId}
+                                post={{ ...post, id: post.postId }}
+                                setPosts={setPosts}
+                            />
+                        ) : null
+                    )
+                ) : (
+                    <p>ไม่มีโพสต์</p>
+                )}
+
+                <ProfileForm
+                    isOpen={isProfileFormOpen}
+                    setIsOpen={setIsProfileFormOpen}
+                    isLogin={isLogin}
+                    onProfileUpdated={handleProfileUpdated}
+                    userData={apiUserData}
+                />
+            </div>
+        </div>
+    );
+};
+
+export default ProfilePage;

@@ -15,11 +15,11 @@
 
 .sidebar {
   width: 250px;
-  padding: 50px 0; /* เปลี่ยน padding ให้มี padding บนและล่างเท่านั้น */
+  padding: 50px 0;
   border-right: 1px solid #eee;
-  background-color: #f9f9f9; /* เพิ่มสีพื้นหลัง */
-  padding-left: 10px; /*added padding left*/
-  padding-right: 10px; /*added padding right*/
+  background-color: #f9f9f9;
+  padding-left: 10px;
+  padding-right: 10px;
   position: sticky;
   bottom: 1rem;
   align-self: flex-end;
@@ -31,20 +31,20 @@
 }
 
 .sidebar li {
-  padding: 15px 20px; /* เพิ่ม padding ให้แต่ละรายการ */
+  padding: 15px 20px;
 }
 
 .sidebar li:nth-child(5) {
   margin-bottom: 10px;
 }
 
-.sidebar li:nth-child(6) { /* จัดรูปแบบ "Categories" */
+.sidebar li:nth-child(6) {
   color: #999;
   border-top: 1px solid #eee;
   font-size: 0.9rem;
   padding-top: 20px;
-  padding-left: 10px; /*Added padding left*/
-  padding-right: 10px; /*Added padding right*/
+  padding-left: 10px;
+  padding-right: 10px;
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -54,12 +54,12 @@
   padding: 15px 20px;
   text-align: center;
   cursor: pointer;
-  border-radius: 5px; /* เพิ่ม border radius */
+  border-radius: 5px;
   margin-left: 10px;
   margin-right: 10px;
   border-top: 1px solid #eee;
-  padding-left: 10px; /*Added padding left*/
-  padding-right: 10px; /*Added padding right*/
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .authLink {

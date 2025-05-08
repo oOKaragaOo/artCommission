@@ -1,4 +1,3 @@
-// components/ChatButton.jsx
 import React, { useState } from 'react';
 import styles from '../../styles/ChatButton.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,12 +8,11 @@ import ChatDropdown from '../components/ChatDropdown';
 function ChatButton({ userId }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState(null);
-  const [selectedUserProfile, setSelectedUserProfile] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(null);
 
   const handleToggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-    setIsChatOpen(false); // ปิด Modal ถ้าเปิดอยู่
+    setIsDropdownOpen(prev => !prev);
+    setIsChatOpen(false);
   };
 
   const handleCloseDropdown = () => {
@@ -22,16 +20,14 @@ function ChatButton({ userId }) {
   };
 
   const handleOpenChat = (otherUserId, otherUserProfile) => {
-    setSelectedUserId(otherUserId);
-    setSelectedUserProfile(otherUserProfile);
+    setSelectedChat({ otherUserId, otherUserProfile });
     setIsChatOpen(true);
-    setIsDropdownOpen(false); // ปิด Dropdown เมื่อเลือกแชท
+    setIsDropdownOpen(false);
   };
 
   const handleCloseChat = () => {
     setIsChatOpen(false);
-    setSelectedUserId(null);
-    setSelectedUserProfile(null);
+    setSelectedChat(null);
   };
 
   return (
@@ -50,13 +46,13 @@ function ChatButton({ userId }) {
         />
       )}
 
-      {isChatOpen && selectedUserId && (
+      {isChatOpen && selectedChat && (
         <ChatModal
           isOpen={isChatOpen}
           onClose={handleCloseChat}
           userId={userId}
-          otherUserId={selectedUserId}
-          otherUserProfile={selectedUserProfile}
+          otherUserId={selectedChat.otherUserId}
+          otherUserProfile={selectedChat.otherUserProfile}
         />
       )}
     </div>
