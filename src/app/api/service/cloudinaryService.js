@@ -7,7 +7,7 @@ export const uploadImageToCloudinary = async (file, userId) => {
     formData.append("folder", folder); // 👈 ✅ จัดไฟล์เข้าโฟลเดอร์นี้
 
     const res = await fetch(
-        "https://api.cloudinary.com/v1_1/day8ns7qy/image/upload",
+        "https://api.cloudinary.com/v1_1/dfih2nba0/image/upload",
         {
             method: "POST",
             body: formData,

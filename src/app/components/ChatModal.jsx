@@ -1,35 +1,41 @@
-// components/ChatModal.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/ChatModal.module.css';
 import { io } from 'socket.io-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faSmile, faPaperclip, faMicrophone, faFlag, faUserCircle } from '@fortawesome/free-solid-svg-icons'; // Import faFlag สำหรับ Report Icon
+import {
+  faTimes,
+  faSmile,
+  faPaperclip,
+  faMicrophone,
+  faFlag,
+  faUserCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
-const socket = io('http://localhost:8080'); // เชื่อมต่อกับ Backend Socket.IO
+const socket = io('http://localhost:8080');
 
-function ChatModal({ isOpen, onClose, userId, otherUserId, otherUserProfile }) { // รับ Props otherUserProfile สำหรับรูปโปรไฟล์
+function ChatModal({ isOpen, onClose, userId, otherUserId, otherUserProfile }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const chatContainerRef = useRef(null);
-  const roomId = [userId, otherUserId].sort().join('-'); // สร้าง Room ID ที่ไม่ซ้ำกัน
+  const roomId = [userId, otherUserId].sort().join('-');
 
   useEffect(() => {
     if (isOpen) {
       socket.emit('joinRoom', roomId);
 
-      socket.on('receiveMessage', (data) => {
+      const handleReceiveMessage = (data) => {
         if (data.roomId === roomId) {
-          setMessages(prevMessages => [...prevMessages, data]);
+          setMessages((prevMessages) => [...prevMessages, data]);
         }
-      });
-    }
+      };
 
-    return () => {
-      socket.off('receiveMessage');
-      if (isOpen) {
-        socket.emit('leaveRoom', roomId); // ถ้ามี Logic leave room
-      }
-    };
+      socket.on('receiveMessage', handleReceiveMessage);
+
+      return () => {
+        socket.off('receiveMessage', handleReceiveMessage);
+        socket.emit('leaveRoom', roomId);
+      };
+    }
   }, [isOpen, roomId]);
 
   useEffect(() => {
@@ -39,23 +45,22 @@ function ChatModal({ isOpen, onClose, userId, otherUserId, otherUserProfile }) {
   }, [messages]);
 
   const handleSendMessage = () => {
-    if (newMessage.trim()) {
+    const trimmedMessage = newMessage.trim();
+    if (trimmedMessage) {
       const messageData = {
         roomId,
         senderId: userId,
-        text: newMessage,
+        text: trimmedMessage,
         timestamp: Date.now(),
       };
       socket.emit('sendMessage', messageData);
-      setMessages(prevMessages => [...prevMessages, messageData]);
+      setMessages((prevMessages) => [...prevMessages, messageData]);
       setNewMessage('');
     }
   };
 
   const handleReportUser = () => {
-    // เพิ่ม Logic สำหรับการ Report User ที่นี่
     console.log(`Report user ${otherUserId}`);
-    // อาจจะเปิด Modal สำหรับเหตุผลการ Report หรือส่งไปยัง API
   };
 
   if (!isOpen) {
@@ -68,16 +73,27 @@ function ChatModal({ isOpen, onClose, userId, otherUserId, otherUserProfile }) {
         <div className={styles.chatHeader}>
           <div className={styles.contactInfo}>
             <div className={styles.profileImageContainer}>
-                {otherUserProfile ? (
-                    <img src={otherUserProfile} alt={`Profile of User ${otherUserId}`} className={styles.profileImage} />
-                ) : (
-                    <FontAwesomeIcon icon={faUserCircle} className={styles.defaultProfileIcon} />
-                )}
+              {otherUserProfile ? (
+                <img
+                  src={otherUserProfile}
+                  alt={`Profile of User ${otherUserId}`}
+                  className={styles.profileImage}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faUserCircle}
+                  className={styles.defaultProfileIcon}
+                />
+              )}
             </div>
             <span className={styles.contactName}>{otherUserId}</span>
           </div>
           <div className={styles.headerActions}>
-            <button onClick={handleReportUser} className={styles.reportButton} title="Report User">
+            <button
+              onClick={handleReportUser}
+              className={styles.reportButton}
+              title="Report User"
+            >
               <FontAwesomeIcon icon={faFlag} />
             </button>
             <button onClick={onClose} className={styles.closeButton}>
@@ -89,7 +105,9 @@ function ChatModal({ isOpen, onClose, userId, otherUserId, otherUserProfile }) {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`${styles.message} ${msg.senderId === userId ? styles.sent : styles.received}`}
+              className={`${styles.message} ${
+                msg.senderId === userId ? styles.sent : styles.received
+              }`}
             >
               {msg.text}
               <span className={styles.timestamp}>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import styles from "../../styles/art_request.module.css"; // Using the new art_request styles
+import styles from "../../styles/art_request.module.css";
 
 function RequestGrid({ requests, onRequestClick }) {
   return (
@@ -28,9 +28,7 @@ function RequestGrid({ requests, onRequestClick }) {
             )}
             <p className={styles.requesterUsername}>
               Requester: {request.artistName || "N/A"}
-            </p>{" "}
-            {/* Assuming 'artist' in your data is the requester's name */}
-            {/* You can display other relevant info in the grid item */}
+            </p>
           </div>
         </div>
       ))}

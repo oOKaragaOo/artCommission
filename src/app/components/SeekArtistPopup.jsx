@@ -1,7 +1,5 @@
-// components/SeekArtistPopup.jsx
-
 import React from 'react';
-import styles from '../../styles/seekartistpopup.module.css'; // Import CSS module
+import styles from '../../styles/seekartistpopup.module.css';
 
 function SeekArtistPopup({ onClose }) {
     return (
@@ -14,7 +12,7 @@ function SeekArtistPopup({ onClose }) {
                 <div className={styles.formGroup}>
                     <label htmlFor="type">Type:</label>
                     <select id="type">
-                        <option value="artign">Artign</option>
+                        <option value="artign">ArtSign</option>
                         <option value="commission">Commission</option>
                     </select>
                 </div>
@@ -27,7 +25,7 @@ function SeekArtistPopup({ onClose }) {
                     <input type="text" id="subject" placeholder="e.g., Character, Landscape, Portrait" />
                 </div>
                 <div className={styles.formGroup}>
-                    <label htmlFor="budget">Budget (THB):</label>
+                    <label htmlFor="budget">Budget ($):</label>
                     <input type="number" id="budget" placeholder="Enter your budget" />
                 </div>
                 <div className={styles.formGroup}>
@@ -45,7 +43,7 @@ function SeekArtistPopup({ onClose }) {
                             <input type="radio" name="nsfw" value="yes" /> Yes
                         </label>
                         <label>
-                            <input type="radio" name="nsfw" value="no" defaultChecked /> No
+                            <input type="radio" name="nsfw" value="no" /> No
                         </label>
                         <label>
                             <input type="radio" name="nsfw" value="optional" /> Optional

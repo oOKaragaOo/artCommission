@@ -1,107 +1,95 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import SignForm from "./SignForm";
-import { checkSession } from '../api/route';
 import Link from 'next/link';
 import styles from '../../styles/Home.module.css';
-
+import SignForm from "./SignForm";
+import { checkSession } from '../api/route';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
-    const [sessionUser, setSessionUser] = useState(null); // ✅ session
+    const [sessionUser, setSessionUser] = useState(null);
+
     useEffect(() => {
         const fetchSession = async () => {
-            await checkSession(setSessionUser);
+            try {
+                await checkSession(setSessionUser);
+            } catch (error) {
+                console.error("Error fetching session:", error);
+                // Handle error appropriately (e.g., display an error message)
+            }
         };
+
         fetchSession();
     }, []);
-    
-    const Logout = async () => {
-      try {
-          const res = await fetch("http://localhost:8080/auth/logout", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-              credentials: "include",
-          });
-  
-          if (res.ok) {
-              window.location.href = "/";
-          } else {
-              console.log("Logout failed");
-          }
-      } catch (err) {
-          console.error("Logout error:", err);
-      }
-  };
 
-  return (
-    <div className={styles.content}>
-      <div className={styles.sidebar}>
-        <ul>
-          <li>
-            <p className=''href="/">Explore</p>
-          </li>
-          <li>
-            <Link href="/artists">Artist</Link>
-          </li>
-          <li>
-            <Link href="/art_request">Art Requests</Link>
-          </li>
-          <li>
-            <Link href="/artseek">Art Seek</Link>
-          </li>
-          <li>
-            <Link href="/marketplace">Marketplace</Link>
-          </li>
-          <li>
-            Categories
-          </li>
-          <li>
-            <Link href="/home">Home</Link>
-          </li>
-          <li>
-            <Link href="/following">Following</Link>
-          </li>
-          <li>
-            <Link href="/works">Art Works</Link>
-          </li>
-          <li>
-            <Link href="/recommended-artists">Artists Recommend</Link>
-          </li>
-        </ul>
-        <div className={styles.auth}>
-          {sessionUser ? (
-            <>
-              <p>{sessionUser.name}</p>
-              <button
-                onClick={Logout}
-                className="text-white bg-gradient-to-r from-red-400 via-red-500   to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2 text-center me-2 mb-2 cursor-pointer"
-              >
-                Log-Out
-              </button>
-            </>
-        ) : ( 
-          <>
-              <button
-                onClick={() => {
-                    setIsLogin(true);
-                    setIsOpen(true);
-                }}
-                className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2 text-center me-2 mb-2 cursor-pointer"
-              >
-                Sign In
-              </button>
-          </>
-        )}
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/auth/logout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+            });
+
+            if (response.ok) {
+                window.location.href = "/";
+            } else {
+                console.error("Logout failed:", response.status, response.statusText);
+                // Optionally, display an error message to the user
+            }
+        } catch (error) {
+            console.error("Logout error:", error);
+            // Optionally, display an error message to the user
+        }
+    };
+
+    const handleSignInClick = () => {
+        setIsLogin(true);
+        setIsOpen(true);
+    };
+
+    return (
+        <div className={styles.content}>
+            <div className={styles.sidebar}>
+                <ul>
+                    <li><Link href="/">Explore</Link></li>
+                    <li><Link href="/artists">Artist</Link></li>
+                    <li><Link href="/art_request">Art Requests</Link></li>
+                    <li><Link href="/artseek">Art Seek</Link></li>
+                    <li><Link href="/marketplace">Marketplace</Link></li>
+                    <li>Categories</li>
+                    <li><Link href="/home">Home</Link></li>
+                    <li><Link href="/following">Following</Link></li>
+                    <li><Link href="/works">Art Works</Link></li>
+                    <li><Link href="/recommended-artists">Artists Recommend</Link></li>
+                </ul>
+                <div className={styles.auth}>
+                    {sessionUser ? (
+                        <>
+                            <p>{sessionUser.name}</p>
+                            <button
+                                onClick={handleLogout}
+                                className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2 text-center me-2 mb-2 cursor-pointer"
+                            >
+                                Log-Out
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                onClick={handleSignInClick}
+                                className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2 text-center me-2 mb-2 cursor-pointer"
+                            >
+                                Sign In
+                            </button>
+                        </>
+                    )}
+                </div>
+            </div>
+            <SignForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
         </div>
-      </div>
-      <SignForm isOpen={isOpen} setIsOpen={setIsOpen} isLogin={isLogin} />
-    </div>
-  );
+    );
 };
 
 export default Sidebar;

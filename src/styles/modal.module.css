@@ -1,12 +1,10 @@
-/* src/styles/modal.module.css */
-
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* สีดำโปร่งใส (ปรับได้ตามความเหมาะสม) */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,14 +13,14 @@
 }
 
 .createModal {
-  background-color: #fff; /* พื้นหลังสีขาว */
-  color: #333; /* สีตัวอักษรสีดำ/เทาเข้ม */
+  background-color: #fff;
+  color: #333;
   padding: 25px;
   border-radius: 8px;
   width: 90%;
   height: 800px;
   max-width: 700px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเล็กน้อย */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow-x: scroll;
 }
 
@@ -31,21 +29,21 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #eee; /* เส้นแบ่งสีเทาอ่อน */
+  border-bottom: 1px solid #eee;
   padding-bottom: 15px;
 }
 
 .modalHeader h2 {
   margin: 0;
   font-size: 1.6rem;
-  color: #333; /* สีตัวอักษรสีดำ/เทาเข้ม */
+  color: #333;
 }
 
 .cancelButton,
 .publishButton {
-  background-color: #f0f0f0; /* พื้นหลังปุ่มสีเทาอ่อน */
-  border: 1px solid #ccc; /* ขอบปุ่มสีเทา */
-  color: #333; /* สีตัวอักษรปุ่มสีดำ/เทาเข้ม */
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
@@ -56,11 +54,11 @@
 
 .cancelButton:hover,
 .publishButton:hover {
-  background-color: #e0e0e0; /* สีปุ่มเมื่อ hover */
+  background-color: #e0e0e0;
 }
 
 .publishButton {
-  background-color: #007bff; /* สีน้ำเงิน (เหมือนปุ่ม Create) */
+  background-color: #007bff;
   color: #fff;
   border-color: #007bff;
 }
@@ -83,7 +81,7 @@
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #555; /* สีตัวอักษร Label */
+  color: #555;
   font-size: 1rem;
 }
 
@@ -93,10 +91,10 @@
 .formGroup textarea {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc; /* ขอบ Input */
+  border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fff; /* พื้นหลัง Input */
-  color: #333; /* สีตัวอักษร Input */
+  background-color: #fff;
+  color: #333;
   box-sizing: border-box;
   font-size: 1rem;
 }
@@ -108,9 +106,9 @@
 
 .formGroup select {
   appearance: none;
-  background-color: #fff; /* พื้นหลัง Select */
-  color: #333; /* สีตัวอักษร Select */
-  border: 1px solid #ccc; /* ขอบ Select */
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
   font-size: 1rem;
@@ -120,23 +118,22 @@
   background-size: 16px;
 }
 
-/* Attach Image Styling */
 .attachImageContainer {
-  width: 100%; /* ปรับขนาดให้เหมาะสม */
+  width: 100%;
   height: 500px;
-  border: 2px dashed #ccc; /* ขอบ Attach Image */
+  border: 2px dashed #ccc;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* ป้องกันรูปภาพล้น */
+  overflow: hidden;
   cursor: pointer;
-  background-color: #f0f0f0; /* พื้นหลัง Attach Image */
-  position: relative; /* เพื่อให้ input อยู่ข้างใน */
+  background-color: #f0f0f0;
+  position: relative;
 }
 
 .attachImagePlaceholder {
-  color: #777; /* สีข้อความ Placeholder */
+  color: #777;
   font-size: 0.9rem;
   text-align: center;
 }
@@ -144,7 +141,7 @@
 .attachImagePreview {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ครอบคลุมพื้นที่ */
+  object-fit: cover;
 }
 
 .imageInput {
@@ -153,25 +150,25 @@
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0; /* ทำให้ Input โปร่งใส */
+  opacity: 0;
   cursor: pointer;
 }
 
-.formGroup:has(#image) { /* จัดวาง container ให้อยู่ใน formGroup */
+.formGroup:has(#image) {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* ชิดซ้าย */
+  align-items: flex-start;
 }
   
 .requestHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Space out title and button */
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .createButton {
-  background-color: #f08080; /* Light coral color similar to the reference */
+  background-color: #f08080;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -183,7 +180,7 @@
 }
 
 .createButton:hover {
-  background-color: #e07070; /* Darker shade on hover */
+  background-color: #e07070;
 }
 
 .tabButtons {
